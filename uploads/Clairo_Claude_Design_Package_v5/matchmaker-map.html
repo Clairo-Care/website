@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; height: 100%; font-family: 'Manrope', sans-serif; }
+  #map { position: absolute; inset: 0; background: #eaf2fa; }
+  .pin { border-radius: 999px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,16,61,0.25); border: 2px solid #fff; }
+  .pin img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pin.active { border-color: #5CB6F2; box-shadow: 0 4px 14px rgba(0,16,61,0.3); }
+  .chip { position: absolute; left: 16px; top: 14px; z-index: 500; display: flex; align-items: center; gap: 10px;
+          background: #00103D; border-radius: 999px; padding: 9px 18px; }
+  .chip b { font-size: 14px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+  .chip span { font-size: 13px; color: rgba(255,255,255,0.65); }
+  .leaflet-control-attribution { font-size: 9px; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="chip"><b>Caregivers near you</b><span>Baltimore, MD</span></div>
+<script>
+  const map = L.map('map', { zoomControl: false, attributionControl: true, scrollWheelZoom: false, dragging: true })
+    .setView([39.2965, -76.6135], 12);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 19
+  }).addTo(map);
+
+  const people = [
+    { lat: 39.3210, lng: -76.6520, img: 'assets/face-2.png', size: 38 },
+    { lat: 39.2770, lng: -76.6720, img: 'assets/face-3.png', size: 34 },
+    { lat: 39.2980, lng: -76.6420, img: 'assets/face-4.png', size: 34 },
+    { lat: 39.2690, lng: -76.6110, img: 'assets/face-5.png', size: 34 },
+    { lat: 39.2940, lng: -76.5900, img: 'assets/face-1.png', size: 46, active: true },
+    { lat: 39.3350, lng: -76.5820, img: 'assets/face-6.png', size: 34 },
+    { lat: 39.2830, lng: -76.5580, img: 'assets/face-7.png', size: 32 }
+  ];
+  people.forEach(p => {
+    L.marker([p.lat, p.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: '<div class="pin' + (p.active ? ' active' : '') + '" style="width:' + p.size + 'px;height:' + p.size + 'px"><img src="' + p.img + '" alt="Caregiver"></div>',
+        iconSize: [p.size, p.size],
+        iconAnchor: [p.size / 2, p.size / 2]
+      })
+    }).addTo(map);
+  });
+</script>
+</body>
+</html>

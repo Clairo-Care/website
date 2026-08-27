@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/colors.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/typography.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/radii.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/tokens/motion.css">
+<link rel="stylesheet" href="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/styles.css">
+<script src="_ds/clairo-care-design-system-7d6804c2-58a9-457a-9561-c4be3f46f5ac/_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:#fff; font-family:var(--font-sans); color:var(--foreground); -webkit-font-smoothing:antialiased; }
+  a { color:var(--clairo-blue); text-decoration:none; }
+  a:hover { color:hsl(207 89% 45%); }
+  .clairo-shell { max-width:1152px; margin:0 auto; padding-left:24px; padding-right:24px; }
+  .clairo-eyebrow { margin:0 0 12px; font-size:11px; font-weight:700; letter-spacing:.055em; text-transform:uppercase; color:var(--clairo-blue); }
+  .clairo-h2 { margin:0; font-size:clamp(26px,3.2vw,36px); line-height:1.15; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy); }
+  .clairo-body { margin:16px 0 0; font-size:15.5px; line-height:26px; color:var(--muted-foreground); }
+  .clairo-check { display:flex; gap:10px; align-items:flex-start; }
+  .clairo-check svg { flex:0 0 auto; margin-top:2px; color:var(--clairo-blue); }
+  .clairo-card { border:1px solid var(--border); border-radius:var(--radius-xl); background:#fff; box-shadow:var(--shadow-sm); }
+  @media (max-width:760px) {
+    .desktop-nav { display:none !important; }
+    .hero-grid { grid-template-columns:1fr !important; }
+    .hero-copy { padding:44px 24px !important; }
+    .hero-image { min-height:430px !important; }
+    .two-col { grid-template-columns:1fr !important; }
+    .three-col { grid-template-columns:1fr !important; }
+    .four-col { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+    .path-grid { grid-template-columns:1fr !important; }
+  }
+  @media (max-width:480px) {
+    .four-col { grid-template-columns:1fr !important; }
+  }
+</style>
+</helmet>
+
+<div style="background:#fff; font-family:var(--font-sans); color:var(--foreground); text-wrap:pretty">
+
+  <!-- NAVIGATION -->
+  <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,.95); border-bottom:1px solid var(--border); backdrop-filter:blur(10px)">
+    <div class="clairo-shell" style="min-height:72px; display:flex; align-items:center; gap:24px; padding-top:12px; padding-bottom:12px; flex-wrap:wrap">
+      <a href="#" style="display:flex; align-items:center; flex-shrink:0">
+        <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Logo" size="{{ 34 }}" src="assets/logo-lockup-navy.png" hint-size="130px,34px"></x-import>
+      </a>
+      <nav class="desktop-nav" style="display:flex; gap:19px; margin-left:auto; align-items:center; flex-wrap:wrap">
+        <a href="#families" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">For Families</a>
+        <a href="#how" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">How It Works</a>
+        <a href="#wages" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">Wages &amp; Benefits</a>
+        <a href="#services" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">Services</a>
+        <a href="#about" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">About</a>
+        <a href="#faq" style="font-size:14px; font-weight:500; color:var(--muted-foreground)">FAQ</a>
+      </nav>
+      <div style="flex-shrink:0">
+        <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="sm" hint-size="125px,32px">Talk to Clairo</x-import>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section data-screen-label="Hero — Broad Community Pathways" class="hero-grid" style="display:grid; grid-template-columns:1.02fr .98fr; align-items:stretch; border-bottom:1px solid var(--border)">
+    <div class="hero-copy" style="display:flex; justify-content:flex-end; padding:clamp(50px,6vw,88px) clamp(24px,4vw,60px)">
+      <div style="width:100%; max-width:570px">
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:var(--radius-full); background:hsl(207 89% 65% / .1); color:hsl(207 89% 34%); font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:26px">For Maryland DDA Community Pathways families</div>
+        <h1 style="margin:0; font-size:clamp(36px,4.6vw,52px); line-height:1.06; font-weight:800; letter-spacing:-.038em; color:var(--clairo-navy); max-width:19ch">You deserve more from your Maryland DDA services.</h1>
+        <p style="margin:22px 0 0; font-size:19px; line-height:29px; font-weight:650; color:var(--clairo-blue); max-width:48ch">More choice. Better support for caregivers. Less administrative burden for families.</p>
+        <p style="margin:18px 0 0; font-size:15.5px; line-height:26px; color:var(--muted-foreground); max-width:54ch">Whether your services are traditionally managed or self-directed, Clairo Care was built to put participants and the people providing their care first.</p>
+        <div style="display:flex; gap:12px; margin-top:30px; align-items:center; flex-wrap:wrap">
+          <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="lg" hint-size="160px,48px">Talk to Clairo</x-import>
+          <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" variant="outline" size="lg" hint-size="175px,48px">See how Clairo works</x-import>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 20px; margin-top:30px; max-width:520px">
+          <div class="clairo-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">Choose caregivers you know and trust</span></div>
+          <div class="clairo-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">Competitive caregiver wages</span></div>
+          <div class="clairo-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">More flexibility and transparency</span></div>
+          <div class="clairo-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">We handle the administration</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image" style="position:relative; min-height:clamp(440px,49vw,680px)">
+      <img src="assets/photo-hero.png" alt="A participant and caregiver spending time together outdoors" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block">
+      <div style="position:absolute; left:24px; bottom:24px; width:min(365px,calc(100% - 48px)); background:#fff; border:1px solid var(--border); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:22px">
+        <p style="margin:0 0 13px; font-size:16px; font-weight:750; letter-spacing:-.025em; color:var(--clairo-navy)">Built around your care team.</p>
+        <p style="margin:0 0 14px; font-size:13px; line-height:20px; color:var(--muted-foreground)">The people who know the participant best should be at the center of care.</p>
+        <div style="display:flex; flex-direction:column; gap:9px">
+          <div class="clairo-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">Bring caregivers you already know</span></div>
+          <div class="clairo-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">Qualified family and friends may be eligible</span></div>
+          <div class="clairo-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:13px;line-height:19px">Clairo handles payroll, compliance and support</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCE SPLIT -->
+  <section id="families" data-screen-label="Traditional vs Self-Directed" style="background:var(--background); border-bottom:1px solid var(--border)">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,88px); padding-bottom:clamp(60px,7vw,90px)">
+      <div style="text-align:center; max-width:760px; margin:0 auto">
+        <p class="clairo-eyebrow">Different models. Different challenges.</p>
+        <h2 class="clairo-h2">What does your experience look like today?</h2>
+        <p class="clairo-body" style="max-width:65ch; margin-left:auto; margin-right:auto">Maryland families receive DDA services in different ways. The challenges aren't always the same — and neither should the conversation be.</p>
+      </div>
+      <div class="two-col" style="display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:40px">
+        <article class="clairo-card" style="overflow:hidden">
+          <div style="padding:28px 28px 22px; border-bottom:1px solid var(--border)">
+            <p class="clairo-eyebrow">Traditional services</p>
+            <h3 style="margin:0; font-size:27px; line-height:1.15; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">You may want more control.</h3>
+            <p style="margin:10px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">For families receiving services through an agency-based provider.</p>
+          </div>
+          <div style="padding:20px 28px 24px">
+            <div style="display:flex; flex-direction:column; gap:0">
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Little say in who is assigned to provide care</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Difficulty recruiting and retaining great caregivers</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Caregiver turnover disrupting important relationships and routines</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Limited flexibility around schedules and daily life</span></div>
+              <div style="padding:10px 0;display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Limited visibility into how service funding supports your care team</span></div>
+            </div>
+            <div style="margin-top:20px; padding:17px 18px; border-radius:var(--radius-lg); background:hsl(207 89% 65% / .08)">
+              <p style="margin:0; font-size:13px; font-weight:750; color:var(--clairo-navy)">What families often want</p>
+              <p style="margin:5px 0 0; font-size:13px; line-height:20px; color:var(--muted-foreground)">More choice, stronger caregiver relationships, and a provider built around the participant.</p>
+            </div>
+            <a href="traditional-services.dc.html" style="display:inline-block; margin-top:20px; font-size:14px; font-weight:750">Explore Clairo for traditional services →</a>
+          </div>
+        </article>
+
+        <article class="clairo-card" style="overflow:hidden">
+          <div style="padding:28px 28px 22px; border-bottom:1px solid var(--border)">
+            <p class="clairo-eyebrow">Self-Directed Services</p>
+            <h3 style="margin:0; font-size:27px; line-height:1.15; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">You may want to protect your control.</h3>
+            <p style="margin:10px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">For families who value the flexibility and caregiver choice they've built through SDS.</p>
+          </div>
+          <div style="padding:20px 28px 24px">
+            <div style="display:flex; flex-direction:column; gap:0">
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Uncertainty around changing DDA rules</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Concern about maintaining caregiver wages</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Questions around the 60/40 framework and budget flexibility</span></div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Administrative and employer responsibilities</span></div>
+              <div style="padding:10px 0;display:flex;gap:11px"><span style="width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-top:7px;flex:none"></span><span style="font-size:14px;line-height:21px">Concern about keeping caregivers already trusted by the participant</span></div>
+            </div>
+            <div style="margin-top:20px; padding:17px 18px; border-radius:var(--radius-lg); background:hsl(207 89% 65% / .08)">
+              <p style="margin:0; font-size:13px; font-weight:750; color:var(--clairo-navy)">What families often want</p>
+              <p style="margin:5px 0 0; font-size:13px; line-height:20px; color:var(--muted-foreground)">To keep the people and flexibility they value while reducing uncertainty and administrative burden.</p>
+            </div>
+            <a href="self-directed-services.dc.html" style="display:inline-block; margin-top:20px; font-size:14px; font-weight:750">Explore options for SDS families →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNIFIED CLAIRO SOLUTION -->
+  <section data-screen-label="Unified Clairo solution" style="background:var(--clairo-navy); color:#fff">
+    <div class="clairo-shell" style="padding-top:clamp(60px,7vw,86px); padding-bottom:clamp(60px,7vw,88px)">
+      <div style="text-align:center; max-width:790px; margin:0 auto">
+        <p class="clairo-eyebrow" style="color:var(--clairo-light-blue)">One model built differently</p>
+        <h2 style="margin:0; font-size:clamp(28px,3.4vw,38px); line-height:1.14; font-weight:800; letter-spacing:-.035em; color:#fff">Clairo gives families another option.</h2>
+        <p style="margin:17px auto 0; font-size:16px; line-height:27px; color:var(--text-on-navy-soft); max-width:68ch">Clairo is a Maryland DDA provider agency designed to combine professional administrative support with more choice, flexibility, and caregiver focus.</p>
+      </div>
+      <div class="three-col" style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:38px">
+        <div style="border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-xl); padding:26px; background:rgba(255,255,255,.06)">
+          <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:hsl(207 89% 65% / .18);color:var(--clairo-light-blue);font-weight:800">1</div>
+          <h3 style="margin:17px 0 8px; font-size:18px; font-weight:750; color:#fff">You choose the people.</h3>
+          <p style="margin:0; font-size:14px; line-height:23px; color:var(--text-on-navy-soft)">Bring caregivers who already know and understand the participant, including qualified family and friends when permitted.</p>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-xl); padding:26px; background:rgba(255,255,255,.06)">
+          <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:hsl(207 89% 65% / .18);color:var(--clairo-light-blue);font-weight:800">2</div>
+          <h3 style="margin:17px 0 8px; font-size:18px; font-weight:750; color:#fff">We invest in caregivers.</h3>
+          <p style="margin:0; font-size:14px; line-height:23px; color:var(--text-on-navy-soft)">Our low-overhead model is designed to direct more of the available service funding toward the people actually providing care.</p>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-xl); padding:26px; background:rgba(255,255,255,.06)">
+          <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:hsl(207 89% 65% / .18);color:var(--clairo-light-blue);font-weight:800">3</div>
+          <h3 style="margin:17px 0 8px; font-size:18px; font-weight:750; color:#fff">We handle the rest.</h3>
+          <p style="margin:0; font-size:14px; line-height:23px; color:var(--text-on-navy-soft)">Clairo manages hiring, payroll, training, billing, compliance, and provider administration so families don't have to.</p>
+        </div>
+      </div>
+      <div style="margin-top:26px; background:#fff; color:var(--clairo-navy); border-radius:var(--radius-xl); padding:23px 26px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap">
+        <div style="max-width:720px">
+          <p style="margin:0; font-size:16px; font-weight:750">The goal isn't to tell families which model is better.</p>
+          <p style="margin:5px 0 0; font-size:13.5px; line-height:21px; color:var(--muted-foreground)">It's to give families another provider option that puts the participant, caregiver relationship, and quality of care first.</p>
+        </div>
+        <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" hint-size="175px,36px">See if Clairo fits</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAGE SNAPSHOT -->
+  <section id="wages" data-screen-label="Wage snapshot" style="background:#fff">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,84px); padding-bottom:clamp(58px,7vw,84px)">
+      <div style="background:var(--clairo-navy); border-radius:var(--radius-2xl); padding:clamp(30px,5vw,54px); position:relative; overflow:hidden">
+        <div style="position:absolute;right:-68px;top:-70px;width:230px;height:230px;border-radius:50%;background:rgba(92,182,242,.09)"></div>
+        <p class="clairo-eyebrow" style="color:var(--clairo-light-blue)">More for the people providing care</p>
+        <h2 style="margin:0; font-size:clamp(28px,3.7vw,40px); line-height:1.13; font-weight:800; letter-spacing:-.035em; color:#fff; max-width:21ch">More of the funding reaches your caregiver.</h2>
+        <p style="margin:18px 0 0; font-size:16px; line-height:27px; color:var(--text-on-navy-soft); max-width:69ch">Clairo's low-overhead model is built to prioritize the people doing the work — with competitive wages, mileage reimbursement, and benefits for eligible caregivers.</p>
+        <div class="four-col" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px">
+          <div style="border:1px solid rgba(255,255,255,.19);border-radius:var(--radius-xl);padding:23px;background:rgba(255,255,255,.07);min-height:160px">
+            <p style="margin:0 0 18px;font-size:11px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;color:var(--clairo-light-blue)">Personal Supports</p>
+            <p style="margin:0;font-size:clamp(27px,3vw,36px);line-height:1.05;font-weight:800;letter-spacing:-.03em;color:#fff">$32.50<span style="font-size:17px;font-weight:500;color:var(--text-on-navy-soft)">–$35.50/hr</span></p>
+          </div>
+          <div style="border:1px solid rgba(255,255,255,.19);border-radius:var(--radius-xl);padding:23px;background:rgba(255,255,255,.07);min-height:160px">
+            <p style="margin:0 0 18px;font-size:11px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;color:var(--clairo-light-blue)">Community Development</p>
+            <p style="margin:0;font-size:clamp(27px,3vw,36px);line-height:1.05;font-weight:800;letter-spacing:-.03em;color:#fff">$40+<span style="font-size:17px;font-weight:500;color:var(--text-on-navy-soft)">/hr possible*</span></p>
+          </div>
+          <div style="border:1px solid rgba(255,255,255,.19);border-radius:var(--radius-xl);padding:23px;background:rgba(255,255,255,.07);min-height:160px">
+            <p style="margin:0 0 18px;font-size:11px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;color:var(--clairo-light-blue)">Mileage</p>
+            <p style="margin:0;font-size:clamp(27px,3vw,36px);line-height:1.05;font-weight:800;letter-spacing:-.03em;color:#fff">Reimbursed</p>
+          </div>
+          <div style="border:1px solid rgba(255,255,255,.19);border-radius:var(--radius-xl);padding:23px;background:rgba(255,255,255,.07);min-height:160px">
+            <p style="margin:0 0 18px;font-size:11px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;color:var(--clairo-light-blue)">Eligible caregivers</p>
+            <p style="margin:0;font-size:clamp(27px,3vw,36px);line-height:1.05;font-weight:800;letter-spacing:-.03em;color:#fff">Health + PTO</p>
+          </div>
+        </div>
+        <div style="margin-top:25px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" hint-size="190px,36px">See full wages &amp; benefits →</x-import>
+          <p style="margin:0;font-size:11.5px;line-height:18px;color:var(--text-on-navy-soft);max-width:64ch">*Wages vary by service, participant circumstances, available service funding, employee eligibility, and other applicable factors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" data-screen-label="How it works" style="background:var(--background);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,86px);padding-bottom:clamp(58px,7vw,86px);text-align:center">
+      <p class="clairo-eyebrow">How it works</p>
+      <h2 class="clairo-h2">Simple, supported, and at your pace.</h2>
+      <p class="clairo-body" style="max-width:62ch;margin-left:auto;margin-right:auto">We'll help you understand your options, build around the participant's care team, and handle the provider administration behind the scenes.</p>
+      <div class="four-col" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px;text-align:left">
+        <div class="clairo-card" style="padding:24px"><div style="width:28px;height:28px;border-radius:50%;background:var(--clairo-blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:16px">1</div><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Talk with us</p><p style="margin:8px 0 0;font-size:13px;line-height:20px;color:var(--muted-foreground)">Tell us about the participant, current services, care team, and what isn't working today.</p></div>
+        <div class="clairo-card" style="padding:24px"><div style="width:28px;height:28px;border-radius:50%;background:var(--clairo-blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:16px">2</div><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Explore your options</p><p style="margin:8px 0 0;font-size:13px;line-height:20px;color:var(--muted-foreground)">We'll explain which services Clairo may be able to provide and what a transition could look like.</p></div>
+        <div class="clairo-card" style="padding:24px"><div style="width:28px;height:28px;border-radius:50%;background:var(--clairo-blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:16px">3</div><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Bring your care team</p><p style="margin:8px 0 0;font-size:13px;line-height:20px;color:var(--muted-foreground)">When appropriate, caregivers the participant already knows and trusts can apply to work through Clairo.</p></div>
+        <div class="clairo-card" style="padding:24px"><div style="width:28px;height:28px;border-radius:50%;background:var(--clairo-blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:16px">4</div><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">We handle the administration</p><p style="margin:8px 0 0;font-size:13px;line-height:20px;color:var(--muted-foreground)">Clairo manages onboarding, payroll, training, billing, compliance, and ongoing provider support.</p></div>
+      </div>
+      <div style="margin-top:28px"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" hint-size="130px,36px">Talk to Clairo</x-import></div>
+    </div>
+  </section>
+
+  <!-- TRUSTED CAREGIVER -->
+  <section data-screen-label="Trusted caregiver relationships" style="background:#fff">
+    <div class="clairo-shell two-col" style="padding-top:clamp(58px,7vw,88px);padding-bottom:clamp(58px,7vw,88px);display:grid;grid-template-columns:.92fr 1.08fr;gap:52px;align-items:center">
+      <img src="assets/photo-laughing.png" alt="A participant and caregiver sharing a happy moment" style="width:100%;height:clamp(320px,38vw,465px);object-fit:cover;border-radius:var(--radius-2xl);border:1px solid var(--border);display:block">
+      <div>
+        <p class="clairo-eyebrow">Trusted relationships matter</p>
+        <h2 class="clairo-h2">Care works better when the right people are providing it.</h2>
+        <p class="clairo-body">A participant shouldn't have to give up trusted relationships just because an agency is providing the service.</p>
+        <p class="clairo-body" style="margin-top:10px">Clairo is built to make it easier for participants to receive support from people who already understand their routines, preferences, communication, and goals.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:24px">
+          <div class="clairo-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;line-height:21px">Existing caregivers can apply</span></div>
+          <div class="clairo-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;line-height:21px">Qualified family and friends may be able to work through Clairo</span></div>
+          <div class="clairo-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;line-height:21px">Participants remain involved in decisions about their care team</span></div>
+          <div class="clairo-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;line-height:21px">Clairo provides the employment and provider infrastructure behind them</span></div>
+        </div>
+        <a href="#" style="display:inline-block;margin-top:24px;font-size:14px;font-weight:750">Learn how bringing your caregiver works →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" data-screen-label="Services" style="background:var(--background);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,84px);padding-bottom:clamp(58px,7vw,84px)">
+      <div style="display:flex;justify-content:space-between;gap:24px;align-items:end;flex-wrap:wrap">
+        <div style="max-width:680px"><p class="clairo-eyebrow">Services</p><h2 class="clairo-h2">Support built around the person.</h2><p class="clairo-body">Clairo provides Maryland DDA services with a focus on participant choice, trusted caregivers, and strong support for the people delivering care.</p></div>
+        <a href="services.dc.html" style="font-size:14px;font-weight:750">Explore all services →</a>
+      </div>
+      <div class="four-col" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px">
+        <div class="clairo-card" style="padding:24px"><p class="clairo-eyebrow">Personal Supports</p><h3 style="margin:0;font-size:18px;font-weight:750;color:var(--clairo-navy)">Everyday support, built around the participant.</h3><p style="margin:10px 0 0;font-size:13px;line-height:21px;color:var(--muted-foreground)">Support with daily life, independence, routines, community participation, and individual goals.</p></div>
+        <div class="clairo-card" style="padding:24px"><p class="clairo-eyebrow">Personal Supports Enhanced</p><h3 style="margin:0;font-size:18px;font-weight:750;color:var(--clairo-navy)">More support for more complex needs.</h3><p style="margin:10px 0 0;font-size:13px;line-height:21px;color:var(--muted-foreground)">Enhanced support for participants whose needs may require a higher level of staffing or support.</p></div>
+        <div class="clairo-card" style="padding:24px"><p class="clairo-eyebrow">Community Development</p><h3 style="margin:0;font-size:18px;font-weight:750;color:var(--clairo-navy)">Meaningful life in the community.</h3><p style="margin:10px 0 0;font-size:13px;line-height:21px;color:var(--muted-foreground)">Support for community participation, skill building, relationships, activities, and greater independence.</p></div>
+        <div class="clairo-card" style="padding:24px"><p class="clairo-eyebrow">Nursing Supports</p><h3 style="margin:0;font-size:18px;font-weight:750;color:var(--clairo-navy)">Professional support when nursing is part of the plan.</h3><p style="margin:10px 0 0;font-size:13px;line-height:21px;color:var(--muted-foreground)">Nursing support delivered within the participant's approved DDA services and individual plan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATH SELECTOR -->
+  <section data-screen-label="Audience path selector" style="background:#fff">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,84px);padding-bottom:clamp(58px,7vw,84px)">
+      <div style="text-align:center;max-width:720px;margin:0 auto"><p class="clairo-eyebrow">Start where you are</p><h2 class="clairo-h2">Find the path that matches your family.</h2></div>
+      <div class="path-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:36px">
+        <div class="clairo-card" style="padding:26px"><p class="clairo-eyebrow">I use traditional DDA services</p><h3 style="margin:0;font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--clairo-navy)">I want more choice in who provides my care.</h3><a href="traditional-services.dc.html" style="display:inline-block;margin-top:17px;font-size:14px;font-weight:750">Explore traditional services →</a></div>
+        <div class="clairo-card" style="padding:26px"><p class="clairo-eyebrow">I currently self-direct</p><h3 style="margin:0;font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--clairo-navy)">I want to understand my options without automatically giving up SDS.</h3><a href="self-directed-services.dc.html" style="display:inline-block;margin-top:17px;font-size:14px;font-weight:750">Explore SDS options →</a></div>
+        <div class="clairo-card" style="padding:26px"><p class="clairo-eyebrow">I'm new to DDA services</p><h3 style="margin:0;font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--clairo-navy)">Help me understand how Clairo works.</h3><a href="#how" style="display:inline-block;margin-top:17px;font-size:14px;font-weight:750">Start here →</a></div>
+        <div class="clairo-card" style="padding:26px"><p class="clairo-eyebrow">I'm a caregiver</p><h3 style="margin:0;font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--clairo-navy)">I want to learn about wages, benefits, and joining Clairo.</h3><a href="caregivers.dc.html" style="display:inline-block;margin-top:17px;font-size:14px;font-weight:750">Caregiver information →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / BRAND STORY -->
+  <section id="about" data-screen-label="About preview" style="background:var(--background);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="clairo-shell two-col" style="padding-top:clamp(54px,7vw,82px);padding-bottom:clamp(54px,7vw,82px);display:grid;grid-template-columns:1.08fr .92fr;gap:46px;align-items:center">
+      <div><p class="clairo-eyebrow">About Clairo Care</p><h2 class="clairo-h2">Participants deserve choice. Families deserve support. Caregivers deserve to be valued.</h2><p class="clairo-body">Clairo Care was built around those three ideas. Our goal is to make provider services feel more human, more transparent, and more centered on the participant.</p><div style="margin-top:22px"><a href="About.dc.html" style="font-size:14px;font-weight:750">Read our story →</a></div></div>
+      <img src="assets/photo-mother-son.png" alt="A family spending time together outdoors" style="width:100%;height:clamp(270px,32vw,370px);object-fit:cover;border-radius:var(--radius-2xl);border:1px solid var(--border);display:block">
+    </div>
+  </section>
+
+  <!-- FAQ PREVIEW -->
+  <section id="faq" data-screen-label="FAQ preview" style="background:#fff">
+    <div class="clairo-shell" style="padding-top:clamp(58px,7vw,84px);padding-bottom:clamp(58px,7vw,84px)">
+      <div style="max-width:700px"><p class="clairo-eyebrow">Frequently asked questions</p><h2 class="clairo-h2">A few things families usually want to know.</h2></div>
+      <div style="margin-top:30px;border-top:1px solid var(--border)">
+        <div style="padding:20px 0;border-bottom:1px solid var(--border)"><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Is Clairo a traditional provider or Self-Directed Services?</p><p style="margin:8px 0 0;font-size:13.5px;line-height:22px;color:var(--muted-foreground);max-width:82ch">Clairo is a provider agency for the services Clairo delivers. Our model is designed to preserve many of the things families value — caregiver choice, strong compensation, flexibility, and participant involvement — while Clairo handles provider administration.</p></div>
+        <div style="padding:20px 0;border-bottom:1px solid var(--border)"><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Can my current caregiver work through Clairo?</p><p style="margin:8px 0 0;font-size:13.5px;line-height:22px;color:var(--muted-foreground);max-width:82ch">Often, existing caregivers can apply to become Clairo employees, subject to service requirements, qualifications, onboarding, and the participant's individual circumstances.</p></div>
+        <div style="padding:20px 0;border-bottom:1px solid var(--border)"><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Do I have to leave SDS completely to use Clairo?</p><p style="margin:8px 0 0;font-size:13.5px;line-height:22px;color:var(--muted-foreground);max-width:82ch">Not necessarily. Depending on the participant's plan, services, authorizations, and DDA requirements, selected services may be delivered by Clairo while other applicable services remain self-directed.</p></div>
+        <div style="padding:20px 0;border-bottom:1px solid var(--border)"><p style="margin:0;font-size:15px;font-weight:750;color:var(--clairo-navy)">Does Clairo handle payroll and compliance?</p><p style="margin:8px 0 0;font-size:13.5px;line-height:22px;color:var(--muted-foreground);max-width:82ch">For services delivered by Clairo, Clairo handles its associated employment, payroll, training, billing, compliance, and provider responsibilities.</p></div>
+      </div>
+      <a href="faq.dc.html" style="display:inline-block;margin-top:22px;font-size:14px;font-weight:750">View all FAQs →</a>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section data-screen-label="Final CTA" style="padding:0 24px 28px;background:#fff">
+    <div style="max-width:1104px;margin:0 auto;background:var(--clairo-navy);border-radius:var(--radius-2xl);padding:clamp(34px,5vw,58px);display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap">
+      <div style="max-width:720px"><p class="clairo-eyebrow" style="color:var(--clairo-light-blue)">Let's talk</p><h2 style="margin:0;font-size:clamp(27px,3.4vw,38px);line-height:1.14;font-weight:800;letter-spacing:-.035em;color:#fff">You don't have to figure it out alone.</h2><p style="margin:14px 0 0;font-size:15px;line-height:25px;color:var(--text-on-navy-soft)">Every participant's services, caregivers, and circumstances are different. Talk with someone at Clairo and we'll help you understand whether our model could be a fit.</p><p style="margin:10px 0 0;font-size:12.5px;color:var(--text-on-navy-soft)">No pressure. Just a conversation about your options.</p></div>
+      <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="lg" hint-size="165px,48px">Book a conversation</x-import>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#fff;border-top:1px solid var(--border)">
+    <div class="clairo-shell" style="padding-top:38px;padding-bottom:32px;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:34px;align-items:start">
+      <div><img src="assets/logo-lockup-navy.png" alt="Clairo Care" style="width:130px;height:auto;display:block"><p style="margin:15px 0 0;font-size:12.5px;line-height:20px;color:var(--muted-foreground);max-width:30ch">Participant-centered DDA services built around choice, trusted caregivers, and strong support.</p></div>
+      <div><p style="margin:0 0 12px;font-size:12px;font-weight:750;color:var(--clairo-navy)">For Families</p><div style="display:flex;flex-direction:column;gap:9px"><a href="traditional-services.dc.html" style="font-size:12.5px;color:var(--muted-foreground)">Traditional Services</a><a href="self-directed-services.dc.html" style="font-size:12.5px;color:var(--muted-foreground)">Self-Directed Services</a><a href="#how" style="font-size:12.5px;color:var(--muted-foreground)">How It Works</a><a href="#wages" style="font-size:12.5px;color:var(--muted-foreground)">Wages &amp; Benefits</a></div></div>
+      <div><p style="margin:0 0 12px;font-size:12px;font-weight:750;color:var(--clairo-navy)">Services</p><div style="display:flex;flex-direction:column;gap:9px"><a href="#services" style="font-size:12.5px;color:var(--muted-foreground)">Personal Supports</a><a href="#services" style="font-size:12.5px;color:var(--muted-foreground)">Personal Supports Enhanced</a><a href="#services" style="font-size:12.5px;color:var(--muted-foreground)">Community Development</a><a href="#services" style="font-size:12.5px;color:var(--muted-foreground)">Nursing Supports</a></div></div>
+      <div><p style="margin:0 0 12px;font-size:12px;font-weight:750;color:var(--clairo-navy)">Clairo</p><div style="display:flex;flex-direction:column;gap:9px"><a href="About.dc.html" style="font-size:12.5px;color:var(--muted-foreground)">About</a><a href="caregivers.dc.html" style="font-size:12.5px;color:var(--muted-foreground)">Caregivers</a><a href="faq.dc.html" style="font-size:12.5px;color:var(--muted-foreground)">FAQ</a><a href="#" style="font-size:12.5px;color:var(--muted-foreground)">Contact</a></div></div>
+    </div>
+    <div class="clairo-shell" style="padding-top:18px;padding-bottom:24px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted-foreground)">Homepage concept for Claude Design. Final claims, routes, eligibility language, and regulatory references should be reviewed before production publishing.</div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>
