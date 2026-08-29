@@ -1,0 +1,68 @@
+# clairo.care — marketing site
+
+Static HTML exported from Claude Design (`*.dc.html` + `support.js` runtime + `_ds/` design-system
+bundle), hosted on Vercel (team `clairo1`, project `website`, production `https://www.clairo.care`).
+No build step. Push to `main` deploys.
+
+## The one dynamic piece: the "Talk to Clairo" form
+
+`contact.dc.html` → `interest-form.js` (browser) → `api/interest.js` (Vercel function) → CareBridge.
+
+- **`interest-form.js`** collects the form, splits the name, maps labels to the values the backend
+  stores (`service_route`, `services_selected`), folds anything without a column into the notes,
+  and POSTs the canonical payload to `CLAIRO_INTEREST.endpoint` (default `/api/interest`).
+- **`api/interest.js`** validates, size-caps, and relays. It holds the upstream credential so nothing
+  secret is in the browser. Honeypot field `website` drops bots silently.
+
+### Environment variables (Vercel → Settings → Environment Variables, Production)
+
+**None are required for the default path.**
+
+| Name | Required | Meaning |
+|---|---|---|
+| `INTEREST_UPSTREAM` | no | `base44` (default), `base44-webhook`, or `platform`. |
+| `INTEREST_BASE44_URL` | no | Override; default `https://base44.app/api/apps/69f4d09c4aecc2f9c55bc483/functions/submitInterestForm`. |
+| `INTEREST_PLATFORM_URL` | no | Override; default `https://api.clairo.care`. |
+| `CLIENT_PIPELINE_WEBHOOK_KEY` | only in `base44-webhook` mode | Base44 secret of the same name. Not retrievable after creation; rotating it breaks the Jotform→Zapier zap. |
+| `INTEREST_BASE44_WEBHOOK_URL` | no | Override for `base44-webhook` mode. |
+
+If a mode is misconfigured (e.g. `base44-webhook` without its key) the function answers 503 and the
+form shows a "temporarily unavailable — email hello@clairo.care" message; nothing is lost silently.
+
+### Current upstream (until go-live)
+
+Base44 `submitInterestForm` — the app's own public interest-form function (the one the staff app's
+`/interest` page calls; `carebridge1/base44/functions/submitInterestForm/entry.ts`). Anonymous by
+design, so **no key**. Creates a `ClientPipeline` row with `pipeline_status: "interest"` (an
+Interest tile), `matchmaker: true`, `has_jotform: false`, keyed by `family_email` (a repeat email
+updates the existing tile). It hardcodes `source: "Maryland Interest Form"` and its `lead_source`
+enum has no website value, so the relay prefixes the notes with
+`Submitted via clairo.care website.` — that's how an admin tells a website tile from one made on
+the staff app's own form.
+
+`base44-webhook` mode (Logan's 2026-08-28 Base44 session; `clientPipelineWebhook?action=create`,
+mapping in `carebridge1` commit `a413ed5`) is kept only in case the key ever turns up.
+
+### Go-live (2026-08-31): point at the new platform
+
+Either of these, **A preferred**:
+
+- **A. Direct from the browser (no relay).** In `interest-form.js` set
+  `endpoint: 'https://api.clairo.care/v1/functions/submitInterestForm'`. Requires
+  `https://www.clairo.care` in the API's `ALLOWED_ORIGINS` (`clairo-platform/infra/lib/api-stack.ts:78`
+  and the server's `ALLOWED_ORIGINS` env / `api/src/server/cors.ts:23`). The API rate-limits this
+  route to 5/hour per source IP and ignores `x-forwarded-for`, so a direct post keeps that per
+  visitor. No key involved.
+- **B. Keep the relay.** Set `INTEREST_UPSTREAM=platform` on the Vercel project and redeploy. Works
+  immediately, but every visitor then shares Vercel's egress IPs against that 5/hour limit.
+
+The payload the browser builds is already the platform's `InterestFormRequest` shape
+(`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `service_route`,
+`services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
+
+## Local check
+
+```
+INTEREST_BASE44_URL=http://localhost:9999/submitInterestForm vercel dev --listen 3999
+```
+then submit `http://localhost:3999/contact.dc.html` against a mock listener on `:9999`.
