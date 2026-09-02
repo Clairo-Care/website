@@ -29,6 +29,25 @@ No build step. Push to `main` deploys.
 If a mode is misconfigured (e.g. `base44-webhook` without its key) the function answers 503 and the
 form shows a "temporarily unavailable — email hello@clairo.care" message; nothing is lost silently.
 
+### Meta Pixel + Conversions API (added 2026-09-02)
+
+Pixel `1489545563193733` base code is in the `<head>` of every page (PageView). On a successful form
+submit the browser fires a `Lead` event with an `eventID`, and `api/interest.js` posts the same
+`Lead` to Meta's Conversions API with that `event_id` so Meta deduplicates the pair. The server event
+carries only attribution context (IP, user agent, `_fbp`/`_fbc` cookies, page URL). **No form
+contents go to Meta**, and Advanced Matching is deliberately off pending the compliance review
+(`../META-ADVANCED-MATCHING-RESEARCH-2026-09-02.md`).
+
+| Name | Required | Meaning |
+|---|---|---|
+| `META_CAPI_ACCESS_TOKEN` | for the server event | Events Manager → the pixel → Settings → Conversions API → Generate access token. Without it the server event is skipped and the browser pixel still works. |
+| `META_PIXEL_ID` | no | Default `1489545563193733`. |
+| `META_GRAPH_VERSION` | no | Default `v26.0`. |
+| `META_CAPI_TEST_EVENT_CODE` | no | Set temporarily to the code shown in Events Manager → Test events to see server events there; remove afterwards. |
+
+The Meta call is awaited with a 3s cap after the upstream accepts the lead, and can never fail the
+form. Logs only status, never form contents.
+
 ### Current upstream (until go-live)
 
 Base44 `submitInterestForm` — the app's own public interest-form function (the one the staff app's

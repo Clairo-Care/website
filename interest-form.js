@@ -5,6 +5,11 @@
  * root). It builds the canonical payload the new platform's `submitInterestForm` accepts and posts
  * it to CLAIRO_INTEREST.endpoint.
  *
+ * Meta: each submission carries a `meta` block (event id + the pixel's _fbp/_fbc cookies + page
+ * URL). The relay sends the same Lead to Meta's Conversions API with that event id, and the browser
+ * fires fbq('track','Lead') with the same id, so Meta counts one lead, not two. Nothing the family
+ * typed is in the `meta` block, and the relay never forwards form contents to Meta.
+ *
  * endpoint:
  *   '/api/interest'  — same-origin relay (api/interest.js) that holds the Base44 key. Current.
  *   'https://api.clairo.care/v1/functions/submitInterestForm' — post straight to the new API once
@@ -89,6 +94,32 @@
     };
   }
 
+  function cookie(name) {
+    var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+
+  function eventId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+  }
+
+  // Ad-attribution context for the Conversions API. _fbc is set by the pixel when the visitor arrived
+  // with an fbclid; if the pixel was blocked we rebuild it from the URL in Meta's documented format.
+  function metaContext() {
+    var fbc = cookie('_fbc');
+    if (!fbc) {
+      var m = location.search.match(/[?&]fbclid=([^&#]+)/);
+      if (m) fbc = 'fb.1.' + Date.now() + '.' + decodeURIComponent(m[1]);
+    }
+    return {
+      event_id: eventId(),
+      fbp: cookie('_fbp') || undefined,
+      fbc: fbc || undefined,
+      source_url: location.href
+    };
+  }
+
   function validate(payload) {
     if (!payload.first_name || !payload.last_name) return 'Please enter your first and last name.';
     if (!EMAIL_RE.test(payload.family_email)) return 'Please enter a valid email address.';
@@ -115,8 +146,11 @@
 
   // Meta Pixel standard event, fired only after the backend accepts the lead. No parameters on
   // purpose: nothing the family typed (name, email, phone, services needed) is sent to Meta.
-  function trackLead() {
-    try { if (typeof window.fbq === 'function') window.fbq('track', 'Lead'); } catch (e) { /* never block the thank-you */ }
+  // The eventID matches the server-side Conversions API event so Meta deduplicates the pair.
+  function trackLead(id) {
+    try {
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead', {}, id ? { eventID: id } : undefined);
+    } catch (e) { /* never block the thank-you */ }
   }
 
   var inFlight = false;
@@ -130,6 +164,7 @@
     var payload = buildPayload(form);
     var problem = validate(payload);
     if (problem) { setStatus(form, problem, 'error'); return; }
+    payload.meta = metaContext();
 
     var button = form.querySelector('button[type="submit"]');
     var originalLabel = button ? button.textContent : '';
@@ -144,7 +179,7 @@
       body: JSON.stringify(payload)
     }).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (data) {
-        if (res.ok && data && data.ok !== false) { showThanks(form); trackLead(); return; }
+        if (res.ok && data && data.ok !== false) { showThanks(form); trackLead(payload.meta.event_id); return; }
         throw new Error((data && data.error) || 'request failed');
       });
     }).catch(function (err) {

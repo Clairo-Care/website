@@ -21,8 +21,24 @@
 //
 // The browser sends the canonical (platform-shaped) payload built in interest-form.js; the base44
 // adapter below only renames what differs. Nothing here logs form contents — only upstream status.
+//
+// META CONVERSIONS API: after the upstream accepts a lead, the same `Lead` event is posted to Meta
+// server-side (graph.facebook.com/<version>/<pixel>/events). It carries only ad-attribution context:
+// the visitor's IP + user agent, the pixel's _fbp/_fbc cookies, the page URL, and an event id that
+// matches the browser pixel's eventID so Meta deduplicates the pair. No name, email, phone, or
+// anything else the family typed goes to Meta (see the deliberate omission in buildMetaEvent).
+// Requires META_CAPI_ACCESS_TOKEN; without it the step is skipped and the form still works.
 
 'use strict';
+
+const META_PIXEL_ID_DEFAULT = '1489545563193733';
+const META_GRAPH_VERSION_DEFAULT = 'v26.0';
+const META_TIMEOUT_MS = 3_000;
+const META_SITE_ORIGINS = ['https://www.clairo.care', 'https://clairo.care'];
+const META_DEFAULT_SOURCE_URL = 'https://www.clairo.care/contact.dc.html';
+// fb.<subdomain index>.<creation ms>.<id>; the index is documented as 0-2 but the pixel emitted 3 on a bare host.
+const FB_COOKIE_RE = /^fb\.\d\.\d{1,20}\.[A-Za-z0-9_.-]{1,500}$/;
+const EVENT_ID_RE = /^[A-Za-z0-9_.:-]{8,64}$/;
 
 const BASE44_APP_ID = '69f4d09c4aecc2f9c55bc483';
 const BASE44_FUNCTIONS = `https://base44.app/api/apps/${BASE44_APP_ID}/functions`;
@@ -146,6 +162,87 @@ function buildUpstreamRequest(data, env) {
   return { error: `Unknown INTEREST_UPSTREAM "${upstream}"` };
 }
 
+/** First public client IP from the proxy headers Vercel sets, or undefined. */
+function clientIp(req) {
+  const h = req.headers || {};
+  const xff = h['x-forwarded-for'];
+  const first = (Array.isArray(xff) ? xff[0] : xff || '').split(',')[0].trim();
+  const ip = first || (Array.isArray(h['x-real-ip']) ? h['x-real-ip'][0] : h['x-real-ip']) || '';
+  return ip && ip.length <= 45 ? ip : undefined;
+}
+
+/**
+ * Build the Conversions API event for an accepted lead, or null if there is nothing safe to send.
+ * `meta` is the browser's untrusted `meta` block: every field is format-checked and capped. Form
+ * contents are deliberately never read here, so this function cannot leak them by accident.
+ */
+function buildMetaEvent(meta, req, now = Date.now()) {
+  const m = meta && typeof meta === 'object' && !Array.isArray(meta) ? meta : {};
+  const h = (req && req.headers) || {};
+  const ua = text(Array.isArray(h['user-agent']) ? h['user-agent'][0] : h['user-agent'], 512);
+  const ip = clientIp(req);
+  if (!ua && !ip) return null; // Meta rejects website events with no matchable user_data
+
+  const eventId = text(m.event_id, 64);
+  const fbp = text(m.fbp, 200);
+  const fbc = text(m.fbc, 600);
+  let sourceUrl = text(m.source_url, 2048);
+  if (!sourceUrl || !META_SITE_ORIGINS.some((o) => sourceUrl === o || sourceUrl.startsWith(o + '/'))) {
+    const ref = text(Array.isArray(h.referer) ? h.referer[0] : h.referer, 2048);
+    sourceUrl = ref && META_SITE_ORIGINS.some((o) => ref.startsWith(o + '/')) ? ref : META_DEFAULT_SOURCE_URL;
+  }
+
+  return compact({
+    event_name: 'Lead',
+    event_time: Math.floor(now / 1000),
+    event_id: eventId && EVENT_ID_RE.test(eventId) ? eventId : undefined,
+    action_source: 'website',
+    event_source_url: sourceUrl,
+    user_data: compact({
+      client_ip_address: ip,
+      client_user_agent: ua,
+      fbp: fbp && FB_COOKIE_RE.test(fbp) ? fbp : undefined,
+      fbc: fbc && FB_COOKIE_RE.test(fbc) ? fbc : undefined,
+    }),
+  });
+}
+
+/** POST the Lead to Meta. Never throws and never delays the user beyond META_TIMEOUT_MS. */
+async function sendMetaLead(meta, req, env, fetchImpl = fetch) {
+  const token = env.META_CAPI_ACCESS_TOKEN;
+  if (!token) return { skipped: 'no META_CAPI_ACCESS_TOKEN' };
+  const event = buildMetaEvent(meta, req);
+  if (!event) return { skipped: 'no user_data' };
+
+  const pixelId = env.META_PIXEL_ID || META_PIXEL_ID_DEFAULT;
+  const version = env.META_GRAPH_VERSION || META_GRAPH_VERSION_DEFAULT;
+  const url = `https://graph.facebook.com/${version}/${pixelId}/events`;
+  const body = compact({
+    data: [event],
+    test_event_code: text(env.META_CAPI_TEST_EVENT_CODE, 64),
+    access_token: token,
+  });
+
+  try {
+    const res = await fetchImpl(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(META_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+      const snippet = (await res.text().catch(() => '')).slice(0, 300);
+      console.error(`[interest] meta capi responded ${res.status}: ${snippet}`);
+      return { ok: false, status: res.status };
+    }
+    console.log(`[interest] meta capi accepted Lead${event.event_id ? ' ' + event.event_id : ''}`);
+    return { ok: true, status: res.status };
+  } catch (e) {
+    console.error('[interest] meta capi unreachable:', e && e.name, e && e.message);
+    return { ok: false, error: e && e.name };
+  }
+}
+
 async function readJson(req) {
   if (req.body !== undefined) {
     if (typeof req.body === 'string') {
@@ -199,9 +296,16 @@ async function handler(req, res) {
   }
 
   console.log(`[interest] ${up.upstream} accepted (${upstreamRes.status})`);
+
+  // Lead is stored; now tell Meta. Awaited (Vercel may freeze the function once the response is
+  // sent) but bounded by META_TIMEOUT_MS and never able to fail the request.
+  await sendMetaLead(body.meta, req, process.env);
+
   return res.status(200).json({ ok: true });
 }
 
 module.exports = handler;
 module.exports.normalize = normalize;
 module.exports.buildUpstreamRequest = buildUpstreamRequest;
+module.exports.buildMetaEvent = buildMetaEvent;
+module.exports.sendMetaLead = sendMetaLead;
