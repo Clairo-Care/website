@@ -113,6 +113,12 @@
     form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+  // Meta Pixel standard event, fired only after the backend accepts the lead. No parameters on
+  // purpose: nothing the family typed (name, email, phone, services needed) is sent to Meta.
+  function trackLead() {
+    try { if (typeof window.fbq === 'function') window.fbq('track', 'Lead'); } catch (e) { /* never block the thank-you */ }
+  }
+
   var inFlight = false;
 
   document.addEventListener('submit', function (e) {
@@ -138,7 +144,7 @@
       body: JSON.stringify(payload)
     }).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (data) {
-        if (res.ok && data && data.ok !== false) { showThanks(form); return; }
+        if (res.ok && data && data.ok !== false) { showThanks(form); trackLead(); return; }
         throw new Error((data && data.error) || 'request failed');
       });
     }).catch(function (err) {
