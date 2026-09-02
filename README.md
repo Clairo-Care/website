@@ -31,12 +31,21 @@ form shows a "temporarily unavailable — email hello@clairo.care" message; noth
 
 ### Meta Pixel + Conversions API (added 2026-09-02)
 
-Pixel `1489545563193733` base code is in the `<head>` of every page (PageView). On a successful form
-submit the browser fires a `Lead` event with an `eventID`, and `api/interest.js` posts the same
-`Lead` to Meta's Conversions API with that `event_id` so Meta deduplicates the pair. The server event
-carries only attribution context (IP, user agent, `_fbp`/`_fbc` cookies, page URL). **No form
-contents go to Meta**, and Advanced Matching is deliberately off pending the compliance review
-(`../META-ADVANCED-MATCHING-RESEARCH-2026-09-02.md`).
+**Consent-gated.** `consent.js` (in the `<head>` of every page) shows a banner on first visit and
+loads the Meta Pixel `1489545563193733` only after Accept, with Meta's Limited Data Use flag set
+before `init` + `PageView`. Decline, or no answer, means nothing is loaded from or sent to Meta and
+no Meta cookies exist. The choice is stored in `localStorage` (`clairo_consent_v1`) and can be
+changed from the footer "Cookie preferences" link (`[data-consent-open]`) on every page.
+`privacy.dc.html` discloses all of this and is linked in every footer.
+
+On a successful form submit, if consent was granted, the browser fires a `Lead` event with an
+`eventID`, and `api/interest.js` posts the same `Lead` to Meta's Conversions API with that
+`event_id` (and the LDU flag) so Meta deduplicates the pair. The server event carries only
+attribution context (IP, user agent, `_fbp`/`_fbc` cookies, page URL) and is skipped unless the
+browser reports `meta.consent === true`. **No form contents go to Meta**, and Advanced Matching is
+deliberately off, in every form, per the compliance review
+(`../META-ADVANCED-MATCHING-RESEARCH-2026-09-02.md`). Also confirm *Automatic* Advanced Matching is
+toggled off in Events Manager; that is a dashboard setting, not code.
 
 | Name | Required | Meaning |
 |---|---|---|

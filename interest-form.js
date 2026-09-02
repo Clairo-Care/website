@@ -8,7 +8,8 @@
  * Meta: each submission carries a `meta` block (event id + the pixel's _fbp/_fbc cookies + page
  * URL). The relay sends the same Lead to Meta's Conversions API with that event id, and the browser
  * fires fbq('track','Lead') with the same id, so Meta counts one lead, not two. Nothing the family
- * typed is in the `meta` block, and the relay never forwards form contents to Meta.
+ * typed is in the `meta` block, and the relay never forwards form contents to Meta. Both events are
+ * skipped unless the visitor accepted tracking in the consent banner (consent.js).
  *
  * endpoint:
  *   '/api/interest'  — same-origin relay (api/interest.js) that holds the Base44 key. Current.
@@ -104,9 +105,13 @@
     return 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
   }
 
-  // Ad-attribution context for the Conversions API. _fbc is set by the pixel when the visitor arrived
-  // with an fbclid; if the pixel was blocked we rebuild it from the URL in Meta's documented format.
+  // Ad-attribution context for the Conversions API. Only populated when the visitor accepted tracking
+  // (consent.js); otherwise the relay gets `consent:false` and sends nothing to Meta. _fbc is set by
+  // the pixel when the visitor arrived with an fbclid; if the pixel's script was blocked by the browser
+  // we rebuild it from the URL in Meta's documented format.
   function metaContext() {
+    var consented = !!(window.clairoConsent && window.clairoConsent.granted());
+    if (!consented) return { event_id: eventId(), consent: false };
     var fbc = cookie('_fbc');
     if (!fbc) {
       var m = location.search.match(/[?&]fbclid=([^&#]+)/);
@@ -114,6 +119,7 @@
     }
     return {
       event_id: eventId(),
+      consent: true,
       fbp: cookie('_fbp') || undefined,
       fbc: fbc || undefined,
       source_url: location.href
@@ -179,7 +185,7 @@
       body: JSON.stringify(payload)
     }).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (data) {
-        if (res.ok && data && data.ok !== false) { showThanks(form); trackLead(payload.meta.event_id); return; }
+        if (res.ok && data && data.ok !== false) { showThanks(form); if (payload.meta.consent) trackLead(payload.meta.event_id); return; }
         throw new Error((data && data.error) || 'request failed');
       });
     }).catch(function (err) {

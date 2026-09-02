@@ -4,23 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1489545563193733');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1489545563193733&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<!-- Tracking consent gate: loads the Meta Pixel only after the visitor accepts (see consent.js) -->
+<script src="./consent.js"></script>
 </head>
 <body>
 <x-dc>
@@ -358,6 +343,7 @@ src="https://www.facebook.com/tr?id=1489545563193733&ev=PageView&noscript=1"
     </div>
     <div class="clairo-shell" style="padding-top:18px; padding-bottom:26px; border-top:1px solid var(--border); display:flex; gap:16px; justify-content:space-between; flex-wrap:wrap">
       <span style="font-size:11.5px; color:var(--muted-foreground)">Copyright © 2026 Clairo Care — All Rights Reserved. Services in Maryland (DDA) and Pennsylvania (ODP).</span>
+      <span style="font-size:11.5px; display:flex; gap:16px; flex-wrap:wrap"><a href="privacy.dc.html" style="color:var(--muted-foreground); font-weight:600">Privacy Policy</a><a href="#" data-consent-open style="color:var(--muted-foreground); font-weight:600">Cookie preferences</a></span>
       <span style="font-size:11.5px; color:var(--muted-foreground)">Every participant's plan, authorizations, and circumstances are different.</span>
     </div>
   </footer>

@@ -27,6 +27,8 @@
 // the visitor's IP + user agent, the pixel's _fbp/_fbc cookies, the page URL, and an event id that
 // matches the browser pixel's eventID so Meta deduplicates the pair. No name, email, phone, or
 // anything else the family typed goes to Meta (see the deliberate omission in buildMetaEvent).
+// Sent only when the browser reports `meta.consent === true` (the visitor accepted the consent
+// banner, consent.js) and always with Meta's Limited Data Use flag in geolocation mode.
 // Requires META_CAPI_ACCESS_TOKEN; without it the step is skipped and the form still works.
 
 'use strict';
@@ -198,6 +200,10 @@ function buildMetaEvent(meta, req, now = Date.now()) {
     event_id: eventId && EVENT_ID_RE.test(eventId) ? eventId : undefined,
     action_source: 'website',
     event_source_url: sourceUrl,
+    // Limited Data Use, geolocation mode (country 0 / state 0 = Meta decides from the IP).
+    data_processing_options: ['LDU'],
+    data_processing_options_country: 0,
+    data_processing_options_state: 0,
     user_data: compact({
       client_ip_address: ip,
       client_user_agent: ua,
@@ -209,6 +215,9 @@ function buildMetaEvent(meta, req, now = Date.now()) {
 
 /** POST the Lead to Meta. Never throws and never delays the user beyond META_TIMEOUT_MS. */
 async function sendMetaLead(meta, req, env, fetchImpl = fetch) {
+  // Consent first: no banner acceptance (or an old cached interest-form.js with no meta block) means
+  // no server event, regardless of configuration.
+  if (!meta || typeof meta !== 'object' || meta.consent !== true) return { skipped: 'no consent' };
   const token = env.META_CAPI_ACCESS_TOKEN;
   if (!token) return { skipped: 'no META_CAPI_ACCESS_TOKEN' };
   const event = buildMetaEvent(meta, req);
