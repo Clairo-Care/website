@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/About.dc.html", "destination": "/about", "permanent": true },
+    { "source": "/caregivers.dc.html", "destination": "/caregivers", "permanent": true },
+    { "source": "/contact.dc.html", "destination": "/contact", "permanent": true },
+    { "source": "/faq.dc.html", "destination": "/faq", "permanent": true },
+    { "source": "/how-it-works.dc.html", "destination": "/how-it-works", "permanent": true },
+    { "source": "/privacy.dc.html", "destination": "/privacy", "permanent": true },
+    { "source": "/self-directed-services.dc.html", "destination": "/self-directed-services", "permanent": true },
+    { "source": "/traditional-services.dc.html", "destination": "/traditional-services", "permanent": true },
+    { "source": "/wages-and-benefits.dc.html", "destination": "/wages-and-benefits", "permanent": true },
+    { "source": "/waiver-services.dc.html", "destination": "/waiver-services", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/about", "destination": "/About.dc.html" },
+    { "source": "/caregivers", "destination": "/caregivers.dc.html" },
+    { "source": "/contact", "destination": "/contact.dc.html" },
+    { "source": "/faq", "destination": "/faq.dc.html" },
+    { "source": "/how-it-works", "destination": "/how-it-works.dc.html" },
+    { "source": "/privacy", "destination": "/privacy.dc.html" },
+    { "source": "/self-directed-services", "destination": "/self-directed-services.dc.html" },
+    { "source": "/traditional-services", "destination": "/traditional-services.dc.html" },
+    { "source": "/wages-and-benefits", "destination": "/wages-and-benefits.dc.html" },
+    { "source": "/waiver-services", "destination": "/waiver-services.dc.html" }
+  ]
+}

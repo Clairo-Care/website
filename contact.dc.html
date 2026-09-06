@@ -66,7 +66,7 @@
 
   <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,.96); border-bottom:1px solid var(--border)">
     <div class="clairo-shell" style="min-height:72px; display:flex; align-items:center; gap:24px; padding-top:12px; padding-bottom:12px">
-      <a href="index.html" style="display:flex; align-items:center; flex-shrink:0">
+      <a href="/" style="display:flex; align-items:center; flex-shrink:0">
         <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Logo" size="{{ 34 }}" src="assets/logo-lockup-navy.png" hint-size="130px,34px"></x-import>
       </a>
       <nav class="desktop-nav" style="display:flex; gap:22px; margin-left:auto; align-items:center">
@@ -74,35 +74,35 @@
           <span tabindex="0" role="button" aria-haspopup="true" style="font-size:14px; font-weight:500; color:var(--muted-foreground); display:flex; align-items:center; gap:5px; white-space:nowrap; cursor:default">Clairo Services<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"></path></svg></span>
           <div class="nav-menu">
             <div style="min-width:230px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:8px; display:flex; flex-direction:column">
-              <a href="traditional-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Traditional Services</a>
-              <a href="self-directed-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Self-Directed Services</a>
-              <a href="waiver-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Waiver Services</a>
+              <a href="/traditional-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Traditional Services</a>
+              <a href="/self-directed-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Self-Directed Services</a>
+              <a href="/waiver-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Waiver Services</a>
             </div>
           </div>
         </div>
-        <a href="how-it-works.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">How It Works</a>
-        <a href="wages-and-benefits.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Wages &amp; Benefits</a>
-        <a href="caregivers.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Caregivers</a>
-        <a href="About.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">About</a>
-        <a href="faq.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">FAQ</a>
+        <a href="/how-it-works" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">How It Works</a>
+        <a href="/wages-and-benefits" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Wages &amp; Benefits</a>
+        <a href="/caregivers" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Caregivers</a>
+        <a href="/about" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">About</a>
+        <a href="/faq" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">FAQ</a>
       </nav>
       <div class="desktop-nav" style="flex-shrink:0">
-        <a href="contact.dc.html"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="sm" hint-size="125px,32px">Talk to Clairo</x-import></a>
+        <a href="/contact"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="sm" hint-size="125px,32px">Talk to Clairo</x-import></a>
       </div>
       <details class="mobile-nav" style="margin-left:auto">
         <summary style="display:flex; align-items:center; justify-content:center; width:44px; height:44px; border:1px solid var(--border); border-radius:var(--radius-md); color:var(--clairo-navy)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></summary>
         <div style="position:absolute; left:16px; right:16px; margin-top:12px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:10px; display:flex; flex-direction:column; z-index:60">
           <p style="margin:6px 14px 4px; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-foreground)">Clairo Services</p>
-          <a href="traditional-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Traditional Services</a>
-          <a href="self-directed-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Self-Directed Services</a>
-          <a href="waiver-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Waiver Services</a>
+          <a href="/traditional-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Traditional Services</a>
+          <a href="/self-directed-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Self-Directed Services</a>
+          <a href="/waiver-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Waiver Services</a>
           <div style="height:1px; background:var(--border); margin:8px 14px"></div>
-          <a href="how-it-works.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">How It Works</a>
-          <a href="wages-and-benefits.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Wages &amp; Benefits</a>
-          <a href="caregivers.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Caregivers</a>
-          <a href="About.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">About</a>
-          <a href="faq.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">FAQ</a>
-          <a href="contact.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Talk to Clairo</a>
+          <a href="/how-it-works" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">How It Works</a>
+          <a href="/wages-and-benefits" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Wages &amp; Benefits</a>
+          <a href="/caregivers" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Caregivers</a>
+          <a href="/about" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">About</a>
+          <a href="/faq" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">FAQ</a>
+          <a href="/contact" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Talk to Clairo</a>
         </div>
       </details>
     </div>
@@ -126,6 +126,41 @@
             <a href="mailto:hello@clairo.care" style="display:flex; align-items:center; gap:11px; font-size:15px; font-weight:700"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>hello@clairo.care</a>
             <a href="tel:2406211353" style="display:flex; align-items:center; gap:11px; font-size:15px; font-weight:700"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>(240) 621-1353</a>
           </div>
+        </div>
+        <div class="clairo-card" style="margin-top:16px; padding:24px">
+          <p style="margin:0 0 14px; font-size:11px; font-weight:700; letter-spacing:.055em; text-transform:uppercase; color:var(--clairo-blue)">Official contact information</p>
+          <div style="display:flex; flex-direction:column; gap:12px">
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Legal name</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">[[PLACEHOLDER — Logan: legal entity name, e.g. "Clairo Care LLC"]]</p>
+            </div>
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Mailing address</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">[[PLACEHOLDER — Logan: street, city, state, ZIP]]</p>
+            </div>
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Phone</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)"><a href="tel:2406211353" style="font-weight:700">(240) 621-1353</a></p>
+            </div>
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Email</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)"><a href="mailto:hello@clairo.care" style="font-weight:700">hello@clairo.care</a></p>
+            </div>
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Support for the CareBridge app</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">[[PLACEHOLDER — Logan: support mailbox, e.g. support@clairo.care, or confirm hello@clairo.care]]</p>
+            </div>
+            <div>
+              <p style="margin:0; font-size:13px; font-weight:700; color:var(--clairo-navy)">Office hours</p>
+              <p style="margin:3px 0 0; font-size:14px; line-height:22px; color:var(--muted-foreground)">[[PLACEHOLDER — Logan: days and hours, time zone]]</p>
+            </div>
+          </div>
+        </div>
+        <div class="clairo-card" style="margin-top:16px; padding:24px">
+          <p style="margin:0 0 14px; font-size:11px; font-weight:700; letter-spacing:.055em; text-transform:uppercase; color:var(--clairo-blue)">CareBridge app help</p>
+          <p style="margin:0; font-size:14px; line-height:23px; color:var(--muted-foreground)">CareBridge is the app Clairo caregivers, families, and office staff use for schedules, shifts, and care records. You sign in with a six-digit code we email you.</p>
+          <p style="margin:12px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground)">If your sign-in code does not arrive, check your spam or junk folder, give it a minute, then request a new code. Codes expire a few minutes after they are sent, so always use the most recent one.</p>
+          <p style="margin:12px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground)">If it still does not work, or you are locked out, call the office at <a href="tel:2406211353" style="font-weight:700">(240) 621-1353</a> or email <a href="mailto:hello@clairo.care" style="font-weight:700">hello@clairo.care</a> and someone will help you. Read our <a href="/privacy" style="font-weight:700">Privacy Policy</a> for what the app collects and why.</p>
         </div>
         <div style="display:flex; align-items:center; gap:18px; margin-top:26px">
           <div style="display:flex">
@@ -188,17 +223,17 @@
         <h2 class="clairo-h2">Want to read up first?</h2>
       </div>
       <div class="three-col" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px">
-        <a href="traditional-services.dc.html" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
+        <a href="/traditional-services" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Traditional services</p>
           <p style="margin:9px 0 0; font-size:13.5px; line-height:22px; color:var(--muted-foreground)">What changes when families get more say in the care team.</p>
           <span style="display:inline-block; margin-top:14px; font-size:13.5px; font-weight:750; color:var(--clairo-blue)">Read more →</span>
         </a>
-        <a href="self-directed-services.dc.html" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
+        <a href="/self-directed-services" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Self-Directed Services</p>
           <p style="margin:9px 0 0; font-size:13.5px; line-height:22px; color:var(--muted-foreground)">Keep what you value about self-direction and understand your options.</p>
           <span style="display:inline-block; margin-top:14px; font-size:13.5px; font-weight:750; color:var(--clairo-blue)">Read more →</span>
         </a>
-        <a href="wages-and-benefits.dc.html" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
+        <a href="/wages-and-benefits" class="clairo-card" style="padding:26px; display:block; text-decoration:none">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Wages & benefits</p>
           <p style="margin:9px 0 0; font-size:13.5px; line-height:22px; color:var(--muted-foreground)">What Clairo pays caregivers, and why the model is built that way.</p>
           <span style="display:inline-block; margin-top:14px; font-size:13.5px; font-weight:750; color:var(--clairo-blue)">Read more →</span>
@@ -217,28 +252,28 @@
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">For Families</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-          <a href="traditional-services.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Traditional Services</a>
-          <a href="self-directed-services.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Self-Directed Services</a>
-          <a href="how-it-works.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">How It Works</a>
-          <a href="wages-and-benefits.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Wages &amp; Benefits</a>
+          <a href="/traditional-services" style="font-size:12.5px; color:var(--muted-foreground)">Traditional Services</a>
+          <a href="/self-directed-services" style="font-size:12.5px; color:var(--muted-foreground)">Self-Directed Services</a>
+          <a href="/how-it-works" style="font-size:12.5px; color:var(--muted-foreground)">How It Works</a>
+          <a href="/wages-and-benefits" style="font-size:12.5px; color:var(--muted-foreground)">Wages &amp; Benefits</a>
         </div>
       </div>
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">Services</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-          <a href="waiver-services.dc.html#personal-supports" style="font-size:12.5px; color:var(--muted-foreground)">Personal Supports</a>
-          <a href="waiver-services.dc.html#employment-supports" style="font-size:12.5px; color:var(--muted-foreground)">Employment Supports</a>
-          <a href="waiver-services.dc.html#community-development" style="font-size:12.5px; color:var(--muted-foreground)">Community Development Services</a>
-          <a href="waiver-services.dc.html#nursing-supports" style="font-size:12.5px; color:var(--muted-foreground)">Nursing Supports</a>
+          <a href="/waiver-services#personal-supports" style="font-size:12.5px; color:var(--muted-foreground)">Personal Supports</a>
+          <a href="/waiver-services#employment-supports" style="font-size:12.5px; color:var(--muted-foreground)">Employment Supports</a>
+          <a href="/waiver-services#community-development" style="font-size:12.5px; color:var(--muted-foreground)">Community Development Services</a>
+          <a href="/waiver-services#nursing-supports" style="font-size:12.5px; color:var(--muted-foreground)">Nursing Supports</a>
         </div>
       </div>
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">Clairo</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-        <a href="About.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">About</a>
-          <a href="caregivers.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Caregivers</a>
-          <a href="faq.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">FAQ</a>
-          <a href="contact.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Talk to Clairo</a>
+        <a href="/about" style="font-size:12.5px; color:var(--muted-foreground)">About</a>
+          <a href="/caregivers" style="font-size:12.5px; color:var(--muted-foreground)">Caregivers</a>
+          <a href="/faq" style="font-size:12.5px; color:var(--muted-foreground)">FAQ</a>
+          <a href="/contact" style="font-size:12.5px; color:var(--muted-foreground)">Talk to Clairo</a>
           <a href="mailto:hello@clairo.care" style="font-size:12.5px">hello@clairo.care</a>
           <a href="tel:2406211353" style="font-size:12.5px">(240) 621-1353</a>
         </div>
@@ -246,7 +281,7 @@
     </div>
     <div class="clairo-shell" style="padding-top:18px; padding-bottom:26px; border-top:1px solid var(--border); display:flex; gap:16px; justify-content:space-between; flex-wrap:wrap">
       <span style="font-size:11.5px; color:var(--muted-foreground)">Copyright © 2026 Clairo Care — All Rights Reserved. Services in Maryland (DDA) and Pennsylvania (ODP).</span>
-      <span style="font-size:11.5px; display:flex; gap:16px; flex-wrap:wrap"><a href="privacy.dc.html" style="color:var(--muted-foreground); font-weight:600">Privacy Policy</a><a href="#" data-consent-open style="color:var(--muted-foreground); font-weight:600">Cookie preferences</a></span>
+      <span style="font-size:11.5px; display:flex; gap:16px; flex-wrap:wrap"><a href="/privacy" style="color:var(--muted-foreground); font-weight:600">Privacy Policy</a><a href="#" data-consent-open style="color:var(--muted-foreground); font-weight:600">Cookie preferences</a></span>
       <span style="font-size:11.5px; color:var(--muted-foreground)">Every participant's plan, authorizations, and circumstances are different.</span>
     </div>
   </footer>

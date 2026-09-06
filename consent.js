@@ -17,7 +17,7 @@
 
   var KEY = 'clairo_consent_v1';
   var PIXEL_ID = '1489545563193733';
-  var PRIVACY_URL = 'privacy.dc.html';
+  var PRIVACY_URL = '/privacy';
 
   function read() {
     try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; }

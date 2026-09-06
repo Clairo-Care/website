@@ -1,4 +1,4 @@
-// POST /api/interest — server-side relay for the "Talk to Clairo" form (contact.dc.html).
+// POST /api/interest — server-side relay for the "Talk to Clairo" form (the /contact page).
 //
 // WHY THIS EXISTS: the site is static HTML on Vercel. Today's upstream (Base44's
 // `clientPipelineWebhook`) needs an `x-api-key`, and a key in client-side JS is a key anyone can
@@ -37,7 +37,7 @@ const META_PIXEL_ID_DEFAULT = '1489545563193733';
 const META_GRAPH_VERSION_DEFAULT = 'v26.0';
 const META_TIMEOUT_MS = 3_000;
 const META_SITE_ORIGINS = ['https://www.clairo.care', 'https://clairo.care'];
-const META_DEFAULT_SOURCE_URL = 'https://www.clairo.care/contact.dc.html';
+const META_DEFAULT_SOURCE_URL = 'https://www.clairo.care/contact';
 // fb.<subdomain index>.<creation ms>.<id>; the index is documented as 0-2 but the pixel emitted 3 on a bare host.
 const FB_COOKIE_RE = /^fb\.\d\.\d{1,20}\.[A-Za-z0-9_.-]{1,500}$/;
 const EVENT_ID_RE = /^[A-Za-z0-9_.:-]{8,64}$/;

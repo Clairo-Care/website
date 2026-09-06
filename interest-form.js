@@ -1,4 +1,4 @@
-/* "Talk to Clairo" form (contact.dc.html) → interest lead.
+/* "Talk to Clairo" form (/contact) → interest lead.
  *
  * The page body is a Claude Design template that support.js re-renders through React, so this
  * script lives OUTSIDE <x-dc> and listens at the document level (submit events bubble past React's
@@ -25,7 +25,7 @@
     formSelector: 'form[data-interest-form]'
   };
 
-  // Labels on the page → values the backend stores. Keep in sync with contact.dc.html.
+  // Labels on the page → values the backend stores. Keep in sync with the /contact page (contact.dc.html).
   var ROUTE_MAP = { 'traditional': 'traditional', 'self-directed': 'self_directed' };
   var SERVICE_MAP = {
     'personal supports': 'Personal Supports',

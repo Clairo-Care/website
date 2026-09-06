@@ -66,7 +66,7 @@
 
   <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,.96); border-bottom:1px solid var(--border)">
     <div class="clairo-shell" style="min-height:72px; display:flex; align-items:center; gap:24px; padding-top:12px; padding-bottom:12px">
-      <a href="index.html" style="display:flex; align-items:center; flex-shrink:0">
+      <a href="/" style="display:flex; align-items:center; flex-shrink:0">
         <x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Logo" size="{{ 34 }}" src="assets/logo-lockup-navy.png" hint-size="130px,34px"></x-import>
       </a>
       <nav class="desktop-nav" style="display:flex; gap:22px; margin-left:auto; align-items:center">
@@ -74,35 +74,35 @@
           <span tabindex="0" role="button" aria-haspopup="true" style="font-size:14px; font-weight:500; color:var(--muted-foreground); display:flex; align-items:center; gap:5px; white-space:nowrap; cursor:default">Clairo Services<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"></path></svg></span>
           <div class="nav-menu">
             <div style="min-width:230px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:8px; display:flex; flex-direction:column">
-              <a href="traditional-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Traditional Services</a>
-              <a href="self-directed-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Self-Directed Services</a>
-              <a href="waiver-services.dc.html" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Waiver Services</a>
+              <a href="/traditional-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Traditional Services</a>
+              <a href="/self-directed-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Self-Directed Services</a>
+              <a href="/waiver-services" style="padding:10px 12px; border-radius:var(--radius-md); font-size:13.5px; font-weight:600; color:var(--clairo-navy)">Waiver Services</a>
             </div>
           </div>
         </div>
-        <a href="how-it-works.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">How It Works</a>
-        <a href="wages-and-benefits.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Wages &amp; Benefits</a>
-        <a href="caregivers.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Caregivers</a>
-        <a href="About.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">About</a>
-        <a href="faq.dc.html" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">FAQ</a>
+        <a href="/how-it-works" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">How It Works</a>
+        <a href="/wages-and-benefits" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Wages &amp; Benefits</a>
+        <a href="/caregivers" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">Caregivers</a>
+        <a href="/about" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">About</a>
+        <a href="/faq" style="font-size:14px; font-weight:500; color:var(--muted-foreground); white-space:nowrap">FAQ</a>
       </nav>
       <div class="desktop-nav" style="flex-shrink:0">
-        <a href="contact.dc.html"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="sm" hint-size="125px,32px">Talk to Clairo</x-import></a>
+        <a href="/contact"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="sm" hint-size="125px,32px">Talk to Clairo</x-import></a>
       </div>
       <details class="mobile-nav" style="margin-left:auto">
         <summary style="display:flex; align-items:center; justify-content:center; width:44px; height:44px; border:1px solid var(--border); border-radius:var(--radius-md); color:var(--clairo-navy)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></summary>
         <div style="position:absolute; left:16px; right:16px; margin-top:12px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); padding:10px; display:flex; flex-direction:column; z-index:60">
           <p style="margin:6px 14px 4px; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-foreground)">Clairo Services</p>
-          <a href="traditional-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Traditional Services</a>
-          <a href="self-directed-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Self-Directed Services</a>
-          <a href="waiver-services.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Waiver Services</a>
+          <a href="/traditional-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Traditional Services</a>
+          <a href="/self-directed-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Self-Directed Services</a>
+          <a href="/waiver-services" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Waiver Services</a>
           <div style="height:1px; background:var(--border); margin:8px 14px"></div>
-          <a href="how-it-works.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">How It Works</a>
-          <a href="wages-and-benefits.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Wages &amp; Benefits</a>
-          <a href="caregivers.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Caregivers</a>
-          <a href="About.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">About</a>
-          <a href="faq.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">FAQ</a>
-          <a href="contact.dc.html" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Talk to Clairo</a>
+          <a href="/how-it-works" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">How It Works</a>
+          <a href="/wages-and-benefits" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Wages &amp; Benefits</a>
+          <a href="/caregivers" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Caregivers</a>
+          <a href="/about" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">About</a>
+          <a href="/faq" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">FAQ</a>
+          <a href="/contact" style="padding:13px 14px; border-radius:var(--radius-md); font-size:15px; font-weight:600; color:var(--clairo-navy); min-height:44px; display:flex; align-items:center">Talk to Clairo</a>
         </div>
       </details>
     </div>
@@ -111,10 +111,11 @@
   <section data-screen-label="Privacy hero" style="background:var(--background); border-bottom:1px solid var(--border)">
     <div class="clairo-shell" style="padding-top:clamp(52px,6vw,78px); padding-bottom:clamp(44px,5vw,60px)">
       <p class="clairo-eyebrow">Privacy</p>
-      <h1 style="margin:0; font-size:clamp(31px,4vw,44px); line-height:1.1; font-weight:800; letter-spacing:-.035em; color:var(--clairo-navy); max-width:22ch">Privacy Policy for www.clairo.care</h1>
-      <p style="margin:18px 0 0; font-size:16px; line-height:27px; color:var(--muted-foreground); max-width:64ch">This page explains what information this website collects, how we use it, and the choices you have. It is written in plain language on purpose. Effective September 2, 2026.</p>
+      <h1 style="margin:0; font-size:clamp(31px,4vw,44px); line-height:1.1; font-weight:800; letter-spacing:-.035em; color:var(--clairo-navy); max-width:22ch">Privacy Policy</h1>
+      <p style="margin:18px 0 0; font-size:16px; line-height:27px; color:var(--muted-foreground); max-width:64ch">This policy explains what information Clairo Care collects through this website, through the CareBridge staff web app at staff.clairo.care, and through the CareBridge mobile app, how we use it, and the choices you have. It is written in plain language on purpose. Effective [[PLACEHOLDER — date of publication]]. It replaces the version dated September 2, 2026.</p>
       <div style="display:flex; gap:10px; margin-top:26px; flex-wrap:wrap">
         <a href="#what-we-collect" style="padding:9px 16px; border-radius:var(--radius-full); border:1px solid var(--border); background:#fff; font-size:13px; font-weight:650; color:var(--clairo-navy)">What we collect</a>
+        <a href="#carebridge-app" style="padding:9px 16px; border-radius:var(--radius-full); border:1px solid var(--border); background:#fff; font-size:13px; font-weight:650; color:var(--clairo-navy)">The CareBridge app</a>
         <a href="#advertising" style="padding:9px 16px; border-radius:var(--radius-full); border:1px solid var(--border); background:#fff; font-size:13px; font-weight:650; color:var(--clairo-navy)">Advertising and Meta</a>
         <a href="#cookies" style="padding:9px 16px; border-radius:var(--radius-full); border:1px solid var(--border); background:#fff; font-size:13px; font-weight:650; color:var(--clairo-navy)">Cookies</a>
         <a href="#your-choices" style="padding:9px 16px; border-radius:var(--radius-full); border:1px solid var(--border); background:#fff; font-size:13px; font-weight:650; color:var(--clairo-navy)">Your choices</a>
@@ -135,11 +136,11 @@
         </div>
         <div style="padding:22px 0; border-bottom:1px solid var(--border)">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">What this policy covers</p>
-          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">This policy covers the public website only. If you or a family member receives services from Clairo Care, the way we handle your health information is governed by our Notice of Privacy Practices under HIPAA, which we provide when services begin. Our staff and caregiver application, which requires a login, has its own terms.</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">This policy covers three things: the public website at www.clairo.care, the CareBridge staff web app at staff.clairo.care, and the CareBridge mobile app for iPhone. Both versions of CareBridge require a sign-in and are for Clairo caregivers, families of participants, and Clairo office staff. If you or a family member receives services from Clairo Care, the health information created in the course of those services is also governed by our Notice of Privacy Practices under HIPAA, which we provide when services begin.</p>
         </div>
         <div style="padding:22px 0; border-bottom:1px solid var(--border)">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">The short version</p>
-          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">We collect what you choose to give us through the Talk to Clairo form, and the basic technical information any website receives. We use a Meta advertising pixel only if you accept it, and we never send Meta what you type into our forms. We do not sell your information.</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">On the website, we collect what you choose to give us through the Talk to Clairo form, and the basic technical information any website receives. We use a Meta advertising pixel only if you accept it, and we never send Meta what you type into our forms. In the CareBridge app we collect the work and care records Clairo has to keep as an employer and a Medicaid provider, and nothing for advertising: the app has no tracking of any kind in it. We do not sell your information.</p>
         </div>
       </div>
     </div>
@@ -168,10 +169,96 @@
     </div>
   </section>
 
-  <section id="advertising" data-screen-label="Privacy: advertising and Meta" style="background:#fff; border-bottom:1px solid var(--border)">
+  <section id="carebridge-app" data-screen-label="Privacy: the CareBridge app" style="background:#fff; border-bottom:1px solid var(--border)">
     <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
       <div>
         <p class="clairo-eyebrow">Section 03</p>
+        <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">The CareBridge app, web and mobile</h2>
+      </div>
+      <div style="border-top:1px solid var(--border)">
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Who uses it, and how you sign in</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">CareBridge is used by Clairo caregivers, by families of participants, and by Clairo office staff. There is a web version at staff.clairo.care and a mobile app for iPhone. You sign in with a code sent to your email address. We do not use passwords and we do not store any.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Account details</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">Your name, email address, phone number, and the role Clairo assigned you. We use these to sign you in, to show you the right part of the app, and to reach you about your work or your family member's services.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Work records</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">Clock-in and clock-out times, shift notes, mileage, hours reported, and schedule confirmations. Clairo is the employer of record for Medicaid-funded care, so we are required to keep these records and to be able to produce them.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Care documentation about the participant</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">Goal responses, medication administration records, and incident reports. This is health information about the participant and it is protected under HIPAA. A caregiver or a family member sees only the participant they are linked to.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Onboarding documents from caregivers</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">The employment application, including the criminal-history and work-eligibility questions it asks; a photo of a government ID; certifications such as CPR, First Aid, and CMT; auto insurance; background-check results; tax attestations; and handbook acknowledgements. State Medicaid programs require these before a caregiver may work.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Device details</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">The model of the phone you signed in on, so that you can see your own sessions and sign any of them out. We do not collect the name you gave your phone, and we do not collect its location.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">No tracking in the app</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">The app contains no advertising, no analytics, no advertising identifiers, and no third-party tracking code. It talks only to Clairo's own servers. The Meta Pixel described further down this page runs on the public website only; it is not in the CareBridge app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="app-permissions" data-screen-label="Privacy: app permissions and rights" style="background:var(--background); border-bottom:1px solid var(--border)">
+    <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
+      <div>
+        <p class="clairo-eyebrow">Section 04</p>
+        <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">App permissions, sharing, and your rights</h2>
+      </div>
+      <div style="border-top:1px solid var(--border)">
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Camera</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">The mobile app asks for the camera so you can photograph a document or an ID when you choose to. It opens only when you tap the camera button, and nothing is captured in the background.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Photos and files</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">So you can choose a photo or a file you already have. The app uses your phone's own picker, which shows Clairo only the item you picked. We never browse your photo library.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Face ID or Touch ID</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">To unlock the app on your own phone. The check happens on the device. Clairo never receives your face or fingerprint data, only whether the unlock succeeded.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">What the app never asks for</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">The app does not use your location, your contacts, your microphone, or data from your phone's health app.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Where the information lives and who can see it</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">On Clairo's servers, hosted with cloud service providers in the United States under agreements that require them to protect it. Inside Clairo, staff see it when they need it to do their job. A participant's family sees that participant's records. State Medicaid agencies and their auditors see what the law or the program requires. We never sell it and we never share it with anyone for marketing.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">How long we keep app records</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">[[PLACEHOLDER — Logan/counsel: retention periods for employment records, care documentation and Medicaid billing records]]</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Your rights and requests</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">You can ask us for a copy of the information we hold about you, ask us to correct something that is wrong, or ask us to close your CareBridge account. Some records Clairo is required by law to keep, such as care documentation and payroll records. Those cannot be deleted on request. We keep them only for as long as the law requires, and no longer. To make a request, contact [[PLACEHOLDER — Logan: privacy contact address; today the only public address is hello@clairo.care]].</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Children</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">CareBridge is for adults who work with or care for participants. It is not directed to children under 13, and we do not knowingly collect information from them through it.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Security</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">Information is encrypted while it travels and while it is stored, and sign-in codes expire within minutes. Uploaded documents are served through short-lived private links rather than public addresses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="advertising" data-screen-label="Privacy: advertising and Meta" style="background:#fff; border-bottom:1px solid var(--border)">
+    <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
+      <div>
+        <p class="clairo-eyebrow">Section 05</p>
         <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">Advertising and the Meta Pixel</h2>
       </div>
       <div style="border-top:1px solid var(--border)">
@@ -202,7 +289,7 @@
   <section id="cookies" data-screen-label="Privacy: cookies" style="background:var(--background); border-bottom:1px solid var(--border)">
     <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
       <div>
-        <p class="clairo-eyebrow">Section 04</p>
+        <p class="clairo-eyebrow">Section 06</p>
         <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">Cookies and similar storage</h2>
       </div>
       <div style="border-top:1px solid var(--border)">
@@ -225,7 +312,7 @@
   <section id="sharing" data-screen-label="Privacy: sharing and security" style="background:#fff; border-bottom:1px solid var(--border)">
     <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
       <div>
-        <p class="clairo-eyebrow">Section 05</p>
+        <p class="clairo-eyebrow">Section 07</p>
         <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">Sharing, security, and retention</h2>
       </div>
       <div style="border-top:1px solid var(--border)">
@@ -252,7 +339,7 @@
   <section id="your-choices" data-screen-label="Privacy: your choices" style="background:var(--background); border-bottom:1px solid var(--border)">
     <div class="clairo-shell two-col" style="padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(48px,6vw,72px); display:grid; grid-template-columns:.42fr 1fr; gap:40px; align-items:start">
       <div>
-        <p class="clairo-eyebrow">Section 06</p>
+        <p class="clairo-eyebrow">Section 08</p>
         <h2 style="margin:0; font-size:clamp(23px,2.7vw,29px); line-height:1.2; font-weight:800; letter-spacing:-.03em; color:var(--clairo-navy)">Your choices and how to reach us</h2>
       </div>
       <div style="border-top:1px solid var(--border)">
@@ -265,8 +352,12 @@
           <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">Email <a href="mailto:hello@clairo.care">hello@clairo.care</a> and tell us what you would like. We will confirm who you are and respond within 45 days. Residents of Maryland, Pennsylvania, and other states may have specific rights under state law; we honor these requests for everyone, wherever you live. If we cannot fulfill a request, for example because we must keep a record, we will explain why.</p>
         </div>
         <div style="padding:22px 0; border-bottom:1px solid var(--border)">
+          <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">CareBridge app accounts</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">If you use the CareBridge app, you can ask for a copy of your information, ask us to correct it, or ask us to close your account, using the same address. Records Clairo is required to keep, such as care documentation and payroll records, stay in our systems for as long as the law requires even after an account is closed. The details are in the section on app permissions, sharing, and your rights above.</p>
+        </div>
+        <div style="padding:22px 0; border-bottom:1px solid var(--border)">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Changes to this policy</p>
-          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">If we change how this site handles information, we will update this page and the effective date at the top. If a change means sending more information to an advertising partner, we will ask for your consent again before it takes effect.</p>
+          <p style="margin:9px 0 0; font-size:14px; line-height:23px; color:var(--muted-foreground); max-width:88ch">If we change how this site or the CareBridge app handles information, we will update this page and the effective date at the top. If a change means sending more information to an advertising partner, we will ask for your consent again before it takes effect.</p>
         </div>
         <div style="padding:22px 0; border-bottom:1px solid var(--border)">
           <p style="margin:0; font-size:16px; font-weight:750; letter-spacing:-.02em; color:var(--clairo-navy)">Contact</p>
@@ -285,28 +376,28 @@
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">For Families</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-          <a href="traditional-services.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Traditional Services</a>
-          <a href="self-directed-services.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Self-Directed Services</a>
-          <a href="how-it-works.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">How It Works</a>
-          <a href="wages-and-benefits.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Wages &amp; Benefits</a>
+          <a href="/traditional-services" style="font-size:12.5px; color:var(--muted-foreground)">Traditional Services</a>
+          <a href="/self-directed-services" style="font-size:12.5px; color:var(--muted-foreground)">Self-Directed Services</a>
+          <a href="/how-it-works" style="font-size:12.5px; color:var(--muted-foreground)">How It Works</a>
+          <a href="/wages-and-benefits" style="font-size:12.5px; color:var(--muted-foreground)">Wages &amp; Benefits</a>
         </div>
       </div>
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">Services</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-          <a href="waiver-services.dc.html#personal-supports" style="font-size:12.5px; color:var(--muted-foreground)">Personal Supports</a>
-          <a href="waiver-services.dc.html#employment-supports" style="font-size:12.5px; color:var(--muted-foreground)">Employment Supports</a>
-          <a href="waiver-services.dc.html#community-development" style="font-size:12.5px; color:var(--muted-foreground)">Community Development Services</a>
-          <a href="waiver-services.dc.html#nursing-supports" style="font-size:12.5px; color:var(--muted-foreground)">Nursing Supports</a>
+          <a href="/waiver-services#personal-supports" style="font-size:12.5px; color:var(--muted-foreground)">Personal Supports</a>
+          <a href="/waiver-services#employment-supports" style="font-size:12.5px; color:var(--muted-foreground)">Employment Supports</a>
+          <a href="/waiver-services#community-development" style="font-size:12.5px; color:var(--muted-foreground)">Community Development Services</a>
+          <a href="/waiver-services#nursing-supports" style="font-size:12.5px; color:var(--muted-foreground)">Nursing Supports</a>
         </div>
       </div>
       <div>
         <p style="margin:0 0 12px; font-size:12px; font-weight:750; letter-spacing:.03em; text-transform:uppercase; color:var(--clairo-navy)">Clairo</p>
         <div style="display:flex; flex-direction:column; gap:10px">
-        <a href="About.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">About</a>
-          <a href="caregivers.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Caregivers</a>
-          <a href="faq.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">FAQ</a>
-          <a href="contact.dc.html" style="font-size:12.5px; color:var(--muted-foreground)">Talk to Clairo</a>
+        <a href="/about" style="font-size:12.5px; color:var(--muted-foreground)">About</a>
+          <a href="/caregivers" style="font-size:12.5px; color:var(--muted-foreground)">Caregivers</a>
+          <a href="/faq" style="font-size:12.5px; color:var(--muted-foreground)">FAQ</a>
+          <a href="/contact" style="font-size:12.5px; color:var(--muted-foreground)">Talk to Clairo</a>
           <a href="mailto:hello@clairo.care" style="font-size:12.5px">hello@clairo.care</a>
           <a href="tel:2406211353" style="font-size:12.5px">(240) 621-1353</a>
         </div>
@@ -314,7 +405,7 @@
     </div>
     <div class="clairo-shell" style="padding-top:18px; padding-bottom:26px; border-top:1px solid var(--border); display:flex; gap:16px; justify-content:space-between; flex-wrap:wrap">
       <span style="font-size:11.5px; color:var(--muted-foreground)">Copyright © 2026 Clairo Care — All Rights Reserved. Services in Maryland (DDA) and Pennsylvania (ODP).</span>
-      <span style="font-size:11.5px; display:flex; gap:16px; flex-wrap:wrap"><a href="privacy.dc.html" style="color:var(--muted-foreground); font-weight:600">Privacy Policy</a><a href="#" data-consent-open style="color:var(--muted-foreground); font-weight:600">Cookie preferences</a></span>
+      <span style="font-size:11.5px; display:flex; gap:16px; flex-wrap:wrap"><a href="/privacy" style="color:var(--muted-foreground); font-weight:600">Privacy Policy</a><a href="#" data-consent-open style="color:var(--muted-foreground); font-weight:600">Cookie preferences</a></span>
       <span style="font-size:11.5px; color:var(--muted-foreground)">Every participant's plan, authorizations, and circumstances are different.</span>
     </div>
   </footer>
