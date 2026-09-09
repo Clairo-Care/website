@@ -30,8 +30,7 @@
    * views and referrers, and tells one visitor from another only by a hash it computes on its own
    * servers and throws away daily. Putting a counter like that behind an Accept click would miss most
    * visitors and leave us with numbers nobody could use, and the whole point is to know how many
-   * people reach the site and where they came from. Vercel honors Do Not Track on its end, so there
-   * is no extra check here.
+   * people reach the site and where they came from.
    *
    * Flip to true and analytics waits for the same Accept as the Meta Pixel. Nothing else to change.
    */
