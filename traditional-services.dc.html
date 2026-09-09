@@ -35,6 +35,9 @@
   .clairo-check { display:flex; gap:10px; align-items:flex-start; }
   .clairo-check svg { flex:0 0 auto; margin-top:2px; color:var(--clairo-blue); }
   .clairo-card { border:1px solid var(--border); border-radius:var(--radius-xl); background:#fff; box-shadow:var(--shadow-sm); }
+  .hero-copy { text-align:center; }
+  .hero-copy h1, .hero-copy p { margin-left:auto !important; margin-right:auto !important; }
+  .hero-copy .hero-actions { justify-content:center; }
   .nav-drop { position:relative; }
   .nav-menu { display:none; position:absolute; top:100%; left:-14px; padding-top:12px; }
   .nav-drop:hover .nav-menu, .nav-drop:focus-within .nav-menu { display:block; }
@@ -46,7 +49,6 @@
     .mobile-nav { display:block !important; }
     .hero-grid { grid-template-columns:1fr !important; }
     .hero-copy { padding:40px 24px !important; justify-content:flex-start !important; }
-    .hero-image { min-height:400px !important; }
     .two-col { grid-template-columns:1fr !important; gap:32px !important; }
     .three-col { grid-template-columns:1fr !important; }
     .four-col { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
@@ -107,23 +109,19 @@
     </div>
   </header>
 
-  <section data-screen-label="Hero" class="hero-grid" style="display:grid; grid-template-columns:1.02fr .98fr; align-items:stretch; border-bottom:1px solid var(--border)">
-    <div class="hero-copy" style="display:flex; justify-content:flex-end; padding:clamp(46px,6vw,86px) clamp(24px,4vw,58px)">
-      <div style="width:100%; max-width:570px">
+  <section data-screen-label="Hero" class="hero-grid" style="display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; border-bottom:1px solid var(--border); background:linear-gradient(180deg, hsl(207 89% 65% / .09), #fff)">
+    <div class="hero-copy" style="display:flex; justify-content:center; padding:clamp(46px,6vw,86px) 24px">
+      <div style="width:100%; max-width:860px">
         <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:var(--radius-full); background:hsl(207 89% 65% / .1); color:hsl(207 89% 34%); font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:24px">For families in traditional DDA services</div>
         <h1 style="margin:0; font-size:clamp(33px,4.3vw,48px); line-height:1.07; font-weight:800; letter-spacing:-.036em; color:var(--clairo-navy); max-width:20ch">Traditional services don't have to mean giving up control.</h1>
         <p style="margin:20px 0 0; font-size:18.5px; line-height:29px; font-weight:650; color:var(--clairo-blue); max-width:48ch">You can have the administrative support of a provider agency and much more say in who provides care.</p>
         <p style="margin:16px 0 0; font-size:15.5px; line-height:26px; color:var(--muted-foreground); max-width:54ch">Clairo Care is a Maryland DDA provider agency built so families stay involved in building the care team — while we carry the payroll, compliance, and paperwork.</p>
-        <div style="display:flex; gap:12px; margin-top:28px; align-items:center; flex-wrap:wrap">
+        <div class="hero-actions" style="display:flex; gap:12px; margin-top:28px; align-items:center; flex-wrap:wrap">
           <a href="/contact"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" size="lg" hint-size="160px,48px">Talk to Clairo</x-import></a>
           <a href="/how-it-works"><x-import component-from-global-scope="ClairoCareDesignSystem_7d6804.Button" variant="outline" size="lg" hint-size="175px,48px">See how it works</x-import></a>
         </div>
         
       </div>
-    </div>
-    <div class="hero-image" style="position:relative; min-height:clamp(400px,45vw,620px)">
-      <img src="assets/photo-mother-son.png" alt="A mother and her adult son outdoors" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block">
-      
     </div>
   </section>
 
@@ -275,7 +273,7 @@
   </section>
 
   <section id="bring" data-screen-label="Bring your caregiver" style="background:var(--background); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
-    <div class="clairo-shell two-col" style="padding-top:clamp(56px,7vw,86px); padding-bottom:clamp(56px,7vw,86px); display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center">
+    <div class="clairo-shell" style="padding-top:clamp(56px,7vw,86px); padding-bottom:clamp(56px,7vw,86px); display:grid; grid-template-columns:minmax(0,760px); gap:48px; align-items:center">
       <div>
         <p class="clairo-eyebrow">Bring your existing caregiver</p>
         <h2 class="clairo-h2">Already have someone great? Start there.</h2>
@@ -288,7 +286,6 @@
         </div>
         <p style="margin:20px 0 0; font-size:12.5px; line-height:20px; color:var(--muted-foreground); max-width:60ch">Subject to service requirements, caregiver qualifications, onboarding, DDA rules, and the participant's individual circumstances.</p>
       </div>
-      <img src="assets/photo-pair.png" alt="Two caregivers standing together" style="width:100%; height:clamp(280px,34vw,420px); object-fit:cover; border-radius:var(--radius-2xl); border:1px solid var(--border); display:block">
     </div>
   </section>
 
