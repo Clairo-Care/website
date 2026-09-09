@@ -11,6 +11,9 @@
  *
  * The choice lives in localStorage (key below) on the visitor's own device. Nothing about it is sent to
  * us or to Meta.
+ *
+ * This file also loads Vercel Web Analytics, which is a different kind of thing and is NOT gated by the
+ * banner. See VERCEL_ANALYTICS_REQUIRES_CONSENT below.
  */
 (function () {
   'use strict';
@@ -18,6 +21,21 @@
   var KEY = 'clairo_consent_v1';
   var PIXEL_ID = '1489545563193733';
   var PRIVACY_URL = '/privacy';
+
+  /* Vercel Web Analytics: one switch, decided 2026-09-09.
+   *
+   * false = load it on every page view, without asking. That is the setting, because it is a
+   * first-party script served from our own origin (/_vercel/insights/script.js), it sets no cookies,
+   * it stores nothing on the visitor's device, and it never identifies a person: Vercel counts page
+   * views and referrers, and tells one visitor from another only by a hash it computes on its own
+   * servers and throws away daily. Putting a counter like that behind an Accept click would miss most
+   * visitors and leave us with numbers nobody could use, and the whole point is to know how many
+   * people reach the site and where they came from. Vercel honors Do Not Track on its end, so there
+   * is no extra check here.
+   *
+   * Flip to true and analytics waits for the same Accept as the Meta Pixel. Nothing else to change.
+   */
+  var VERCEL_ANALYTICS_REQUIRES_CONSENT = false;
 
   function read() {
     try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; }
@@ -46,6 +64,16 @@
     window.fbq('dataProcessingOptions', ['LDU'], 0, 0);
     window.fbq('init', PIXEL_ID);
     window.fbq('track', 'PageView');
+  }
+
+  var vercelAnalyticsLoaded = false;
+  function loadVercelAnalytics() {
+    if (vercelAnalyticsLoaded) return;
+    vercelAnalyticsLoaded = true;
+    var t = document.createElement('script');
+    t.defer = true;
+    t.src = '/_vercel/insights/script.js';
+    (document.head || document.documentElement).appendChild(t);
   }
 
   /* ---------- banner ---------- */
@@ -114,7 +142,12 @@
   }
   function hide() { if (banner) banner.hidden = true; }
 
-  function acceptAll() { write('granted'); hide(); loadPixel(); }
+  function acceptAll() {
+    write('granted');
+    hide();
+    loadPixel();
+    if (VERCEL_ANALYTICS_REQUIRES_CONSENT) loadVercelAnalytics();
+  }
   function declineAll() { write('denied'); hide(); }
 
   /* Footer "Cookie preferences" link (any element with data-consent-open) reopens the banner. */
@@ -130,4 +163,6 @@
   var s = status();
   if (s === 'granted') loadPixel();
   else if (s === null) show();
+
+  if (!VERCEL_ANALYTICS_REQUIRES_CONSENT || s === 'granted') loadVercelAnalytics();
 })();

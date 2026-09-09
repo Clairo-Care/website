@@ -57,6 +57,34 @@ toggled off in Events Manager; that is a dashboard setting, not code.
 The Meta call is awaited with a 3s cap after the upstream accepts the lead, and can never fail the
 form. Logs only status, never form contents.
 
+## Analytics (added 2026-09-09)
+
+**Vercel Web Analytics, not consent-gated.** `consent.js` injects
+`<script defer src="/_vercel/insights/script.js"></script>` once, on every page, on load. The script is
+first-party (same origin as the site), sets no cookies, stores nothing on the visitor's device, and
+counts page views and referrers only; Vercel distinguishes visitors by a server-side hash that resets
+daily and honors Do Not Track on its end, so there is no extra check in our code.
+
+It is deliberately outside the consent banner: gating a cookieless first-party page-view counter behind
+an Accept click would undercount most visitors and make the numbers useless. The switch is one line at
+the top of `consent.js`:
+
+```js
+var VERCEL_ANALYTICS_REQUIRES_CONSENT = false;
+```
+
+Set it to `true` and analytics waits for the same Accept as the Meta Pixel. Nothing else changes. The
+Meta Pixel stays consent-gated either way, and `privacy.dc.html` discloses both.
+
+The tag is added in `consent.js` rather than in each page, because `consent.js` is already in the
+`<head>` of all 11 pages. The script 404s until the toggle is on at
+Vercel > Project > Analytics; that costs nothing and breaks nothing.
+Dashboard: https://vercel.com/clairo1/website/analytics
+
+`vercel.json` has no catch-all rewrite (every rewrite source is an exact clean path), so
+`/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if a
+catch-all is ever added, exclude `_vercel`.
+
 ### Current upstream (until go-live)
 
 Base44 `submitInterestForm` — the app's own public interest-form function (the one the staff app's
