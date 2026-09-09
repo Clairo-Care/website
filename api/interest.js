@@ -82,6 +82,8 @@ function normalize(body) {
       family_email,
       family_phone: text(body.family_phone, 50),
       county: text(body.county, 100),
+      // State waiver participant / department number: free text, 1..40. Never logged, never sent to Meta.
+      participant_number: text(body.participant_number, 40),
       service_route: route && ROUTE_ENUM.has(route) ? route : undefined,
       services_selected: services_selected.length ? services_selected : undefined,
       has_caregiver_in_mind: bool(body.has_caregiver_in_mind),

@@ -113,8 +113,15 @@ Either of these, **A preferred**:
   immediately, but every visitor then shares Vercel's egress IPs against that 5/hour limit.
 
 The payload the browser builds is already the platform's `InterestFormRequest` shape
-(`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `service_route`,
-`services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
+(`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `participant_number`,
+`service_route`, `services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
+
+`participant_number` (added 2026-09-09, P7) is the optional state waiver participant / department
+number as issued by MD DDA or PA ODP: free text, trimmed, capped at 40 characters, omitted when
+blank. It has its own column upstream, so it is not folded into the notes. It identifies a Medicaid
+participant, so it is never logged and never sent to Meta; the relay only ever hands Meta the
+browser's `meta` block, never the form data. The `base44` upstream adapter drops it (that mode is
+retired).
 
 ## Local check
 

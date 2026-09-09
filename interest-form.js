@@ -87,6 +87,8 @@
       family_email: val(form, 'email').toLowerCase(),
       family_phone: val(form, 'phone') || undefined,
       county: val(form, 'county') || undefined,
+      // State waiver participant / department number. Has its own column upstream, so it is NOT folded into the notes.
+      participant_number: val(form, 'participant_number').slice(0, 40) || undefined,
       service_route: service_route,
       services_selected: services_selected.length ? services_selected : undefined,
       has_caregiver_in_mind: has_caregiver_in_mind,
