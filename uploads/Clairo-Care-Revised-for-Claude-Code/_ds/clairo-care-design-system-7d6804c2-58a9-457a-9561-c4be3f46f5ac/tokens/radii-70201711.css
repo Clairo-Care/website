@@ -1,9 +1,0 @@
-:root {
-  --radius: 0.75rem;                       /* the app's --radius */
-  --radius-sm: calc(var(--radius) - 4px);  /* 8px  — inputs' inner bits */
-  --radius-md: calc(var(--radius) - 2px);  /* 10px — buttons, badges, inputs */
-  --radius-lg: var(--radius);              /* 12px — cards, chips */
-  --radius-xl: 12px;                       /* rounded-xl — cards, task rows */
-  --radius-2xl: 16px;                      /* rounded-2xl — hero + section panels */
-  --radius-full: 9999px;                   /* avatars, step dots, progress bars */
-}
