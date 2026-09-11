@@ -81,6 +81,24 @@ The tag is added in `consent.js` rather than in each page, because `consent.js` 
 Vercel > Project > Analytics; that costs nothing and breaks nothing.
 Dashboard: https://vercel.com/clairo1/website/analytics
 
+## Google Tag Manager + Google Analytics (added 2026-09-10)
+
+Mark's request (#website, 2026-09-10): container `GTM-PB44CLV2`, which carries the GA4 property
+`G-RZ3W0PCVQB`. `consent.js` loads the standard GTM snippet on every page, but only after pushing a
+**Google Consent Mode v2 default of denied** for every storage type (`ad_storage`, `analytics_storage`,
+`ad_user_data`, `ad_personalization`, and the two functional ones; `security_storage` granted). In that
+state Google's tags set no cookies and send cookieless pings only, so the visit counts work for every
+visitor, like Vercel's, while cookies and cross-visit identifiers wait for the banner's Accept, like the
+Meta Pixel. Accept pushes `consent update granted`; Decline pushes `denied`; a returning visitor who
+already accepted gets `default granted` before GTM loads. The GA4 tag inside the container needs no
+extra configuration for this: Google tags honor the consent signals natively.
+
+The `<noscript>` iframe from Google's instructions is deliberately NOT on the pages: it would load the
+container with no consent handling at all for the near-zero visitors who have JavaScript off.
+
+`privacy.dc.html` discloses it under Cookies (a "Google Analytics" block) and in the overview and sharing
+paragraphs. The banner copy names Google Analytics alongside Meta.
+
 `vercel.json` has no catch-all rewrite (every rewrite source is an exact clean path), so
 `/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if a
 catch-all is ever added, exclude `_vercel`.

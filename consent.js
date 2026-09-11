@@ -14,12 +14,20 @@
  *
  * This file also loads Vercel Web Analytics, which is a different kind of thing and is NOT gated by the
  * banner. See VERCEL_ANALYTICS_REQUIRES_CONSENT below.
+ *
+ * Google Tag Manager (added 2026-09-10 for Mark, container GTM-PB44CLV2, which carries Google Analytics
+ * G-RZ3W0PCVQB) loads on every page but under Google Consent Mode v2 with every storage type DENIED by
+ * default. In that state Google's tags set no cookies and send only anonymous, cookieless pings
+ * (page counts, no identifiers). Accept on the banner upgrades consent to granted, the same click that
+ * loads the Meta Pixel, and Decline leaves it denied. So the analytics counter works for everyone, like
+ * Vercel's, while cookies and cross-visit identifiers still wait for an Accept, like Meta's.
  */
 (function () {
   'use strict';
 
   var KEY = 'clairo_consent_v1';
   var PIXEL_ID = '1489545563193733';
+  var GTM_ID = 'GTM-PB44CLV2';
   var PRIVACY_URL = '/privacy';
 
   /* Vercel Web Analytics: one switch, decided 2026-09-09.
@@ -65,6 +73,30 @@
     window.fbq('track', 'PageView');
   }
 
+  /* Google Consent Mode v2. `gtag` here is the standard shim: it queues into dataLayer, which GTM
+   * reads once it loads, so the default MUST be pushed before the container script is added. */
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  function consentSignal(grantedNow) {
+    var v = grantedNow ? 'granted' : 'denied';
+    return { ad_storage: v, analytics_storage: v, ad_user_data: v, ad_personalization: v,
+      functionality_storage: v, personalization_storage: v, security_storage: 'granted' };
+  }
+
+  var gtmLoaded = false;
+  function loadGtm(grantedNow) {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+    gtag('consent', 'default', consentSignal(grantedNow));
+    /* Google Tag Manager base snippet, unchanged apart from the id living in GTM_ID. */
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',GTM_ID);
+  }
+  function updateGtmConsent(grantedNow) { gtag('consent', 'update', consentSignal(grantedNow)); }
+
   var vercelAnalyticsLoaded = false;
   function loadVercelAnalytics() {
     if (vercelAnalyticsLoaded) return;
@@ -102,8 +134,8 @@
       style: 'margin:0; font-size:13.5px; line-height:21px; color:var(--muted-foreground, #4b5563); max-width:62ch',
     });
     text.appendChild(document.createTextNode(
-      'We use a Meta (Facebook) advertising pixel to understand how families find Clairo and to measure our ads. ' +
-      'It is off until you accept. We never share what you type into our forms with Meta. '
+      'We use Google Analytics and a Meta (Facebook) advertising pixel to understand how families find Clairo and to measure our ads. ' +
+      'Until you accept, Google counts visits without cookies and Meta gets nothing. We never share what you type into our forms with either. '
     ));
     var link = el('a', { href: PRIVACY_URL, text: 'Privacy Policy', style: 'font-weight:650; color:var(--clairo-blue, #1d6fd1)' });
     text.appendChild(link);
@@ -145,9 +177,10 @@
     write('granted');
     hide();
     loadPixel();
+    updateGtmConsent(true);
     if (VERCEL_ANALYTICS_REQUIRES_CONSENT) loadVercelAnalytics();
   }
-  function declineAll() { write('denied'); hide(); }
+  function declineAll() { write('denied'); hide(); updateGtmConsent(false); }
 
   /* Footer "Cookie preferences" link (any element with data-consent-open) reopens the banner. */
   document.addEventListener('click', function (e) {
@@ -160,6 +193,7 @@
   window.clairoConsent = { status: status, granted: granted, open: show, accept: acceptAll, decline: declineAll };
 
   var s = status();
+  loadGtm(s === 'granted');
   if (s === 'granted') loadPixel();
   else if (s === null) show();
 
