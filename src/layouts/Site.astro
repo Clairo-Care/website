@@ -1,0 +1,199 @@
+---
+// The shared shell: <head>, the sticky header, the footer. Everything between the header
+// and the footer comes from the page through <slot />.
+//
+// The markup below is the live site's rendered DOM copied verbatim, inline styles and all
+// (the parity gate diffs this against www.clairo.care). Only what genuinely differs
+// between pages is an expression: the active-nav marker, the footer tagline, the footer
+// Waiver Services link order, and the three hero-specific CSS rules.
+//
+// Note the missing line break at `</footer></div>` near the bottom: the live DOM has no
+// whitespace text node between those two tags, and the parity diff sees one if we add it.
+import Button from '../components/Button.astro';
+import Logo from '../components/Logo.astro';
+
+import '../styles/tokens/fonts.css';
+import '../styles/tokens/colors.css';
+import '../styles/tokens/typography.css';
+import '../styles/tokens/spacing.css';
+import '../styles/tokens/radii.css';
+import '../styles/tokens/shadows.css';
+import '../styles/tokens/motion.css';
+import '../styles/button.css';
+// The page CSS stays an inline <style> in <head>, exactly as today: three of its rules
+// (.hero-copy centring, .hero-panel, .hero-image) belong to one hero layout each and
+// would break the other pages if they were global.
+import siteCss from '../styles/site.css?raw';
+
+type Nav = 'services' | 'how-it-works' | 'wages-and-benefits' | 'caregivers' | 'about' | 'faq';
+type Hero = 'none' | 'split' | 'centered' | 'image';
+
+interface Props {
+  /** Which top-nav item gets the underline. */
+  active?: Nav;
+  /** Only /privacy has a <title> today; giving the other ten one is a separate change. */
+  title?: string;
+  /** /contact only: the form submit handler. */
+  interestForm?: boolean;
+  /** Which hero variant's CSS this page needs. */
+  hero?: Hero;
+  footerTagline?: string;
+  /** /waiver-services lists its own footer links in page order. */
+  waiverOrder?: string[];
+}
+
+const {
+  active,
+  title,
+  interestForm = false,
+  hero = 'centered',
+  footerTagline = 'Empowering Care, Elevated Lives.',
+  waiverOrder = ['personal-supports', 'employment-supports', 'community-development', 'nursing-supports'],
+} = Astro.props;
+
+const navStyle = (item: Nav) =>
+  active === item
+    ? 'font-size: 14px; font-weight: 650; color: var(--clairo-navy); border-bottom: 2px solid var(--clairo-blue); padding-bottom: 2px; white-space: nowrap;'
+    : 'font-size: 14px; font-weight: 500; color: var(--muted-foreground); white-space: nowrap;';
+
+const servicesStyle =
+  active === 'services'
+    ? 'font-size: 14px; font-weight: 650; color: var(--clairo-navy); display: flex; align-items: center; gap: 5px; white-space: nowrap; cursor: default;'
+    : 'font-size: 14px; font-weight: 500; color: var(--muted-foreground); display: flex; align-items: center; gap: 5px; white-space: nowrap; cursor: default;';
+
+const WAIVER_LABELS: Record<string, string> = {
+  'personal-supports': 'Personal Supports',
+  'employment-supports': 'Employment Supports',
+  'community-development': 'Community Development Services',
+  'nursing-supports': 'Nursing Supports',
+};
+const waiverLinks = waiverOrder
+  .map((k) => '<a href="/waiver-services#' + k + '" style="font-size: 12.5px; color: var(--muted-foreground);">' + WAIVER_LABELS[k] + '</a>')
+  .join('\n          ');
+
+const HERO_GLOBAL: Record<Hero, string> = {
+  none: '',
+  split: '',
+  image: '',
+  centered: [
+    '  .hero-copy { text-align:center; }',
+    '  .hero-copy h1, .hero-copy p { margin-left:auto !important; margin-right:auto !important; }',
+    '  .hero-copy .hero-actions { justify-content:center; }',
+  ].join('\n'),
+};
+const HERO_1040: Record<Hero, string> = {
+  none: '',
+  centered: '',
+  split: '    .hero-panel { padding:0 24px 44px !important; justify-content:flex-start !important; }',
+  image: '    .hero-image { min-height:400px !important; }',
+};
+const pageCss = siteCss
+  .replace('/*PAGE-GLOBAL*/\n', HERO_GLOBAL[hero] ? HERO_GLOBAL[hero] + '\n' : '')
+  .replace('/*PAGE-1040*/\n', HERO_1040[hero] ? HERO_1040[hero] + '\n' : '');
+---
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0F1729">
+{title && <title>{title}</title>}
+{interestForm && <script is:inline src="/interest-form.js" defer></script>}
+<!-- Tracking consent gate: loads the Meta Pixel only after the visitor accepts (see consent.js) -->
+<script is:inline src="/consent.js"></script>
+<style is:inline set:html={pageCss}></style>
+</head>
+<body>
+<div style="background: rgb(255, 255, 255); font-family: var(--font-sans); color: var(--foreground); text-wrap: pretty;">
+
+  <header style="position: sticky; top: 0px; z-index: 50; background: rgba(255, 255, 255, 0.96); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="min-height: 72px; display: flex; align-items: center; gap: 24px; padding-top: 12px; padding-bottom: 12px;">
+      <a href="/" style="display: flex; align-items: center; flex-shrink: 0;">
+        <Logo />
+      </a>
+      <nav class="desktop-nav" style="display: flex; gap: 22px; margin-left: auto; align-items: center;">
+        <div class="nav-drop">
+          <span aria-haspopup="true" role="button" style={servicesStyle} tabindex="0">Clairo Services<svg fill="none" height="13" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="13"><path d="m6 9 6 6 6-6"></path></svg></span>
+          <div class="nav-menu">
+            <div style="min-width: 230px; background: rgb(255, 255, 255); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 8px; display: flex; flex-direction: column;">
+              <a href="/traditional-services" style="padding: 10px 12px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; color: var(--clairo-navy);">Traditional Services</a>
+              <a href="/self-directed-services" style="padding: 10px 12px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; color: var(--clairo-navy);">Self-Directed Services</a>
+              <a href="/waiver-services" style="padding: 10px 12px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; color: var(--clairo-navy);">Waiver Services</a>
+            </div>
+          </div>
+        </div>
+        <a href="/how-it-works" style={navStyle('how-it-works')}>How It Works</a>
+        <a href="/wages-and-benefits" style={navStyle('wages-and-benefits')}>Wages &amp; Benefits</a>
+        <a href="/caregivers" style={navStyle('caregivers')}>Caregivers</a>
+        <a href="/about" style={navStyle('about')}>About</a>
+        <a href="/faq" style={navStyle('faq')}>FAQ</a>
+      </nav>
+      <div class="desktop-nav" style="flex-shrink: 0;">
+        <a href="/contact"><Button size="sm">Talk to Clairo</Button></a>
+      </div>
+      <details class="mobile-nav" style="margin-left: auto;">
+        <summary style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--clairo-navy);"><svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></summary>
+        <div style="position: absolute; left: 16px; right: 16px; margin-top: 12px; background: rgb(255, 255, 255); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 10px; display: flex; flex-direction: column; z-index: 60;">
+          <p style="margin: 6px 14px 4px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground);">Clairo Services</p>
+          <a href="/traditional-services" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Traditional Services</a>
+          <a href="/self-directed-services" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Self-Directed Services</a>
+          <a href="/waiver-services" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Waiver Services</a>
+          <div style="height: 1px; background: var(--border); margin: 8px 14px;"></div>
+          <a href="/how-it-works" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">How It Works</a>
+          <a href="/wages-and-benefits" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Wages &amp; Benefits</a>
+          <a href="/caregivers" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Caregivers</a>
+          <a href="/about" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">About</a>
+          <a href="/faq" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">FAQ</a>
+          <a href="/contact" style="padding: 13px 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; color: var(--clairo-navy); min-height: 44px; display: flex; align-items: center;">Talk to Clairo</a>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <slot />
+
+  <footer style="background: rgb(255, 255, 255); border-top: 1px solid var(--border);">
+    <div class="clairo-shell foot-grid" style="padding-top: 40px; padding-bottom: 32px; display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 34px; align-items: start;">
+      <div>
+        <img alt="Clairo Care" src="assets/logo-lockup-navy.png" style="width: 130px; height: auto; display: block;">
+        <p style="margin: 15px 0px 0px; font-size: 12.5px; line-height: 20px; color: var(--muted-foreground); max-width: 32ch;">{footerTagline} Participant-centered DDA services built around choice, trusted caregivers, and strong support.</p>
+      </div>
+      <div>
+        <p style="margin: 0px 0px 12px; font-size: 12px; font-weight: 750; letter-spacing: 0.03em; text-transform: uppercase; color: var(--clairo-navy);">For Families</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/traditional-services" style="font-size: 12.5px; color: var(--muted-foreground);">Traditional Services</a>
+          <a href="/self-directed-services" style="font-size: 12.5px; color: var(--muted-foreground);">Self-Directed Services</a>
+          <a href="/how-it-works" style="font-size: 12.5px; color: var(--muted-foreground);">How It Works</a>
+          <a href="/wages-and-benefits" style="font-size: 12.5px; color: var(--muted-foreground);">Wages &amp; Benefits</a>
+        </div>
+      </div>
+      <div>
+        <p style="margin: 0px 0px 12px; font-size: 12px; font-weight: 750; letter-spacing: 0.03em; text-transform: uppercase; color: var(--clairo-navy);">Services</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <Fragment set:html={waiverLinks} />
+        </div>
+      </div>
+      <div>
+        <p style="margin: 0px 0px 12px; font-size: 12px; font-weight: 750; letter-spacing: 0.03em; text-transform: uppercase; color: var(--clairo-navy);">Clairo</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/about" style="font-size: 12.5px; color: var(--muted-foreground);">About</a>
+          <a href="/caregivers" style="font-size: 12.5px; color: var(--muted-foreground);">Caregivers</a>
+          <a href="/faq" style="font-size: 12.5px; color: var(--muted-foreground);">FAQ</a>
+          <a href="/contact" style="font-size: 12.5px; color: var(--muted-foreground);">Talk to Clairo</a>
+          <a href="mailto:hello@clairo.care" style="font-size: 12.5px;">hello@clairo.care</a>
+          <a href="tel:2406211353" style="font-size: 12.5px;">(240) 621-1353</a>
+        </div>
+      </div>
+    </div>
+    <div class="clairo-shell" style="padding-top: 18px; padding-bottom: 26px; border-top: 1px solid var(--border); display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap;">
+      <span style="font-size: 11.5px; color: var(--muted-foreground);">Copyright © 2026 Clairo Care — All Rights Reserved. Services in Maryland (DDA) and Pennsylvania (ODP).</span>
+      <span style="font-size: 11.5px; display: flex; gap: 16px; flex-wrap: wrap;"><a href="/privacy" style="color: var(--muted-foreground); font-weight: 600;">Privacy Policy</a><a data-consent-open="" href="#" style="color: var(--muted-foreground); font-weight: 600;">Cookie preferences</a></span>
+      <span style="font-size: 11.5px; color: var(--muted-foreground);">Every participant's plan, authorizations, and circumstances are different.</span>
+    </div>
+  </footer></div>
+</body>
+</html>

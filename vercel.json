@@ -1,5 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "cleanUrls": true,
   "redirects": [
     { "source": "/:slug(interest|Interest|INTEREST){/}?", "destination": "https://staff.clairo.care/interest", "permanent": false },
     { "source": "/index.html", "destination": "/", "permanent": true },
@@ -13,17 +15,5 @@
     { "source": "/traditional-services.dc.html", "destination": "/traditional-services", "permanent": true },
     { "source": "/wages-and-benefits.dc.html", "destination": "/wages-and-benefits", "permanent": true },
     { "source": "/waiver-services.dc.html", "destination": "/waiver-services", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/about", "destination": "/About.dc.html" },
-    { "source": "/caregivers", "destination": "/caregivers.dc.html" },
-    { "source": "/contact", "destination": "/contact.dc.html" },
-    { "source": "/faq", "destination": "/faq.dc.html" },
-    { "source": "/how-it-works", "destination": "/how-it-works.dc.html" },
-    { "source": "/privacy", "destination": "/privacy.dc.html" },
-    { "source": "/self-directed-services", "destination": "/self-directed-services.dc.html" },
-    { "source": "/traditional-services", "destination": "/traditional-services.dc.html" },
-    { "source": "/wages-and-benefits", "destination": "/wages-and-benefits.dc.html" },
-    { "source": "/waiver-services", "destination": "/waiver-services.dc.html" }
   ]
 }

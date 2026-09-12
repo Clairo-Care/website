@@ -1,0 +1,16 @@
+{
+  "name": "clairo-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "www.clairo.care — the Clairo Care marketing site (Astro, static).",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "astro": "^5.13.5"
+  }
+}

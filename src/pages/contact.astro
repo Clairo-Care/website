@@ -1,0 +1,126 @@
+---
+import Site from '../layouts/Site.astro';
+import Button from '../components/Button.astro';
+---
+<Site hero="image" interestForm>
+  <section style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell two-col" style="padding-top: clamp(48px, 6vw, 76px); padding-bottom: clamp(48px, 6vw, 76px); display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: start;">
+      <div>
+        <p class="clairo-eyebrow">Talk to Clairo</p>
+        <h1 style="margin: 0px; font-size: clamp(30px, 3.8vw, 42px); line-height: 1.1; font-weight: 800; letter-spacing: -0.035em; color: var(--clairo-navy); max-width: 18ch;">Let's talk about what your family needs.</h1>
+        <p style="margin: 18px 0px 0px; font-size: 16px; line-height: 27px; color: var(--muted-foreground); max-width: 46ch;">Tell us a little about the participant and where you are today. A member of our team will follow up — usually within one business day.</p>
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 26px;">
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">No commitment, and no pressure</span></div>
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">We'll tell you honestly if Clairo isn't a fit</span></div>
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Every plan and circumstance is different</span></div>
+        </div>
+        <div class="clairo-card" style="margin-top: 30px; padding: 24px;">
+          <p style="margin: 0px 0px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Or reach us directly</p>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="mailto:hello@clairo.care" style="display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700;"><svg fill="none" height="17" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m2 7 10 6 10-6"></path></svg>hello@clairo.care</a>
+            <a href="tel:2406211353" style="display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700;"><svg fill="none" height="17" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path></svg>(240) 621-1353</a>
+          </div>
+        </div>
+        <div class="clairo-card" style="margin-top: 16px; padding: 24px;">
+          <p style="margin: 0px 0px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Official contact information</p>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Legal name</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Clairo Care LLC</p>
+            </div>
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Mailing address</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">199 E Montgomery Ave, Rockville, MD 20850</p>
+            </div>
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Phone</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);"><a href="tel:2406211353" style="font-weight: 700;">(240) 621-1353</a></p>
+            </div>
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Email</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);"><a href="mailto:hello@clairo.care" style="font-weight: 700;">hello@clairo.care</a></p>
+            </div>
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Support for the CareBridge app</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);"><a href="mailto:hello@clairo.care">hello@clairo.care</a></p>
+            </div>
+            <div>
+              <p style="margin: 0px; font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Office hours</p>
+              <p style="margin: 3px 0px 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Monday to Friday, 9 AM to 5 PM Eastern</p>
+            </div>
+          </div>
+        </div>
+        <div class="clairo-card" style="margin-top: 16px; padding: 24px;">
+          <p style="margin: 0px 0px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">CareBridge app help</p>
+          <p style="margin: 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground);">CareBridge is the app Clairo caregivers, families, and office staff use for schedules, shifts, and care records. You sign in with a six-digit code we email you.</p>
+          <p style="margin: 12px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground);">If your sign-in code does not arrive, check your spam or junk folder, give it a minute, then request a new code. Codes expire a few minutes after they are sent, so always use the most recent one.</p>
+          <p style="margin: 12px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground);">If it still does not work, or you are locked out, call the office at <a href="tel:2406211353" style="font-weight: 700;">(240) 621-1353</a> or email <a href="mailto:hello@clairo.care" style="font-weight: 700;">hello@clairo.care</a> and someone will help you. Read our <a href="/privacy" style="font-weight: 700;">Privacy Policy</a> for what the app collects and why.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 18px; margin-top: 26px;">
+          <div>
+            <p style="margin: 0px; font-size: 14px; font-weight: 750; color: var(--clairo-navy);">Real people. Real support.</p>
+            <p style="margin: 2px 0px 0px; font-size: 13px; color: var(--muted-foreground);">A named coordinator, not a call queue.</p>
+          </div>
+        </div>
+      </div>
+      <form class="clairo-card" data-interest-form="1" novalidate="novalidate" style="padding: clamp(26px, 3.4vw, 38px); display: flex; flex-direction: column; gap: 22px;">
+        <div aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;"><label>Website<input autocomplete="off" name="website" style="" tabindex="-1" type="text"></label></div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;">
+          <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Your name</span><input name="name" placeholder="First and last name" required="" style="width: 100%; box-sizing: border-box; min-height: 46px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; color: var(--foreground);" type="text"></label>
+          <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Email</span><input name="email" placeholder="you@example.com" required="" style="width: 100%; box-sizing: border-box; min-height: 46px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; color: var(--foreground);" type="email"></label>
+          <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Phone</span><input name="phone" placeholder="(240) 000-0000" style="width: 100%; box-sizing: border-box; min-height: 46px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; color: var(--foreground);" type="tel"></label>
+          <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Participant county</span><input name="county" placeholder="e.g. Baltimore County" style="width: 100%; box-sizing: border-box; min-height: 46px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; color: var(--foreground);" type="text"></label>
+          <label style="display: flex; flex-direction: column; gap: 7px;"><span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Participant ID or department number (if you have one)</span><input autocomplete="off" maxlength="40" name="participant_number" placeholder="e.g. the number on your DDA or ODP paperwork" style="width: 100%; box-sizing: border-box; min-height: 46px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; color: var(--foreground);" type="text"><span style="font-size: 12.5px; line-height: 20px; color: var(--muted-foreground);">Optional. Your Maryland DDA or Pennsylvania ODP participant number, if you already have one. It helps us set up billing faster.</span></label>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px;">
+          <span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Which best describes you today?</span>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;"><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="route" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="Traditional services">Traditional services</label><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="route" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="Self-Directed">Self-Directed</label><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="route" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="Not sure">Not sure</label><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="route" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="New to DDA services">New to DDA services</label></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px;">
+          <span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Services you're interested in <span style="font-weight: 500; color: var(--muted-foreground);">(select any)</span></span>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 10px;"><label style="display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="services" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="checkbox" value="Personal Supports">Personal Supports</label><label style="display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="services" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="checkbox" value="Personal Supports Enhanced">Personal Supports Enhanced</label><label style="display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="services" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="checkbox" value="Community Development Services">Community Development Services</label><label style="display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="services" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="checkbox" value="Nursing Supports">Nursing Supports</label></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px;">
+          <span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Do you already have caregivers you'd like to keep?</span>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;"><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="caregivers" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="Yes">Yes</label><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="caregivers" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="No">No</label><label style="display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0px 16px; border: 1px solid var(--border); border-radius: var(--radius-full); background: rgb(255, 255, 255); font-size: 14px; color: var(--clairo-navy); cursor: pointer;"><input name="caregivers" style="accent-color: var(--clairo-blue); width: 16px; height: 16px;" type="radio" value="Not sure yet">Not sure yet</label></div>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="font-size: 13px; font-weight: 700; color: var(--clairo-navy);">Anything else we should know <span style="font-weight: 500; color: var(--muted-foreground);">(optional)</span></span>
+          <textarea name="notes" placeholder="Tell us about the participant, current services, or what you're hoping changes." rows="4" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgb(255, 255, 255); font-family: var(--font-sans); font-size: 14.5px; line-height: 23px; color: var(--foreground); resize: vertical;"></textarea>
+        </label>
+        <p style="margin: 0px; font-size: 12.5px; line-height: 20px; color: var(--muted-foreground);">By submitting, you agree that Clairo Care may call or text you about your inquiry. Message and data rates may apply. Consent is not a condition of receiving services.</p>
+        <p aria-live="polite" data-interest-status="1" hidden="" role="status" style="margin: 0px; font-size: 14px; line-height: 22px; font-weight: 600; color: var(--muted-foreground);"></p>
+        <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding-top: 4px;">
+          <Button size="lg" type="submit">Send to Clairo</Button>
+          <p style="margin: 0px; font-size: 12.5px; line-height: 20px; color: var(--muted-foreground); max-width: 40ch;">We'll follow up within one business day. Your information is used only to respond to your inquiry.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section style="background: rgb(255, 255, 255);">
+    <div class="clairo-shell" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(20px, 3vw, 30px);">
+      <div style="text-align: center; max-width: 620px; margin: 0px auto;">
+        <p class="clairo-eyebrow">While you wait</p>
+        <h2 class="clairo-h2">Want to read up first?</h2>
+      </div>
+      <div class="three-col" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
+        <a class="clairo-card" href="/traditional-services" style="padding: 26px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Traditional services</p>
+          <p style="margin: 9px 0px 0px; font-size: 13.5px; line-height: 22px; color: var(--muted-foreground);">What changes when families get more say in the care team.</p>
+          <span style="display: inline-block; margin-top: 14px; font-size: 13.5px; font-weight: 750; color: var(--clairo-blue);">Read more →</span>
+        </a>
+        <a class="clairo-card" href="/self-directed-services" style="padding: 26px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Self-Directed Services</p>
+          <p style="margin: 9px 0px 0px; font-size: 13.5px; line-height: 22px; color: var(--muted-foreground);">Keep what you value about self-direction and understand your options.</p>
+          <span style="display: inline-block; margin-top: 14px; font-size: 13.5px; font-weight: 750; color: var(--clairo-blue);">Read more →</span>
+        </a>
+        <a class="clairo-card" href="/wages-and-benefits" style="padding: 26px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Wages &amp; benefits</p>
+          <p style="margin: 9px 0px 0px; font-size: 13.5px; line-height: 22px; color: var(--muted-foreground);">What Clairo pays caregivers, and why the model is built that way.</p>
+          <span style="display: inline-block; margin-top: 14px; font-size: 13.5px; font-weight: 750; color: var(--clairo-blue);">Read more →</span>
+        </a>
+      </div>
+      <p style="margin: 30px 0px 0px; font-size: 12.5px; line-height: 21px; color: var(--muted-foreground); max-width: 100ch;">Every participant's plan, authorizations, services, and circumstances are different. Nothing on this site is regulatory guidance, and Clairo cannot guarantee eligibility, particular services, or particular wages for any individual.</p>
+    </div>
+  </section>
+  </Site>

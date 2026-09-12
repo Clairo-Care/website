@@ -1,0 +1,13 @@
+---
+// The design-system Button (the only interactive component the marketing site uses).
+// Styling lives in src/styles/button.css, loaded globally by the layout — a scoped
+// <style> here would add a data-astro-cid attribute to every button.
+interface Props {
+  variant?: 'default' | 'outline';
+  size?: 'default' | 'sm' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+}
+const { variant = 'default', size = 'default', type = 'button' } = Astro.props;
+const cls = `ds-btn ds-btn-${size} ${variant === 'outline' ? 'ds-btn-outline' : 'ds-btn-fill'}`;
+---
+<button class={cls} type={type}><slot /></button>

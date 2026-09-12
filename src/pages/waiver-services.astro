@@ -1,0 +1,140 @@
+---
+import Site from '../layouts/Site.astro';
+import Button from '../components/Button.astro';
+---
+<Site active="services" waiverOrder={['personal-supports', 'community-development', 'nursing-supports', 'employment-supports']}>
+  <section class="hero-grid" style="display: grid; grid-template-columns: minmax(0px, 1fr); align-items: stretch; border-bottom: 1px solid var(--border); background: linear-gradient(rgba(86, 174, 245, 0.09), rgb(255, 255, 255));">
+    <div class="hero-copy" style="display: flex; justify-content: center; padding: clamp(46px, 6vw, 86px) 24px;">
+      <div style="width: 100%; max-width: 860px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px;">MARYLAND &amp; PENNSYLVANIA&nbsp;</div>
+        <h1 style="margin: 0px; font-size: clamp(33px, 4.3vw, 48px); line-height: 1.07; font-weight: 800; letter-spacing: -0.036em; color: var(--clairo-navy); max-width: 20ch;">IDD Waiver Services</h1>
+        <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">Four services, delivered by people the participant knows and trusts.</p>
+        <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">Clairo Care provides Maryland DDA and Pennsylvania ODP services under the participant's approved plan. Which services apply depends on authorizations and individual circumstances — we'll help you understand what fits.</p>
+        <div class="hero-actions" style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
+          <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
+          <a href="/contact"><Button size="lg" variant="outline">Ask about a service</Button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(44px, 5vw, 60px); padding-bottom: clamp(44px, 5vw, 60px);">
+      <div class="four-col" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+        <a class="clairo-card" href="#personal-supports" style="padding: 22px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">01</p>
+          <p style="margin: 10px 0px 0px; font-size: 16px; font-weight: 750; line-height: 1.3; letter-spacing: -0.02em; color: var(--clairo-navy);">Personal Supports</p>
+        </a>
+        <a class="clairo-card" href="#community-development" style="padding: 22px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">02</p>
+          <p style="margin: 10px 0px 0px; font-size: 16px; font-weight: 750; line-height: 1.3; letter-spacing: -0.02em; color: var(--clairo-navy);">Community Development Services</p>
+        </a>
+        <a class="clairo-card" href="#nursing-supports" style="padding: 22px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">03</p>
+          <p style="margin: 10px 0px 0px; font-size: 16px; font-weight: 750; line-height: 1.3; letter-spacing: -0.02em; color: var(--clairo-navy);">Nursing Supports</p>
+        </a>
+        <a class="clairo-card" href="#employment-supports" style="padding: 22px; display: block; text-decoration: none;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">04</p>
+          <p style="margin: 10px 0px 0px; font-size: 16px; font-weight: 750; line-height: 1.3; letter-spacing: -0.02em; color: var(--clairo-navy);">Employment Supports</p>
+        </a>
+      </div>
+    </div>
+  </section>
+  <section id="personal-supports" style="background: rgb(255, 255, 255); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 48px; align-items: center;">
+      <div>
+        <p class="clairo-eyebrow">Personal Supports</p>
+        <h2 class="clairo-h2">Everyday and enhanced support, built around the participant.</h2>
+        <p class="clairo-body">Personal Supports is help with daily life — the routines, tasks, and activities that make independence possible. It includes enhanced support for participants whose needs call for a higher level of staffing, training, or support intensity. Support is delivered in the home and in the community, shaped by the participant's own plan and goals.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 22px;">
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Help with daily living activities and routines</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Building independence and personal skills</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Participation in community life</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Enhanced support for participants with more complex needs</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Support toward the goals in the individual plan</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Delivered one-to-one by a caregiver on the participant's team</span></div>
+        </div>
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 12.5px; font-weight: 700;">Caregiver wages $32.50–$51/hr</span>
+          <a href="/contact" style="font-size: 14px; font-weight: 750;">Ask if this service applies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="community-development" style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 48px; align-items: center;">
+      <div>
+        <p class="clairo-eyebrow">Community Development Services</p>
+        <h2 class="clairo-h2">A meaningful life in the community.</h2>
+        <p class="clairo-body">Community Development Services (CDS) supports participation in community life — building skills, relationships, routines, and the kind of ordinary belonging that makes a week feel like a life.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 22px;">
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Community participation and activities</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Skill building toward greater independence</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Building relationships and connections</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Support that follows the participant's interests and goals</span></div>
+        </div>
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 12.5px; font-weight: 700;">Caregiver wages $40+/hr possible*</span>
+          <a href="/contact" style="font-size: 14px; font-weight: 750;">Ask if this service applies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="nursing-supports" style="background: rgb(255, 255, 255); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 48px; align-items: center;">
+      <div>
+        <p class="clairo-eyebrow">Nursing Supports</p>
+        <h2 class="clairo-h2">Professional support when nursing is part of the plan.</h2>
+        <p class="clairo-body">Nursing Supports provides licensed nursing care within the participant's approved DDA services and individual plan, coordinated alongside the rest of the care team.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 22px;">
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Delivered by licensed nursing professionals</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Coordinated with the participant's wider care team</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Provided within the approved individual plan</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Available as authorized under DDA services</span></div>
+        </div>
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 12.5px; font-weight: 700;">Compensation varies by role and qualifications</span>
+          <a href="/contact" style="font-size: 14px; font-weight: 750;">Ask if this service applies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="employment-supports" style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 48px; align-items: center;">
+      <div>
+        <p class="clairo-eyebrow">EMPLOYMENT SUPPORTS *COMING SOON*</p>
+        <h2 class="clairo-h2">Support for meaningful work and greater independence.</h2>
+        <p class="clairo-body">Employment Supports is individualized help to explore, obtain, learn, and maintain meaningful work — matched to the participant’s interests, strengths, and goals, and coordinated with their DDA plan.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 22px;">
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Exploring interests, strengths, and career options</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Support finding and starting a job</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">On-the-job learning and coaching</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Ongoing support to keep and grow in the role</span></div>
+          <div class="clairo-check"><svg fill="none" height="15" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="15"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Authorized through the participant’s DDA plan</span></div>
+        </div>
+        <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 12.5px; font-weight: 700;">Wages vary by service and available funding</span>
+          <a href="/contact" style="font-size: 14px; font-weight: 750;">Ask if this service applies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background: rgb(255, 255, 255);">
+    <div class="clairo-shell" style="padding-top: clamp(44px, 5vw, 60px); padding-bottom: clamp(44px, 5vw, 60px);">
+      <div class="clairo-card" style="padding: 26px 28px; background: var(--background); display: flex; gap: 16px; align-items: flex-start;">
+        <span style="width: 34px; height: 34px; flex: 0 0 auto; border-radius: 50%; background: rgba(86, 174, 245, 0.12); color: var(--clairo-blue); display: flex; align-items: center; justify-content: center;"><svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg></span>
+        <p style="margin: 0px; font-size: 13.5px; line-height: 22px; color: var(--muted-foreground); max-width: 98ch;">Which services a participant can receive, and from whom, depends on their DDA plan, authorizations, and individual circumstances. *Community Development Services wages depend on the funding allocated to that service in the participant's budget. Wages vary by service, available funding, and employee eligibility.</p>
+      </div>
+    </div>
+  </section>
+  <section style="padding: clamp(30px, 4vw, 44px) 24px 30px; background: rgb(255, 255, 255);">
+    <div style="max-width: 1104px; margin: 0px auto; background: var(--clairo-navy); border-radius: var(--radius-2xl); padding: clamp(34px, 5vw, 58px); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+      <div style="max-width: 700px;">
+        <p class="clairo-eyebrow" style="color: var(--clairo-light-blue);">Let's talk</p>
+        <h2 style="margin: 0px; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; letter-spacing: -0.035em; color: rgb(255, 255, 255);">Not sure which services apply?</h2>
+        <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Tell us what's in the participant's plan and we'll help you understand which Clairo services could fit.</p>
+        <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
+      </div>
+      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+    </div>
+  </section>
+  </Site>

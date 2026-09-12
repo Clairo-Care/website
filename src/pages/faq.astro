@@ -1,0 +1,150 @@
+---
+import Site from '../layouts/Site.astro';
+import Button from '../components/Button.astro';
+---
+<Site active="faq" hero="image">
+  <section style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(52px, 6vw, 78px); padding-bottom: clamp(44px, 5vw, 60px);">
+      <p class="clairo-eyebrow">Frequently asked questions</p>
+      <h1 style="margin: 0px; font-size: clamp(31px, 4vw, 44px); line-height: 1.1; font-weight: 800; letter-spacing: -0.035em; color: var(--clairo-navy); max-width: 22ch;">Questions families and caregivers ask us.</h1>
+      <p style="margin: 18px 0px 0px; font-size: 16px; line-height: 27px; color: var(--muted-foreground); max-width: 64ch;">Where circumstances vary, we say so. Nothing here is regulatory guidance — every participant's plan, authorizations, and situation is different.</p>
+      <div style="display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap;">
+        <a href="#getting-started" style="padding: 9px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: rgb(255, 255, 255); font-size: 13px; font-weight: 650; color: var(--clairo-navy);">Getting started</a>
+        <a href="#caregivers" style="padding: 9px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: rgb(255, 255, 255); font-size: 13px; font-weight: 650; color: var(--clairo-navy);">Caregivers</a>
+        <a href="#traditional-services" style="padding: 9px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: rgb(255, 255, 255); font-size: 13px; font-weight: 650; color: var(--clairo-navy);">Traditional services</a>
+        <a href="#self-direction" style="padding: 9px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: rgb(255, 255, 255); font-size: 13px; font-weight: 650; color: var(--clairo-navy);">Self-Direction</a>
+      </div>
+    </div>
+  </section>
+  <section id="getting-started" style="background: rgb(255, 255, 255); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell two-col" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: 0.42fr 1fr; gap: 40px; align-items: start;">
+      <div>
+        <p class="clairo-eyebrow">Section 01</p>
+        <h2 style="margin: 0px; font-size: clamp(23px, 2.7vw, 29px); line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; color: var(--clairo-navy);">Getting started</h2>
+      </div>
+      <div style="border-top: 1px solid var(--border);">
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Who does Clairo serve?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Clairo Care serves people with intellectual and developmental disabilities and their families — in Maryland through the DDA and in Pennsylvania through ODP. Families in traditional agency-based services, families who self-direct, and families new to DDA services are all welcome to reach out.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">What services does Clairo offer?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Personal Supports, Personal Supports Enhanced, Community Development Services, and Nursing Supports. Which services a participant can receive depends on their plan and authorizations.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">How do I know whether Clairo may be a fit?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">The honest answer is that it depends on the participant's plan, services, authorizations, caregivers, and priorities. The fastest way to find out is a conversation — and if Clairo isn't the right fit, we'll say so.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">What does the transition process involve?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Roughly six steps: a conversation, a review of services and authorizations, building the care team, onboarding caregivers, coordinating the transition, and starting services. Most of the work sits with us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="caregivers" style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell two-col" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: 0.42fr 1fr; gap: 40px; align-items: start;">
+      <div>
+        <p class="clairo-eyebrow">Section 02</p>
+        <h2 style="margin: 0px; font-size: clamp(23px, 2.7vw, 29px); line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; color: var(--clairo-navy);">Caregivers</h2>
+      </div>
+      <div style="border-top: 1px solid var(--border);">
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Can I choose my caregiver?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Participants and families are actively involved in deciding who joins the care team. Clairo does not simply assign staff and inform you afterward.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Can my current caregiver work for Clairo?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Often, yes. An existing caregiver can apply to become a Clairo employee, subject to service requirements, qualifications, onboarding, DDA rules, and the participant's individual circumstances.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Can a family member work through Clairo?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Where DDA rules permit, qualified family members and friends may be able to provide support as Clairo employees. Eligibility depends on the service and applicable requirements.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">What does Clairo pay?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Our current materials show Personal Supports at $32.50–$35.50/hr and Community Development Services at $40+/hr possible. Wages vary by service, participant circumstances, available service funding, and employee eligibility.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Is mileage reimbursed?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Yes — eligible travel is reimbursed for Clairo caregivers.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Are benefits available?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Health benefits and paid time off are available for eligible caregivers under the applicable plan terms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="traditional-services" style="background: rgb(255, 255, 255); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell two-col" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: 0.42fr 1fr; gap: 40px; align-items: start;">
+      <div>
+        <p class="clairo-eyebrow">Section 03</p>
+        <h2 style="margin: 0px; font-size: clamp(23px, 2.7vw, 29px); line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; color: var(--clairo-navy);">Traditional services</h2>
+      </div>
+      <div style="border-top: 1px solid var(--border);">
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">How is Clairo different?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Clairo is a provider agency, with the same professional infrastructure — payroll, compliance, billing, training. The difference is that families and participants stay involved in choosing who provides care, and the model is structured to direct more funding to caregiver compensation.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Does Clairo assign caregivers?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">We help build the care team with you. Where a participant already has someone they trust, that person can often apply to work through Clairo.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Does Clairo handle payroll and compliance?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Yes. For services Clairo delivers, Clairo handles employment, payroll, taxes, training, timekeeping, billing, and compliance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="self-direction" style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell two-col" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: 0.42fr 1fr; gap: 40px; align-items: start;">
+      <div>
+        <p class="clairo-eyebrow">Section 04</p>
+        <h2 style="margin: 0px; font-size: clamp(23px, 2.7vw, 29px); line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; color: var(--clairo-navy);">Self-Direction</h2>
+      </div>
+      <div style="border-top: 1px solid var(--border);">
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Is Clairo SDS?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">No. Clairo is a provider agency for the services Clairo delivers — not Self-Directed Services. Our model is designed to preserve many of the things families value in self-direction, such as caregiver choice and strong compensation, while Clairo carries the provider administration.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Do I have to leave SDS completely?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Not necessarily. Depending on the participant's plan, services, authorizations, and DDA requirements, selected services may be delivered by Clairo while other applicable services remain self-directed.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Can selected services move to Clairo?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">In many cases yes, but it depends on the specific services and authorizations in the participant's plan. This is exactly the kind of thing to walk through with us and your coordinator.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Can my current SDS caregivers work for Clairo?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">Often they can apply to become Clairo employees for services Clairo delivers, subject to qualifications, onboarding, and applicable requirements.</p>
+        </div>
+        <div style="padding: 22px 0px; border-bottom: 1px solid var(--border);">
+          <p style="margin: 0px; font-size: 16px; font-weight: 750; letter-spacing: -0.02em; color: var(--clairo-navy);">Who controls my SDS employer budget?</p>
+          <p style="margin: 9px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground); max-width: 88ch;">You do. Clairo is funded as a provider agency for the services Clairo delivers and does not control a participant's self-directed employer budget.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background: rgb(255, 255, 255);">
+    <div class="clairo-shell" style="padding-top: clamp(44px, 5vw, 60px); padding-bottom: clamp(20px, 3vw, 30px);">
+      <div class="clairo-card" style="padding: 26px 28px; background: var(--background); display: flex; gap: 16px; align-items: flex-start;">
+        <span style="width: 34px; height: 34px; flex: 0 0 auto; border-radius: 50%; background: rgba(86, 174, 245, 0.12); color: var(--clairo-blue); display: flex; align-items: center; justify-content: center;"><svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg></span>
+        <p style="margin: 0px; font-size: 13.5px; line-height: 22px; color: var(--muted-foreground); max-width: 98ch;">Answers describe how Clairo generally operates. Eligibility, wages, services, and what can move to a provider agency all depend on the participant's plan, authorizations, applicable DDA or ODP requirements, and individual circumstances. Clairo is funded as a provider agency for the services Clairo delivers and does not control a participant's self-directed employer budget.</p>
+      </div>
+    </div>
+  </section>
+  <section style="padding: clamp(30px, 4vw, 44px) 24px 30px; background: rgb(255, 255, 255);">
+    <div style="max-width: 1104px; margin: 0px auto; background: var(--clairo-navy); border-radius: var(--radius-2xl); padding: clamp(34px, 5vw, 58px); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+      <div style="max-width: 700px;">
+        <p class="clairo-eyebrow" style="color: var(--clairo-light-blue);">Let's talk</p>
+        <h2 style="margin: 0px; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; letter-spacing: -0.035em; color: rgb(255, 255, 255);">Didn't find your question?</h2>
+        <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Ask us directly. We'd rather give you a straight answer than have you guess.</p>
+        <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
+      </div>
+      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+    </div>
+  </section>
+  </Site>

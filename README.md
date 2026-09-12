@@ -1,12 +1,68 @@
 # clairo.care — marketing site
 
-Static HTML exported from Claude Design (`*.dc.html` + `support.js` runtime + `_ds/` design-system
-bundle), hosted on Vercel (team `clairo1`, project `website`, production `https://www.clairo.care`).
-No build step. Push to `main` deploys.
+Astro 5, static output. Hosted on Vercel (team `clairo1`, project `website`, production
+`https://www.clairo.care`). Push to `main` deploys; any other branch gets a preview URL.
+
+```bash
+npm install
+npm run dev        # http://localhost:4321, hot reload
+npm run build      # -> dist/
+npm run preview    # serves dist/ with clean URLs, same shape as production
+```
+
+## Layout
+
+```
+src/pages/*.astro        one file per URL: index (/), about, caregivers, contact, faq,
+                         how-it-works, privacy, self-directed-services,
+                         traditional-services, wages-and-benefits, waiver-services
+src/layouts/Site.astro   <head>, sticky header, footer; the page fills the <slot />
+src/components/          Button.astro (the design-system button), Logo.astro (header lockup)
+src/styles/tokens/*.css  the seven design-system token files, byte-identical to the
+                         Clairo Care design system export; fonts.css @imports Manrope
+src/styles/button.css    the design-system Button, as classes instead of inline styles
+src/styles/site.css      the page CSS that used to be an inline <style> per page. Still
+                         emitted inline, per page: the two /*PAGE-…*/ markers are where the
+                         layout splices in the hero rules that only some pages may have
+public/                  served at the site root, unchanged: consent.js, interest-form.js,
+                         assets/, favicons, icons, site.webmanifest
+api/interest.js          Vercel serverless function, untouched by the Astro port
+vercel.json              framework: astro, cleanUrls, and the legacy 308/307 redirects
+```
+
+Two settings in `astro.config.mjs` are load-bearing:
+
+- `build.format: 'file'` emits `/about.html`, not `/about/index.html`, so the relative asset URLs
+  inherited from the old export (`src="assets/logo-lockup-navy.png"`) keep resolving to
+  `/assets/...`. With `"cleanUrls": true` in `vercel.json`, `/about` serves `about.html` — the same
+  URL shape the site has always had, with no trailing-slash variant.
+- `compressHTML: false`. Astro's default collapses whitespace, which changes the rendered DOM. The
+  port is verified against the live site's DOM node for node, so it has to stay off.
+
+### Ported from Claude Design (2026-09-12)
+
+The site used to be `*.dc.html` files that a React runtime (`support.js`) re-rendered in the
+browser, plus a `_ds/` design-system bundle. All of that is gone. The markup in `src/` is the
+**rendered** DOM of the live pages, copied verbatim — inline styles, `href=""` placeholders, copy
+and all — so nothing about the pages changed. Only the two design-system components (Button, Logo)
+became Astro components, and the header and footer were extracted into the layout with the four
+things that genuinely differ per page as props: the active-nav underline, the footer tagline, the
+footer Waiver Services link order, and which hero CSS the page needs.
+
+The parity gate for that port lives outside this repo (`scratchpad/parity` in the porting session):
+full-page screenshots at 1280/900/390, the normalized DOM, `innerText`, and 17 computed styles per
+button in both resting and hover state, for all 11 pages. Result: **0 differing pixels everywhere**,
+identical text and computed styles. The rendered DOM differs only in `<head>`: nine unbundled
+stylesheets became one bundled `/_astro/*.css`, and two whitespace-only text nodes disappeared with
+the `support.js` and Claude Design script tags they used to sit next to.
+
+Follow-up, deliberately not part of the port: ten of the eleven pages still have no `<title>` or
+meta description. Only `/privacy` has one.
 
 ## The one dynamic piece: the "Talk to Clairo" form
 
-`contact.dc.html` → `interest-form.js` (browser) → `api/interest.js` (Vercel function) → CareBridge.
+`src/pages/contact.astro` → `interest-form.js` (browser) → `api/interest.js` (Vercel function) →
+CareBridge.
 
 - **`interest-form.js`** collects the form, splits the name, maps labels to the values the backend
   stores (`service_route`, `services_selected`), folds anything without a column into the notes,
@@ -36,7 +92,7 @@ loads the Meta Pixel `1489545563193733` only after Accept, with Meta's Limited D
 before `init` + `PageView`. Decline, or no answer, means nothing is loaded from or sent to Meta and
 no Meta cookies exist. The choice is stored in `localStorage` (`clairo_consent_v1`) and can be
 changed from the footer "Cookie preferences" link (`[data-consent-open]`) on every page.
-`privacy.dc.html` discloses all of this and is linked in every footer.
+`src/pages/privacy.astro` discloses all of this and is linked in every footer.
 
 On a successful form submit, if consent was granted, the browser fires a `Lead` event with an
 `eventID`, and `api/interest.js` posts the same `Lead` to Meta's Conversions API with that
@@ -96,12 +152,12 @@ extra configuration for this: Google tags honor the consent signals natively.
 The `<noscript>` iframe from Google's instructions is deliberately NOT on the pages: it would load the
 container with no consent handling at all for the near-zero visitors who have JavaScript off.
 
-`privacy.dc.html` discloses it under Cookies (a "Google Analytics" block) and in the overview and sharing
+`src/pages/privacy.astro` discloses it under Cookies (a "Google Analytics" block) and in the overview and sharing
 paragraphs. The banner copy names Google Analytics alongside Meta.
 
-`vercel.json` has no catch-all rewrite (every rewrite source is an exact clean path), so
+`vercel.json` has no rewrites at all any more (clean URLs come from `"cleanUrls": true`), so
 `/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if a
-catch-all is ever added, exclude `_vercel`.
+catch-all rewrite is ever added, exclude `_vercel`.
 
 ### Current upstream (until go-live)
 
@@ -143,7 +199,15 @@ retired).
 
 ## Local check
 
+`npm run dev` and `npm run preview` serve the pages but not `api/interest.js` — that is a Vercel
+function, so it needs `vercel dev`:
+
 ```
 INTEREST_BASE44_URL=http://localhost:9999/submitInterestForm vercel dev --listen 3999
 ```
-then submit `http://localhost:3999/contact.dc.html` against a mock listener on `:9999`.
+
+then submit `http://localhost:3999/contact` against a mock listener on `:9999`.
+
+To exercise the form without a relay at all, intercept the POST in the browser devtools (or with
+Playwright's `route`) and read the payload. Never point a test submit at production: it creates a
+real lead in CareBridge.

@@ -1,0 +1,191 @@
+---
+import Site from '../layouts/Site.astro';
+import Button from '../components/Button.astro';
+---
+<Site active="services">
+  <section class="hero-grid" style="display: grid; grid-template-columns: minmax(0px, 1fr); align-items: stretch; border-bottom: 1px solid var(--border); background: linear-gradient(rgba(86, 174, 245, 0.09), rgb(255, 255, 255));">
+    <div class="hero-copy" style="display: flex; justify-content: center; padding: clamp(46px, 6vw, 86px) 24px;">
+      <div style="width: 100%; max-width: 860px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px;">For families in traditional DDA services</div>
+        <h1 style="margin: 0px; font-size: clamp(33px, 4.3vw, 48px); line-height: 1.07; font-weight: 800; letter-spacing: -0.036em; color: var(--clairo-navy); max-width: 20ch;">Traditional services don't have to mean giving up control.</h1>
+        <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">You can have the administrative support of a provider agency and much more say in who provides care.</p>
+        <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">Clairo Care is a Maryland DDA provider agency built so families stay involved in building the care team — while we carry the payroll, compliance, and paperwork.</p>
+        <div class="hero-actions" style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
+          <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
+          <a href="/how-it-works"><Button size="lg" variant="outline">See how it works</Button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(56px, 7vw, 86px); padding-bottom: clamp(56px, 7vw, 86px);">
+      <div style="text-align: center; max-width: 760px; margin: 0px auto;">
+        <p class="clairo-eyebrow">What families tell us</p>
+        <h2 class="clairo-h2">The things that are hardest to solve inside a traditional model.</h2>
+        <p class="clairo-body" style="max-width: 64ch; margin-left: auto; margin-right: auto;">Good providers work hard, and many families are well served. These are simply the frustrations we hear most often — and the ones Clairo was designed around.</p>
+      </div>
+      <div class="three-col" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px;">
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Who provides care</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">Staff are assigned rather than chosen, and families have little influence over the match.</p>
+        </div>
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Caregiver turnover</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">When a caregiver leaves, routines, communication, and trust have to be rebuilt from scratch.</p>
+        </div>
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Retaining strong caregivers</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">Families find someone excellent, then have little ability to help keep that person in the role.</p>
+        </div>
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Caregiver compensation</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">Little visibility into how much of the service funding reaches the person doing the work.</p>
+        </div>
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Scheduling and flexibility</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">Processes designed around the agency rather than the participant's week.</p>
+        </div>
+        <div class="clairo-card" style="padding: 26px;">
+          <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">Family and friends as caregivers</p>
+          <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 23px; color: var(--foreground);">Families often want a trusted relative or friend to provide support where that is permitted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background: rgb(255, 255, 255);">
+    <div class="clairo-shell" style="padding-top: clamp(56px, 7vw, 86px); padding-bottom: clamp(56px, 7vw, 86px);">
+      <div style="max-width: 780px;">
+        <p class="clairo-eyebrow">A side-by-side look</p>
+        <h2 class="clairo-h2">Same professional infrastructure. A different relationship with your care team.</h2>
+        <p class="clairo-body">Written neutrally — every provider is different, and this describes what Clairo does rather than what anyone else does wrong.</p>
+      </div>
+      <div class="clairo-card" style="overflow: hidden; margin-top: 34px;">
+        <div class="cmp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border);">
+          <div style="background: var(--background); padding: 22px 26px;">
+            <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--muted-foreground);">Typical agency experience</p>
+          </div>
+          <div style="background: rgba(86, 174, 245, 0.08); padding: 22px 26px;">
+            <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-blue);">The Clairo approach</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Choosing caregivers</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Caregivers are typically assigned based on agency availability.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Choosing caregivers</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Families and participants are actively involved in choosing who joins the care team.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">An existing caregiver</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Bringing your own caregiver is often not part of the process.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">An existing caregiver</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Caregivers you already trust can apply to work through Clairo, subject to qualifications and onboarding.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Family and friends</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Rarely accommodated.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Family and friends</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Qualified family and friends may be able to provide support where DDA rules permit.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Caregiver compensation</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Set by the agency; families rarely see the structure.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Caregiver compensation</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">A low-overhead model designed to direct more of the available funding to caregivers.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Participant involvement</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Families are informed of decisions about staffing.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Participant involvement</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Participants and families stay involved in decisions about their own care team.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Scheduling</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Built around agency staffing patterns.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Scheduling</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Built around the participant's routines, goals, and daily life wherever possible.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-navy);">Administration</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--muted-foreground);">Handled by the provider.</p>
+          </div>
+          <div style="background: rgb(255, 255, 255); padding: 22px 26px;">
+            <p style="margin: 0px 0px 7px; font-size: 12px; font-weight: 750; letter-spacing: 0.02em; text-transform: uppercase; color: var(--clairo-blue);">Administration</p>
+            <p style="margin: 0px; font-size: 14px; line-height: 22px; color: var(--foreground);">Also handled by Clairo — payroll, training, billing, compliance, and EVV.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="wages" style="background: rgb(255, 255, 255);">
+    <div class="clairo-shell" style="padding-top: clamp(56px, 7vw, 84px); padding-bottom: clamp(56px, 7vw, 84px);">
+      <div style="background: var(--clairo-navy); border-radius: var(--radius-2xl); padding: clamp(30px, 5vw, 54px); position: relative; overflow: hidden;">
+        <div style="position: absolute; right: -68px; top: -70px; width: 230px; height: 230px; border-radius: 50%; background: rgba(92, 182, 242, 0.09);"></div>
+        <div style="position: relative;">
+          <p class="clairo-eyebrow" style="color: var(--clairo-light-blue);">More for the people providing care</p>
+          <h2 style="margin: 0px; font-size: clamp(27px, 3.6vw, 40px); line-height: 1.13; font-weight: 800; letter-spacing: -0.035em; color: rgb(255, 255, 255); max-width: 22ch;">Caregiver pay is part of the care plan.</h2>
+          <p style="margin: 18px 0px 0px; font-size: 16px; line-height: 27px; color: var(--text-on-navy-soft); max-width: 69ch;">When caregivers are paid well, they stay — and continuity is what makes support actually work. Our published figures come straight from our current materials.</p>
+          <div class="four-col" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 34px;">
+            <div style="border: 1px solid rgba(255, 255, 255, 0.19); border-radius: var(--radius-xl); padding: 23px; background: rgba(255, 255, 255, 0.07); min-height: 158px; display: flex; flex-direction: column; justify-content: space-between;">
+              <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-light-blue);">Personal Supports</p>
+              <p style="margin: 18px 0px 0px; font-size: clamp(27px, 3vw, 36px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; color: rgb(255, 255, 255);">$32.50<span style="font-size: 17px; font-weight: 500; color: var(--text-on-navy-soft);">–$35.50/hr</span></p>
+            </div>
+            <div style="border: 1px solid rgba(255, 255, 255, 0.19); border-radius: var(--radius-xl); padding: 23px; background: rgba(255, 255, 255, 0.07); min-height: 158px; display: flex; flex-direction: column; justify-content: space-between;">
+              <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-light-blue);">Community Development</p>
+              <p style="margin: 18px 0px 0px; font-size: clamp(27px, 3vw, 36px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; color: rgb(255, 255, 255);">$40+<span style="font-size: 17px; font-weight: 500; color: var(--text-on-navy-soft);">/hr possible*</span></p>
+            </div>
+            <div style="border: 1px solid rgba(255, 255, 255, 0.19); border-radius: var(--radius-xl); padding: 23px; background: rgba(255, 255, 255, 0.07); min-height: 158px; display: flex; flex-direction: column; justify-content: space-between;">
+              <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-light-blue);">Mileage</p>
+              <p style="margin: 18px 0px 0px; font-size: clamp(27px, 3vw, 36px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; color: rgb(255, 255, 255);">Reimbursed</p>
+            </div>
+            <div style="border: 1px solid rgba(255, 255, 255, 0.19); border-radius: var(--radius-xl); padding: 23px; background: rgba(255, 255, 255, 0.07); min-height: 158px; display: flex; flex-direction: column; justify-content: space-between;">
+              <p style="margin: 0px; font-size: 11px; font-weight: 700; letter-spacing: 0.055em; text-transform: uppercase; color: var(--clairo-light-blue);">Eligible caregivers</p>
+              <p style="margin: 18px 0px 0px; font-size: clamp(27px, 3vw, 36px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; color: rgb(255, 255, 255);">Health + PTO</p>
+            </div>
+          </div>
+          <div style="margin-top: 25px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+            <a href="/wages-and-benefits"><Button>See full wages &amp; benefits →</Button></a>
+            <p style="margin: 0px; font-size: 11.5px; line-height: 18px; color: var(--text-on-navy-soft); max-width: 66ch;">*Wages vary by service, participant circumstances, available service funding, employee eligibility, and other applicable factors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="bring" style="background: var(--background); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(56px, 7vw, 86px); padding-bottom: clamp(56px, 7vw, 86px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 48px; align-items: center;">
+      <div>
+        <p class="clairo-eyebrow">Bring your existing caregiver</p>
+        <h2 class="clairo-h2">Already have someone great? Start there.</h2>
+        <p class="clairo-body">If the participant already has a caregiver who knows their routines and communication, that relationship is worth protecting. In many cases that caregiver can apply to become a Clairo employee and keep providing support.</p>
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 24px;">
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Your caregiver applies through Clairo</span></div>
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">We handle background checks, training, and onboarding</span></div>
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">Clairo becomes the employer of record for services we deliver</span></div>
+          <div class="clairo-check"><svg fill="none" height="16" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" width="16"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size: 14px; line-height: 22px;">The participant keeps the relationship they already have</span></div>
+        </div>
+        <p style="margin: 20px 0px 0px; font-size: 12.5px; line-height: 20px; color: var(--muted-foreground); max-width: 60ch;">Subject to service requirements, caregiver qualifications, onboarding, DDA rules, and the participant's individual circumstances.</p>
+      </div>
+    </div>
+  </section>
+  <section style="padding: clamp(30px, 4vw, 44px) 24px 30px; background: rgb(255, 255, 255);">
+    <div style="max-width: 1104px; margin: 0px auto; background: var(--clairo-navy); border-radius: var(--radius-2xl); padding: clamp(34px, 5vw, 58px); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+      <div style="max-width: 700px;">
+        <p class="clairo-eyebrow" style="color: var(--clairo-light-blue);">Let's talk</p>
+        <h2 style="margin: 0px; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.14; font-weight: 800; letter-spacing: -0.035em; color: rgb(255, 255, 255);">Curious what more control would look like?</h2>
+        <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Tell us about the participant, the current provider, and the caregivers you'd like to keep. We'll walk through whether Clairo could be a fit.</p>
+        <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
+      </div>
+      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+    </div>
+  </section>
+  </Site>

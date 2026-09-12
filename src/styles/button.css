@@ -1,0 +1,47 @@
+/* The design-system Button, ported from the Claude Design bundle's Button.jsx.
+   The export rendered these values as inline styles; as classes the :hover rules work
+   without JS. The parity gate compares 17 computed properties in both the resting and
+   the hovered state, so the values below must stay exactly as they are. */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-colors);
+  outline: none;
+}
+
+/* sizes */
+.ds-btn-default { height: 36px; padding: 0 16px; }
+.ds-btn-sm      { height: 32px; padding: 0 12px; font-size: var(--text-xs); }
+.ds-btn-lg      { height: 40px; padding: 0 32px; }
+
+/* variants */
+.ds-btn-fill {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow);
+}
+.ds-btn-fill:hover {
+  background: color-mix(in srgb, var(--primary) 90%, transparent);
+}
+
+.ds-btn-outline {
+  background: transparent;
+  color: var(--foreground);
+  border-color: var(--input);
+  box-shadow: var(--shadow-sm);
+}
+.ds-btn-outline:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
