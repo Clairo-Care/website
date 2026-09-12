@@ -27,15 +27,17 @@ src/styles/site.css      the page CSS that used to be an inline <style> per page
 public/                  served at the site root, unchanged: consent.js, interest-form.js,
                          assets/, favicons, icons, site.webmanifest
 api/interest.js          Vercel serverless function, untouched by the Astro port
-vercel.json              framework: astro, cleanUrls, and the legacy 308/307 redirects
+vercel.json              framework: astro, the ten clean-URL rewrites, and the legacy 308/307 redirects
 ```
 
 Two settings in `astro.config.mjs` are load-bearing:
 
 - `build.format: 'file'` emits `/about.html`, not `/about/index.html`, so the relative asset URLs
   inherited from the old export (`src="assets/logo-lockup-navy.png"`) keep resolving to
-  `/assets/...`. With `"cleanUrls": true` in `vercel.json`, `/about` serves `about.html` — the same
-  URL shape the site has always had, with no trailing-slash variant.
+  `/assets/...`. The `rewrites` in `vercel.json` map `/about` to `/about.html` — the same mechanism
+  and URL shape the site has always had, with no trailing-slash variant. Do not switch this to
+  `"cleanUrls": true`: Vercel emits its own `*.html -> /*` redirect ahead of the `redirects` list, so
+  `/About.dc.html` would be sent to `/About.dc` (a 404) instead of `/about`.
 - `compressHTML: false`. Astro's default collapses whitespace, which changes the rendered DOM. The
   port is verified against the live site's DOM node for node, so it has to stay off.
 
@@ -130,7 +132,7 @@ var VERCEL_ANALYTICS_REQUIRES_CONSENT = false;
 ```
 
 Set it to `true` and analytics waits for the same Accept as the Meta Pixel. Nothing else changes. The
-Meta Pixel stays consent-gated either way, and `privacy.dc.html` discloses both.
+Meta Pixel stays consent-gated either way, and `src/pages/privacy.astro` discloses both.
 
 The tag is added in `consent.js` rather than in each page, because `consent.js` is already in the
 `<head>` of all 11 pages. The script 404s until the toggle is on at
@@ -155,9 +157,9 @@ container with no consent handling at all for the near-zero visitors who have Ja
 `src/pages/privacy.astro` discloses it under Cookies (a "Google Analytics" block) and in the overview and sharing
 paragraphs. The banner copy names Google Analytics alongside Meta.
 
-`vercel.json` has no rewrites at all any more (clean URLs come from `"cleanUrls": true`), so
-`/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if a
-catch-all rewrite is ever added, exclude `_vercel`.
+The only rewrites in `vercel.json` are the ten exact page paths (`/about` -> `/about.html` and so
+on), so `/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if
+a catch-all rewrite is ever added, exclude `_vercel`.
 
 ### Current upstream (until go-live)
 
