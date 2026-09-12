@@ -25,7 +25,10 @@ src/styles/site.css      the page CSS that used to be an inline <style> per page
                          emitted inline, per page: the two /*PAGE-…*/ markers are where the
                          layout splices in the hero rules that only some pages may have
 public/                  served at the site root, unchanged: consent.js, interest-form.js,
-                         assets/, favicons, icons, site.webmanifest
+                         assets/, favicons, icons, site.webmanifest. NOTE: Vercel's Astro preset
+                         serves everything under /assets/ with a one-year immutable cache, so if a
+                         logo file ever changes, give it a new file name instead of replacing it
+                         in place (browsers would keep the old one for up to a year).
 api/interest.js          Vercel serverless function, untouched by the Astro port
 vercel.json              framework: astro, the ten clean-URL rewrites, and the legacy 308/307 redirects
 ```
