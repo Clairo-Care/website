@@ -315,8 +315,7 @@ async function handler(req, res) {
   return res.status(200).json({ ok: true });
 }
 
-module.exports = handler;
-module.exports.normalize = normalize;
-module.exports.buildUpstreamRequest = buildUpstreamRequest;
-module.exports.buildMetaEvent = buildMetaEvent;
-module.exports.sendMetaLead = sendMetaLead;
+// ES module exports: the repo's package.json declares "type": "module" (Astro), so Node loads this
+// file as ESM on Vercel. `module.exports` would throw "module is not defined in ES module scope".
+export default handler;
+export { normalize, buildUpstreamRequest, buildMetaEvent, sendMetaLead };
