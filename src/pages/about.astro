@@ -3,18 +3,21 @@ import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
 ---
 <Site active="about">
-  <section class="hero-grid" style="display: grid; grid-template-columns: minmax(0px, 1fr); align-items: stretch; border-bottom: 1px solid var(--border); background: linear-gradient(rgba(86, 174, 245, 0.09), rgb(255, 255, 255));">
-    <div class="hero-copy" style="display: flex; justify-content: center; padding: clamp(46px, 6vw, 86px) 24px;">
-      <div style="width: 100%; max-width: 860px;">
+  <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
+    <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
+      <div style="width: 100%; max-width: 570px;">
         <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-full); background: rgba(86, 174, 245, 0.1); color: rgb(10, 94, 164); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px;">About Clairo Care</div>
         <h1 style="margin: 0px; font-size: clamp(33px, 4.3vw, 48px); line-height: 1.07; font-weight: 800; letter-spacing: -0.036em; color: var(--clairo-navy); max-width: 24ch;">Participants deserve choice. Families deserve support. Caregivers deserve to be valued.</h1>
         <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">Clairo Care was built around those three ideas.</p>
         <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">We are a Maryland DDA provider agency (and a Pennsylvania ODP provider) built to make provider services feel more human, more transparent, and more centered on the participant.</p>
-        <div class="hero-actions" style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
           <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
           <a href="/how-it-works"><Button size="lg" variant="outline">How Clairo works</Button></a>
         </div>
       </div>
+    </div>
+    <div class="hero-image" style="position: relative; min-height: clamp(400px, 45vw, 620px);">
+      <img alt="A child enjoying a meal out with family" src="assets/photo-mealtime.jpg" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; display: block; object-position: 50% 35%;">
     </div>
   </section>
   <section style="background: var(--background); border-bottom: 1px solid var(--border);">
@@ -25,12 +28,14 @@ import Button from '../components/Button.astro';
       </div>
       <div class="two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 36px;">
         <div class="clairo-card" style="padding: 0px; overflow: hidden;">
+          <img alt="A young man smiling outdoors" src="assets/photo-young-man.png" style="width: 100%; height: 230px; object-fit: cover; display: block;">
           <div style="padding: 30px;">
             <h3 style="margin: 0px; font-size: 20px; font-weight: 800; letter-spacing: -0.025em; color: var(--clairo-navy);">Our mission</h3>
             <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 24px; color: var(--muted-foreground);">Too much funding meant for care was getting eaten up by overhead, while caregivers — the people doing the hardest, most important work — were underpaid and unsupported. At the same time, the caregiver staffing crisis has made it harder for families to find and keep trusted staff, and some providers still hesitate to hire family members at all.</p>
           </div>
         </div>
         <div class="clairo-card" style="padding: 0px; overflow: hidden;">
+          <img alt="Two caregivers standing together" src="assets/photo-pair.png" style="width: 100%; height: 230px; object-fit: cover; display: block;">
           <div style="padding: 30px;">
             <h3 style="margin: 0px; font-size: 20px; font-weight: 800; letter-spacing: -0.025em; color: var(--clairo-navy);">Our plan</h3>
             <p style="margin: 12px 0px 0px; font-size: 14.5px; line-height: 24px; color: var(--muted-foreground);">Instead of layering on overhead, we built a technology-first company that automates the administrative work that used to require large teams. That efficiency means more of every dollar can go to the people actually providing care.</p>
@@ -98,7 +103,7 @@ import Button from '../components/Button.astro';
     </div>
   </section>
   <section style="background: var(--background); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-    <div class="clairo-shell" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: minmax(0px, 760px); gap: 46px; align-items: center;">
+    <div class="clairo-shell two-col" style="padding-top: clamp(54px, 7vw, 82px); padding-bottom: clamp(54px, 7vw, 82px); display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 46px; align-items: center;">
       <div>
         <p class="clairo-eyebrow">Where we work</p>
         <h2 class="clairo-h2">Maryland and Pennsylvania.</h2>
@@ -113,6 +118,7 @@ import Button from '../components/Button.astro';
           <a href="tel:2406211353" style="font-size: 14px; font-weight: 750;">(240) 621-1353</a>
         </div>
       </div>
+      <img alt="A participant and caregiver spending time together outdoors" src="assets/photo-hero.png" style="width: 100%; height: clamp(260px, 30vw, 380px); object-fit: cover; border-radius: var(--radius-2xl); border: 1px solid var(--border); display: block;">
     </div>
   </section>
   <section style="padding: clamp(30px, 4vw, 44px) 24px 30px; background: rgb(255, 255, 255);">

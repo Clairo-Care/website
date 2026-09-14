@@ -4,8 +4,8 @@
 //
 // The markup below is the live site's rendered DOM copied verbatim, inline styles and all
 // (the parity gate diffs this against www.clairo.care). Only what genuinely differs
-// between pages is an expression: the active-nav marker, the footer tagline, the footer
-// Waiver Services link order, and the three hero-specific CSS rules.
+// between pages is an expression: the active-nav marker, the footer tagline, and the
+// footer Waiver Services link order.
 //
 // Note the missing line break at `</footer></div>` near the bottom: the live DOM has no
 // whitespace text node between those two tags, and the parity diff sees one if we add it.
@@ -20,13 +20,11 @@ import '../styles/tokens/radii.css';
 import '../styles/tokens/shadows.css';
 import '../styles/tokens/motion.css';
 import '../styles/button.css';
-// The page CSS stays an inline <style> in <head>, exactly as today: three of its rules
-// (.hero-copy centring, .hero-panel, .hero-image) belong to one hero layout each and
-// would break the other pages if they were global.
+// The page CSS stays an inline <style> in <head>, exactly as today. All eleven pages
+// share the same block -- every page's hero is the two-column copy + photo layout.
 import siteCss from '../styles/site.css?raw';
 
 type Nav = 'services' | 'how-it-works' | 'wages-and-benefits' | 'caregivers' | 'about' | 'faq';
-type Hero = 'none' | 'split' | 'centered' | 'image';
 
 interface Props {
   /** Which top-nav item gets the underline. */
@@ -35,8 +33,6 @@ interface Props {
   title?: string;
   /** /contact only: the form submit handler. */
   interestForm?: boolean;
-  /** Which hero variant's CSS this page needs. */
-  hero?: Hero;
   footerTagline?: string;
   /** /waiver-services lists its own footer links in page order. */
   waiverOrder?: string[];
@@ -46,7 +42,6 @@ const {
   active,
   title,
   interestForm = false,
-  hero = 'centered',
   footerTagline = 'Empowering Care, Elevated Lives.',
   waiverOrder = ['personal-supports', 'employment-supports', 'community-development', 'nursing-supports'],
 } = Astro.props;
@@ -71,25 +66,7 @@ const waiverLinks = waiverOrder
   .map((k) => '<a href="/waiver-services#' + k + '" style="font-size: 12.5px; color: var(--muted-foreground);">' + WAIVER_LABELS[k] + '</a>')
   .join('\n          ');
 
-const HERO_GLOBAL: Record<Hero, string> = {
-  none: '',
-  split: '',
-  image: '',
-  centered: [
-    '  .hero-copy { text-align:center; }',
-    '  .hero-copy h1, .hero-copy p { margin-left:auto !important; margin-right:auto !important; }',
-    '  .hero-copy .hero-actions { justify-content:center; }',
-  ].join('\n'),
-};
-const HERO_1040: Record<Hero, string> = {
-  none: '',
-  centered: '',
-  split: '    .hero-panel { padding:0 24px 44px !important; justify-content:flex-start !important; }',
-  image: '    .hero-image { min-height:400px !important; }',
-};
-const pageCss = siteCss
-  .replace('/*PAGE-GLOBAL*/\n', HERO_GLOBAL[hero] ? HERO_GLOBAL[hero] + '\n' : '')
-  .replace('/*PAGE-1040*/\n', HERO_1040[hero] ? HERO_1040[hero] + '\n' : '');
+const pageCss = siteCss;
 ---
 <!DOCTYPE html>
 <html>

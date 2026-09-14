@@ -8,7 +8,6 @@
   .clairo-check { display:flex; gap:10px; align-items:flex-start; }
   .clairo-check svg { flex:0 0 auto; margin-top:2px; color:var(--clairo-blue); }
   .clairo-card { border:1px solid var(--border); border-radius:var(--radius-xl); background:#fff; box-shadow:var(--shadow-sm); }
-/*PAGE-GLOBAL*/
   .nav-drop { position:relative; }
   .nav-menu { display:none; position:absolute; top:100%; left:-14px; padding-top:12px; }
   .nav-drop:hover .nav-menu, .nav-drop:focus-within .nav-menu { display:block; }
@@ -20,7 +19,7 @@
     .mobile-nav { display:block !important; }
     .hero-grid { grid-template-columns:1fr !important; }
     .hero-copy { padding:40px 24px !important; justify-content:flex-start !important; }
-/*PAGE-1040*/
+    .hero-image { min-height:400px !important; }
     .two-col { grid-template-columns:1fr !important; gap:32px !important; }
     .three-col { grid-template-columns:1fr !important; }
     .four-col { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }

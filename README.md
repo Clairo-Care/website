@@ -22,8 +22,8 @@ src/styles/tokens/*.css  the seven design-system token files, byte-identical to 
                          Clairo Care design system export; fonts.css @imports Manrope
 src/styles/button.css    the design-system Button, as classes instead of inline styles
 src/styles/site.css      the page CSS that used to be an inline <style> per page. Still
-                         emitted inline, per page: the two /*PAGE-…*/ markers are where the
-                         layout splices in the hero rules that only some pages may have
+                         emitted inline, and identical on all eleven pages — every hero is
+                         the same two-column copy + photo layout
 public/                  served at the site root, unchanged: consent.js, interest-form.js,
                          assets/, favicons, icons, site.webmanifest. NOTE: Vercel's Astro preset
                          serves everything under /assets/ with a one-year immutable cache, so if a
@@ -50,9 +50,9 @@ The site used to be `*.dc.html` files that a React runtime (`support.js`) re-ren
 browser, plus a `_ds/` design-system bundle. All of that is gone. The markup in `src/` is the
 **rendered** DOM of the live pages, copied verbatim — inline styles, `href=""` placeholders, copy
 and all — so nothing about the pages changed. Only the two design-system components (Button, Logo)
-became Astro components, and the header and footer were extracted into the layout with the four
-things that genuinely differ per page as props: the active-nav underline, the footer tagline, the
-footer Waiver Services link order, and which hero CSS the page needs.
+became Astro components, and the header and footer were extracted into the layout with the three
+things that genuinely differ per page as props: the active-nav underline, the footer tagline, and
+the footer Waiver Services link order.
 
 The parity gate for that port lives outside this repo (`scratchpad/parity` in the porting session):
 full-page screenshots at 1280/900/390, the normalized DOM, `innerText`, and 17 computed styles per
@@ -60,6 +60,15 @@ button in both resting and hover state, for all 11 pages. Result: **0 differing 
 identical text and computed styles. The rendered DOM differs only in `<head>`: nine unbundled
 stylesheets became one bundled `/_astro/*.css`, and two whitespace-only text nodes disappeared with
 the `support.js` and Claude Design script tags they used to sit next to.
+
+### Photographs (restored 2026-09-14)
+
+The stock photographs of participants and caregivers are part of eight of the pages: one in the
+hero of each, and one beside each split copy section. `3ac7ce9` (2026-09-09) had removed all of
+them; the office had only asked for the fake headshots next to reviews/testimonials to go, so
+everything except those was put back and those eight pages now render exactly as they did before
+that commit. What stays removed: `face-1..7.png`, and with them the three "A Clairo team
+member" avatars in the contact page's "Real people. Real support." block. Do not re-add them.
 
 Follow-up, deliberately not part of the port: ten of the eleven pages still have no `<title>` or
 meta description. Only `/privacy` has one.
