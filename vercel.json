@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "redirects": [
-    { "source": "/:slug(interest|Interest|INTEREST){/}?", "destination": "https://staff.clairo.care/interest", "permanent": false },
+    { "source": "/:slug(intake|Intake|INTAKE){/}?", "destination": "https://staff.clairo.care/intake", "permanent": false },
+    { "source": "/:slug(interest|Interest|INTEREST){/}?", "destination": "https://staff.clairo.care/intake", "permanent": false },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/About.dc.html", "destination": "/about", "permanent": true },
     { "source": "/caregivers.dc.html", "destination": "/caregivers", "permanent": true },
