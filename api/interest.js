@@ -15,7 +15,9 @@
 //   platform (from go-live, 2026-08-31) POST {INTEREST_PLATFORM_URL}/v1/functions/submitInterestForm.
 //            Public route, no key. NOTE: it is rate-limited to 5/hour per *source IP* and does not
 //            trust x-forwarded-for, so relaying through this function makes every visitor share
-//            Vercel's egress IPs. Once www.clairo.care is in the API's ALLOWED_ORIGINS, prefer
+//            Vercel's egress IPs — unless INTEREST_RELAY_SECRET is set, in which case the relay
+//            sends x-clairo-relay-secret + x-clairo-client-ip and the platform keys the limit on
+//            the visitor's IP. Once www.clairo.care is in the API's ALLOWED_ORIGINS, prefer
 //            posting straight from the browser (set CLAIRO_INTEREST.endpoint in interest-form.js)
 //            and leave this relay as the fallback.
 //
@@ -95,8 +97,12 @@ function normalize(body) {
 const compact = (obj) =>
   Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined && v !== null && v !== ''));
 
-/** Build {url, headers, body} for the configured upstream, or {error} if misconfigured. */
-function buildUpstreamRequest(data, env) {
+/**
+ * Build {url, headers, body} for the configured upstream, or {error} if misconfigured.
+ * `options.clientIp` is the visitor's IP (clientIp(req)); it is only used by the `platform`
+ * upstream, and only when INTEREST_RELAY_SECRET is set. Never logged.
+ */
+function buildUpstreamRequest(data, env, options = {}) {
   const upstream = (env.INTEREST_UPSTREAM || 'base44').toLowerCase();
 
   if (upstream === 'base44') {
@@ -155,10 +161,23 @@ function buildUpstreamRequest(data, env) {
 
   if (upstream === 'platform') {
     const base = (env.INTEREST_PLATFORM_URL || DEFAULT_PLATFORM_URL).replace(/\/+$/, '');
+    // The platform rate-limits submitInterestForm per source IP, which for a relayed request is
+    // Vercel's egress IP — every visitor shares one bucket. When the shared secret is configured
+    // (INTEREST_RELAY_SECRET, matching the platform's clairo/interest-relay-secret) the platform
+    // trusts x-clairo-client-ip from this relay and keys the limit on the visitor instead. With no
+    // secret set, the request is byte-for-byte what it was before this header pair existed.
+    const secret = typeof env.INTEREST_RELAY_SECRET === 'string' ? env.INTEREST_RELAY_SECRET : '';
+    const headers = { 'content-type': 'application/json' };
+    if (secret) {
+      headers['x-clairo-relay-secret'] = secret;
+      // No derivable IP (no x-forwarded-for / x-real-ip): send the secret alone and let the
+      // platform fall back to the source IP rather than forwarding a bogus value.
+      if (options.clientIp) headers['x-clairo-client-ip'] = options.clientIp;
+    }
     return {
       upstream,
       url: `${base}/v1/functions/submitInterestForm`,
-      headers: { 'content-type': 'application/json' },
+      headers,
       body: compact({ ...data, lead_source: 'website' }),
     };
   }
@@ -281,7 +300,7 @@ async function handler(req, res) {
   const { error, data } = normalize(body);
   if (error) return res.status(400).json({ ok: false, error });
 
-  const up = buildUpstreamRequest(data, process.env);
+  const up = buildUpstreamRequest(data, process.env, { clientIp: clientIp(req) });
   if (up.error) {
     console.error('[interest] misconfigured:', up.error);
     return res.status(503).json({ ok: false, error: 'The form is temporarily unavailable. Please email hello@clairo.care.' });
