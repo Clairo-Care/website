@@ -67,6 +67,11 @@ const waiverLinks = waiverOrder
   .join('\n          ');
 
 const pageCss = siteCss;
+
+// PostHog only ships on production builds. VERCEL_ENV is "production" for the production
+// deployment, "preview" for preview deployments, and unset locally, so preview and dev pages do not
+// carry the script at all. analytics.js also checks the hostname at run time.
+const analyticsOn = process.env.VERCEL_ENV === 'production';
 ---
 <!DOCTYPE html>
 <html>
@@ -82,6 +87,7 @@ const pageCss = siteCss;
 {interestForm && <script is:inline src="/interest-form.js" defer></script>}
 <!-- Tracking consent gate: loads the Meta Pixel only after the visitor accepts (see consent.js) -->
 <script is:inline src="/consent.js"></script>
+{analyticsOn && <script is:inline src="/analytics.js" defer></script>}
 <style is:inline set:html={pageCss}></style>
 </head>
 <body>

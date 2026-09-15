@@ -16,7 +16,10 @@
     { "source": "/wages-and-benefits.dc.html", "destination": "/wages-and-benefits", "permanent": true },
     { "source": "/waiver-services.dc.html", "destination": "/waiver-services", "permanent": true }
   ],
+  "trailingSlash": false,
   "rewrites": [
+    { "source": "/ingest/static/:path(.*)", "destination": "https://us-assets.i.posthog.com/static/:path*" },
+    { "source": "/ingest/:path(.*)", "destination": "https://us.i.posthog.com/:path*" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/caregivers", "destination": "/caregivers.html" },
     { "source": "/contact", "destination": "/contact.html" },
