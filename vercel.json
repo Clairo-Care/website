@@ -4,6 +4,7 @@
   "redirects": [
     { "source": "/:slug(intake|Intake|INTAKE){/}?", "destination": "https://staff.clairo.care/intake", "permanent": false },
     { "source": "/:slug(interest|Interest|INTEREST){/}?", "destination": "https://staff.clairo.care/intake", "permanent": false },
+    { "source": "/:page(about|caregivers|contact|faq|how-it-works|privacy|self-directed-services|traditional-services|wages-and-benefits|waiver-services)/", "destination": "/:page", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/About.dc.html", "destination": "/about", "permanent": true },
     { "source": "/caregivers.dc.html", "destination": "/caregivers", "permanent": true },
@@ -16,7 +17,6 @@
     { "source": "/wages-and-benefits.dc.html", "destination": "/wages-and-benefits", "permanent": true },
     { "source": "/waiver-services.dc.html", "destination": "/waiver-services", "permanent": true }
   ],
-  "trailingSlash": false,
   "rewrites": [
     { "source": "/ingest/static/:path(.*)", "destination": "https://us-assets.i.posthog.com/static/:path*" },
     { "source": "/ingest/:path(.*)", "destination": "https://us.i.posthog.com/:path*" },
