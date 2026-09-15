@@ -6,8 +6,10 @@ interface Props {
   variant?: 'default' | 'outline';
   size?: 'default' | 'sm' | 'lg';
   type?: 'button' | 'submit' | 'reset';
+  /** Set false when this button sits inside an <a>, so the link is the only tab stop. */
+  tabbable?: boolean;
 }
-const { variant = 'default', size = 'default', type = 'button' } = Astro.props;
+const { variant = 'default', size = 'default', type = 'button', tabbable = true } = Astro.props;
 const cls = `ds-btn ds-btn-${size} ${variant === 'outline' ? 'ds-btn-outline' : 'ds-btn-fill'}`;
 ---
-<button class={cls} type={type}><slot /></button>
+<button class={cls} type={type} tabindex={tabbable ? undefined : '-1'}><slot /></button>

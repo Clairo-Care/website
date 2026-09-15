@@ -16,6 +16,12 @@
  *   'https://api.clairo.care/v1/functions/submitInterestForm' — post straight to the new API once
  *   www.clairo.care is in its ALLOWED_ORIGINS (go-live 2026-08-31). No key, and the API's per-IP
  *   rate limit then applies per visitor instead of to Vercel's shared egress IPs.
+ *
+ * Analytics: at each step this script dispatches a `clairo:interest` CustomEvent on document, which
+ * public/analytics.js turns into a PostHog event. The detail carries only booleans, the service
+ * labels that were ticked, and the route answer. It never carries the name, email, phone, county,
+ * participant number, or notes text. Nothing here depends on analytics.js being present, so the form
+ * keeps working on preview deployments, for visitors who declined, and when a blocker removes it.
  */
 (function () {
   'use strict';
@@ -129,10 +135,79 @@
   }
 
   function validate(payload) {
-    if (!payload.first_name || !payload.last_name) return 'Please enter your first and last name.';
-    if (!EMAIL_RE.test(payload.family_email)) return 'Please enter a valid email address.';
+    if (!payload.first_name || !payload.last_name) {
+      return { reason: 'name', message: 'Please enter your first and last name.' };
+    }
+    if (!EMAIL_RE.test(payload.family_email)) {
+      return { reason: 'email', message: 'Please enter a valid email address.' };
+    }
     return null;
   }
+
+  /* ---------- analytics signals ---------- */
+
+  // Fire and forget. analytics.js listens; if it is not on the page nothing happens.
+  function emit(stage, props) {
+    try {
+      var detail = { stage: stage };
+      Object.keys(props || {}).forEach(function (k) { detail[k] = props[k]; });
+      document.dispatchEvent(new CustomEvent('clairo:interest', { detail: detail }));
+    } catch (e) { /* older browsers, or no CustomEvent: analytics is never worth an error */ }
+  }
+
+  // The only form values that may leave this function are the service route, the service labels the
+  // visitor ticked, and the caregiver yes/no answer. Everything else becomes a boolean.
+  function safeProps(form, payload) {
+    var caregivers = val(form, 'caregivers');
+    var answer = caregivers === 'Yes' ? 'yes'
+      : caregivers === 'No' ? 'no'
+      : caregivers ? 'not_sure'
+      : 'unanswered';
+    var services = checkedValues(form, 'services');
+    return {
+      service_route: payload.service_route || 'unanswered',
+      services_selected: services,
+      services_count: services.length,
+      has_caregiver_in_mind: answer,
+      provided_phone: !!payload.family_phone,
+      provided_county: !!payload.county,
+      provided_participant_number: !!payload.participant_number,
+      provided_notes: !!val(form, 'notes'),
+      consent_granted: !!(window.clairoConsent && window.clairoConsent.granted())
+    };
+  }
+
+  function isInterestField(el) {
+    var form = el && el.form;
+    return !!(form && form.matches && form.matches(CLAIRO_INTEREST.formSelector) && el.name && el.name !== 'website');
+  }
+
+  var formStarted = false;
+  var fieldsSeen = {};
+
+  function markStarted(e) {
+    if (formStarted || !isInterestField(e.target)) return;
+    formStarted = true;
+    emit('started');
+  }
+  document.addEventListener('focusin', markStarted);
+  document.addEventListener('input', markStarted);
+
+  function fieldFilled(el) {
+    if (el.type === 'checkbox' || el.type === 'radio') return el.checked;
+    return !!(el.value || '').trim();
+  }
+
+  function markCompleted(e) {
+    var el = e.target;
+    if (!isInterestField(el)) return;
+    if (fieldsSeen[el.name]) return;
+    if (!fieldFilled(el)) return;
+    fieldsSeen[el.name] = true;
+    emit('field_completed', { field: el.name });
+  }
+  document.addEventListener('focusout', markCompleted);
+  document.addEventListener('change', markCompleted);
 
   function setStatus(form, message, kind) {
     var el = form.querySelector('[data-interest-status]');
@@ -170,12 +245,20 @@
     if (inFlight) return;
 
     var payload = buildPayload(form);
+    emit('submit_attempted');
     var problem = validate(payload);
-    if (problem) { setStatus(form, problem, 'error'); return; }
+    if (problem) {
+      setStatus(form, problem.message, 'error');
+      emit('validation_failed', { reason: problem.reason });
+      return;
+    }
     payload.meta = metaContext();
+    var submitProps = safeProps(form, payload);
 
     var button = form.querySelector('button[type="submit"]');
     var originalLabel = button ? button.textContent : '';
+    // null until the response headers arrive, so a thrown fetch reads as a network failure.
+    var lastStatus = null;
     inFlight = true;
     if (button) { button.disabled = true; button.textContent = 'Sending…'; }
     setStatus(form, '');
@@ -186,11 +269,18 @@
       credentials: 'omit',
       body: JSON.stringify(payload)
     }).then(function (res) {
+      lastStatus = res.status;
       return res.json().catch(function () { return {}; }).then(function (data) {
-        if (res.ok && data && data.ok !== false) { showThanks(form); if (payload.meta.consent) trackLead(payload.meta.event_id); return; }
+        if (res.ok && data && data.ok !== false) {
+          showThanks(form);
+          emit('submitted', submitProps);
+          if (payload.meta.consent) trackLead(payload.meta.event_id);
+          return;
+        }
         throw new Error((data && data.error) || 'request failed');
       });
     }).catch(function (err) {
+      emit('failed', { error_kind: lastStatus === null ? 'network' : 'server', status: lastStatus });
       setStatus(form,
         (err && err.message && /[a-z]/i.test(err.message) && err.message.length < 200 && err.message !== 'request failed' && err.message !== 'Failed to fetch')
           ? err.message

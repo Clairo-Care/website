@@ -1,8 +1,17 @@
 ---
 import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.clairo.care/' },
+    { '@type': 'ListItem', position: 2, name: 'How It Works', item: 'https://www.clairo.care/how-it-works' },
+  ],
+};
 ---
-<Site active="how-it-works">
+<Site title="How Clairo Works | DDA Services Made Simpler" description="Six steps from the first conversation to starting services. You stay involved in who provides care while Clairo handles payroll, training, and billing." jsonLd={pageSchema} active="how-it-works">
   <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
     <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
       <div style="width: 100%; max-width: 570px;">
@@ -11,13 +20,13 @@ import Button from '../components/Button.astro';
         <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">You stay involved in who provides care. We carry the administration behind it.</p>
         <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">Clairo is a Maryland DDA provider agency. That means the employment, payroll, training, billing, and compliance for services we deliver sit with us — while families and participants stay at the center of building the care team.</p>
         <div style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
-          <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
-          <a href="/contact"><Button size="lg" variant="outline">Start a conversation</Button></a>
+          <a href="/contact"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
+          <a href="/contact"><Button tabbable={false} size="lg" variant="outline">Start a conversation</Button></a>
         </div>
       </div>
     </div>
     <div class="hero-image" style="position: relative; min-height: clamp(400px, 45vw, 620px);">
-      <img alt="Two caregivers standing together" src="assets/photo-pair.png" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img alt="Two caregivers standing together" fetchpriority="high" src="assets/photo-pair-w1600.jpg" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; display: block;">
     </div>
   </section>
   <section style="background: var(--background); border-bottom: 1px solid var(--border);">
@@ -149,7 +158,7 @@ import Button from '../components/Button.astro';
         <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Tell us where you're starting from and we'll map out the process for your family's situation.</p>
         <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
       </div>
-      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+      <a href="/contact" style="flex-shrink: 0;"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
     </div>
   </section>
   </Site>
