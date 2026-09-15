@@ -93,6 +93,7 @@ CareBridge.
 | `INTEREST_UPSTREAM` | no | `base44` (default), `base44-webhook`, or `platform`. |
 | `INTEREST_BASE44_URL` | no | Override; default `https://base44.app/api/apps/69f4d09c4aecc2f9c55bc483/functions/submitInterestForm`. |
 | `INTEREST_PLATFORM_URL` | no | Override; default `https://api.clairo.care`. |
+| `INTEREST_RELAY_SECRET` | no (Sensitive; production and preview) | Shared with the platform's `clairo/interest-relay-secret`; when set the platform keys its rate limit on the visitor's IP instead of Vercel's egress IP. |
 | `CLIENT_PIPELINE_WEBHOOK_KEY` | only in `base44-webhook` mode | Base44 secret of the same name. Not retrievable after creation; rotating it breaks the Jotform→Zapier zap. |
 | `INTEREST_BASE44_WEBHOOK_URL` | no | Override for `base44-webhook` mode. |
 
