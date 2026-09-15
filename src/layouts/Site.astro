@@ -29,8 +29,16 @@ type Nav = 'services' | 'how-it-works' | 'wages-and-benefits' | 'caregivers' | '
 interface Props {
   /** Which top-nav item gets the underline. */
   active?: Nav;
-  /** Only /privacy has a <title> today; giving the other ten one is a separate change. */
-  title?: string;
+  /** The <title>. Every page sets one. */
+  title: string;
+  /** The meta description and the og/twitter description. Every page sets one. Aim for 120 to 155 characters. */
+  description: string;
+  /** Absolute URL of the social share image. Defaults to the site card. */
+  image?: string;
+  /** Keep the page out of search results. Only /404 sets this. */
+  noindex?: boolean;
+  /** Extra structured data for this page, on top of the Organization block every page carries. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** /contact only: the form submit handler. */
   interestForm?: boolean;
   footerTagline?: string;
@@ -41,6 +49,10 @@ interface Props {
 const {
   active,
   title,
+  description,
+  image,
+  noindex = false,
+  jsonLd,
   interestForm = false,
   footerTagline = 'Empowering Care, Elevated Lives.',
   waiverOrder = ['personal-supports', 'employment-supports', 'community-development', 'nursing-supports'],
@@ -72,9 +84,72 @@ const pageCss = siteCss;
 // deployment, "preview" for preview deployments, and unset locally, so preview and dev pages do not
 // carry the script at all. analytics.js also checks the hostname at run time.
 const analyticsOn = process.env.VERCEL_ENV === 'production';
+
+const SITE = 'https://www.clairo.care';
+const OG_IMAGE = SITE + '/assets/og-clairo-care-2026-09.png';
+
+// build.format is 'file', so at build time Astro.url.pathname is '/about.html' and '/index.html',
+// while the URL the public sees is '/about' and '/'. This turns one into the other.
+//   '/index.html' -> '/'      '/about.html' -> '/about'
+//   '/'           -> '/'      '/about'      -> '/about'   (dev server, where no .html is present)
+function cleanPath(pathname: string): string {
+  const p = pathname.replace(/\.html$/, '');
+  return p === '/index' || p === '' ? '/' : p;
+}
+
+const canonical = SITE + cleanPath(Astro.url.pathname);
+const ogImage = image || OG_IMAGE;
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'MedicalBusiness'],
+  '@id': SITE + '/#organization',
+  name: 'Clairo Care',
+  legalName: 'Clairo Care LLC',
+  url: SITE,
+  logo: SITE + '/assets/logo-lockup-navy.png',
+  image: OG_IMAGE,
+  description:
+    'Clairo Care is a Maryland DDA and Pennsylvania ODP provider agency for people with intellectual and developmental disabilities.',
+  telephone: '+1-240-621-1353',
+  email: 'hello@clairo.care',
+  // The mailing address published on /contact. Nothing here is invented.
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '199 E Montgomery Ave',
+    addressLocality: 'Rockville',
+    addressRegion: 'MD',
+    postalCode: '20850',
+    addressCountry: 'US',
+  },
+  areaServed: [
+    { '@type': 'State', name: 'Maryland' },
+    { '@type': 'State', name: 'Pennsylvania' },
+  ],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-240-621-1353',
+      email: 'hello@clairo.care',
+      contactType: 'customer service',
+      areaServed: ['US-MD', 'US-PA'],
+      availableLanguage: 'English',
+    },
+  ],
+};
+
+const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,7 +158,28 @@ const analyticsOn = process.env.VERCEL_ENV === 'production';
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0F1729">
-{title && <title>{title}</title>}
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+{noindex && <meta name="robots" content="noindex, nofollow">}
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clairo Care">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Clairo Care: self-directed and traditional DDA services in Maryland and Pennsylvania">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={ogImage}>
+{structuredData.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)}></script>
+))}
 {interestForm && <script is:inline src="/interest-form.js" defer></script>}
 <!-- Tracking consent gate: loads the Meta Pixel only after the visitor accepts (see consent.js) -->
 <script is:inline src="/consent.js"></script>

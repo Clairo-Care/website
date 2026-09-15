@@ -1,0 +1,20 @@
+---
+// Astro writes this to dist/404.html and Vercel serves it for any path that matches no file and no
+// rewrite in vercel.json. The rewrites there all name a specific path, so nothing collides with it.
+import Site from '../layouts/Site.astro';
+import Button from '../components/Button.astro';
+---
+<Site title="Page not found | Clairo Care" description="That page is not here. Start from the Clairo Care home page, or get in touch and we will point you to what you were looking for." noindex={true}>
+  <section style="background: var(--background); border-bottom: 1px solid var(--border);">
+    <div class="clairo-shell" style="padding-top: clamp(52px, 6vw, 78px); padding-bottom: clamp(44px, 5vw, 60px);">
+      <p class="clairo-eyebrow">404</p>
+      <h1 style="margin: 0px; font-size: clamp(31px, 4vw, 44px); line-height: 1.1; font-weight: 800; letter-spacing: -0.035em; color: var(--clairo-navy); max-width: 22ch;">That page is not here.</h1>
+      <p style="margin: 18px 0px 0px; font-size: 16px; line-height: 27px; color: var(--muted-foreground); max-width: 64ch;">The link may be out of date, or the address may have a typo in it. Start again from the home page, or tell us what you were looking for and we will point you to it.</p>
+      <div style="display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap;">
+        <a href="/"><Button size="lg">Go to the home page</Button></a>
+        <a href="/contact"><Button size="lg" variant="outline">Talk to Clairo</Button></a>
+      </div>
+      <p style="margin: 22px 0px 0px; font-size: 14px; line-height: 23px; color: var(--muted-foreground);">Or reach us directly at <a href="mailto:hello@clairo.care" style="font-weight: 650;">hello@clairo.care</a> or <a href="tel:2406211353" style="font-weight: 650;">(240) 621-1353</a>.</p>
+    </div>
+  </section>
+</Site>

@@ -1,8 +1,17 @@
 ---
 import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://www.clairo.care/#website',
+  name: 'Clairo Care',
+  url: 'https://www.clairo.care',
+  publisher: { '@id': 'https://www.clairo.care/#organization' },
+};
 ---
-<Site footerTagline="Empowering Care, Improving Lives.">
+<Site title="Clairo Care | Maryland DDA Services with More Choice" description="Clairo Care is a Maryland DDA provider agency. Families help choose the care team, caregivers are paid well, and we carry the administration." jsonLd={pageSchema} footerTagline="Empowering Care, Improving Lives.">
   <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
     <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
       <div style="width: 100%; max-width: 570px;">

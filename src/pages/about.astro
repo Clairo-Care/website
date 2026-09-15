@@ -1,8 +1,26 @@
 ---
 import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
+
+const pageSchema = [
+{
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Clairo Care',
+  url: 'https://www.clairo.care/about',
+  about: { '@id': 'https://www.clairo.care/#organization' },
+},
+{
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.clairo.care/' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.clairo.care/about' },
+  ],
+},
+];
 ---
-<Site active="about">
+<Site title="About Clairo Care | Participant-Centered DDA Services" description="Clairo Care is a Maryland DDA and Pennsylvania ODP provider built so more of every service dollar reaches caregivers and participants stay central." jsonLd={pageSchema} active="about">
   <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
     <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
       <div style="width: 100%; max-width: 570px;">

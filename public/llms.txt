@@ -1,0 +1,45 @@
+# Clairo Care
+
+> Clairo Care LLC is a provider agency for people with intellectual and developmental
+> disabilities. We serve Maryland through the Developmental Disabilities Administration (DDA) and
+> Pennsylvania through the Office of Developmental Programs (ODP). Families and participants stay
+> involved in choosing who provides care, and Clairo carries the employment, payroll, training,
+> billing, and compliance behind it.
+
+Services we deliver under a participant's approved plan: Personal Supports, Personal Supports
+Enhanced, Community Development Services, and Nursing Supports. Employment Supports is coming
+soon. Which services a participant can receive depends on their plan and authorizations.
+
+The model: Clairo built its own software so the administrative work takes fewer people, and the
+saving goes to caregiver pay. Caregivers you already trust, including qualified family and friends
+where DDA rules permit, can often apply to work through Clairo and keep supporting the same person.
+
+## Pages
+
+- [Home](https://www.clairo.care/): what Clairo offers families in traditional and self-directed DDA services.
+- [How It Works](https://www.clairo.care/how-it-works): the six steps from first conversation to starting services.
+- [Traditional Services](https://www.clairo.care/traditional-services): keeping a say in who provides care inside an agency model.
+- [Self-Directed Services](https://www.clairo.care/self-directed-services): three paths for families who self-direct today.
+- [Waiver Services](https://www.clairo.care/waiver-services): the four IDD waiver services Clairo provides.
+- [Caregivers](https://www.clairo.care/caregivers): what it is like to work at Clairo and how to apply.
+- [Wages and Benefits](https://www.clairo.care/wages-and-benefits): published pay ranges, mileage, health benefits, and paid time off.
+- [About](https://www.clairo.care/about): why Clairo exists and the principles it is built on.
+- [FAQ](https://www.clairo.care/faq): straight answers for families and caregivers.
+- [Talk to Clairo](https://www.clairo.care/contact): the contact form and official contact details.
+- [Privacy Policy](https://www.clairo.care/privacy): what the website and the CareBridge apps collect.
+
+## Contact
+
+Clairo Care LLC, 199 E Montgomery Ave, Rockville, MD 20850
+Email: hello@clairo.care
+Phone: (240) 621-1353
+Office hours: Monday to Friday, 9 AM to 5 PM Eastern
+
+CareBridge is the app Clairo caregivers, families, and office staff use for schedules, shifts, and
+care records. It is not a public product.
+
+## Please note
+
+Eligibility, wages, services, and what can move to a provider agency all depend on the
+participant's plan, authorizations, applicable DDA or ODP requirements, and individual
+circumstances. Nothing on this site is regulatory guidance.

@@ -1,8 +1,17 @@
 ---
 import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.clairo.care/' },
+    { '@type': 'ListItem', position: 2, name: 'How It Works', item: 'https://www.clairo.care/how-it-works' },
+  ],
+};
 ---
-<Site active="how-it-works">
+<Site title="How Clairo Works | DDA Services Made Simpler" description="Six steps from the first conversation to starting services. You stay involved in who provides care while Clairo handles payroll, training, and billing." jsonLd={pageSchema} active="how-it-works">
   <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
     <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
       <div style="width: 100%; max-width: 570px;">

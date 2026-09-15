@@ -1,8 +1,17 @@
 ---
 import Site from '../layouts/Site.astro';
 import Button from '../components/Button.astro';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.clairo.care/' },
+    { '@type': 'ListItem', position: 2, name: 'Wages and Benefits', item: 'https://www.clairo.care/wages-and-benefits' },
+  ],
+};
 ---
-<Site active="wages-and-benefits">
+<Site title="Caregiver Wages and Benefits | Clairo Care" description="What Clairo Care pays caregivers and why. Hourly ranges, mileage reimbursement, and health benefits and paid time off for eligible employees." jsonLd={pageSchema} active="wages-and-benefits">
   <section class="hero-grid" style="display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: stretch; border-bottom: 1px solid var(--border);">
     <div class="hero-copy" style="display: flex; justify-content: flex-end; padding: clamp(46px, 6vw, 86px) clamp(24px, 4vw, 58px);">
       <div style="width: 100%; max-width: 570px;">
