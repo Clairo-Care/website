@@ -183,6 +183,8 @@ const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? json
 {interestForm && <script is:inline src="/interest-form.js" defer></script>}
 <!-- Tracking consent gate: loads the Meta Pixel only after the visitor accepts (see consent.js) -->
 <script is:inline src="/consent.js"></script>
+<!-- Keyboard support for the Clairo Services menu; hover and focus-within are pure CSS -->
+<script is:inline src="/nav.js" defer></script>
 {analyticsOn && <script is:inline src="/analytics.js" defer></script>}
 <style is:inline set:html={pageCss}></style>
 </head>
@@ -196,8 +198,8 @@ const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? json
       </a>
       <nav class="desktop-nav" style="display: flex; gap: 22px; margin-left: auto; align-items: center;">
         <div class="nav-drop">
-          <span aria-haspopup="true" role="button" style={servicesStyle} tabindex="0">Clairo Services<svg fill="none" height="13" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="13"><path d="m6 9 6 6 6-6"></path></svg></span>
-          <div class="nav-menu">
+          <span aria-controls="clairo-services-menu" aria-expanded="false" aria-haspopup="true" role="button" style={servicesStyle} tabindex="0">Clairo Services<svg fill="none" height="13" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="13"><path d="m6 9 6 6 6-6"></path></svg></span>
+          <div class="nav-menu" id="clairo-services-menu">
             <div style="min-width: 230px; background: rgb(255, 255, 255); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 8px; display: flex; flex-direction: column;">
               <a href="/traditional-services" style="padding: 10px 12px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; color: var(--clairo-navy);">Traditional Services</a>
               <a href="/self-directed-services" style="padding: 10px 12px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; color: var(--clairo-navy);">Self-Directed Services</a>
@@ -212,7 +214,7 @@ const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? json
         <a href="/faq" style={navStyle('faq')}>FAQ</a>
       </nav>
       <div class="desktop-nav" style="flex-shrink: 0;">
-        <a href="/contact"><Button size="sm">Talk to Clairo</Button></a>
+        <a href="/contact"><Button size="sm" tabbable={false}>Talk to Clairo</Button></a>
       </div>
       <details class="mobile-nav" style="margin-left: auto;">
         <summary style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--clairo-navy);"><svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></summary>

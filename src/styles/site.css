@@ -10,7 +10,7 @@
   .clairo-card { border:1px solid var(--border); border-radius:var(--radius-xl); background:#fff; box-shadow:var(--shadow-sm); }
   .nav-drop { position:relative; }
   .nav-menu { display:none; position:absolute; top:100%; left:-14px; padding-top:12px; }
-  .nav-drop:hover .nav-menu, .nav-drop:focus-within .nav-menu { display:block; }
+  .nav-drop:hover .nav-menu, .nav-drop:focus-within .nav-menu, .nav-drop.open .nav-menu { display:block; }
   .mobile-nav { display:none; }
   .mobile-nav summary { list-style:none; cursor:pointer; }
   .mobile-nav summary::-webkit-details-marker { display:none; }
