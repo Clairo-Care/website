@@ -21,6 +21,11 @@
  * (page counts, no identifiers). Accept on the banner upgrades consent to granted, the same click that
  * loads the Meta Pixel, and Decline leaves it denied. So the analytics counter works for everyone, like
  * Vercel's, while cookies and cross-visit identifiers still wait for an Accept, like Meta's.
+ *
+ * PostHog (added 2026-09-14, production builds only, see public/analytics.js) takes the same shape as
+ * GTM: it counts from the first page view but with memory-only storage and session replay switched
+ * off, so nothing is written to the visitor's device until Accept. Both choices are announced here as
+ * a `clairo:consent` CustomEvent on document, which analytics.js listens for.
  */
 (function () {
   'use strict';
@@ -134,8 +139,9 @@
       style: 'margin:0; font-size:13.5px; line-height:21px; color:var(--muted-foreground, #4b5563); max-width:62ch',
     });
     text.appendChild(document.createTextNode(
-      'We use Google Analytics and a Meta (Facebook) advertising pixel to understand how families find Clairo and to measure our ads. ' +
-      'Until you accept, Google counts visits without cookies and Meta gets nothing. We never share what you type into our forms with either. '
+      'We use Google Analytics and PostHog to understand how families find and use this site, and a Meta (Facebook) advertising pixel ' +
+      'to measure our ads. Until you accept, Google and PostHog count visits without cookies and Meta gets nothing. ' +
+      'We never share what you type into our forms with any of them. '
     ));
     var link = el('a', { href: PRIVACY_URL, text: 'Privacy Policy', style: 'font-weight:650; color:var(--clairo-blue, #1d6fd1)' });
     text.appendChild(link);
@@ -173,14 +179,23 @@
   }
   function hide() { if (banner) banner.hidden = true; }
 
+  /* Announce the choice so anything else on the page can react. analytics.js uses it to switch
+   * PostHog between memory-only and first-party storage, and to start or stop session replay. */
+  function announce(status) {
+    try {
+      document.dispatchEvent(new CustomEvent('clairo:consent', { detail: { status: status } }));
+    } catch (e) { /* no CustomEvent: the banner still works */ }
+  }
+
   function acceptAll() {
     write('granted');
     hide();
     loadPixel();
     updateGtmConsent(true);
     if (VERCEL_ANALYTICS_REQUIRES_CONSENT) loadVercelAnalytics();
+    announce('granted');
   }
-  function declineAll() { write('denied'); hide(); updateGtmConsent(false); }
+  function declineAll() { write('denied'); hide(); updateGtmConsent(false); announce('denied'); }
 
   /* Footer "Cookie preferences" link (any element with data-consent-open) reopens the banner. */
   document.addEventListener('click', function (e) {
