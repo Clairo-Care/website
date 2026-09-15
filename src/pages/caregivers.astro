@@ -20,8 +20,8 @@ const pageSchema = {
         <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">Competitive wages, mileage, benefits for eligible employees, and a coordinator who knows your name.</p>
         <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">Caregiving is skilled, demanding work. Clairo Care was built on the belief that the people providing support should be compensated and supported accordingly.</p>
         <div style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
-          <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
-          <a href="/wages-and-benefits"><Button size="lg" variant="outline">See wages &amp; benefits</Button></a>
+          <a href="/contact"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
+          <a href="/wages-and-benefits"><Button tabbable={false} size="lg" variant="outline">See wages &amp; benefits</Button></a>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@ const pageSchema = {
             </div>
           </div>
           <div style="margin-top: 25px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-            <a href="/wages-and-benefits"><Button>See full wages &amp; benefits →</Button></a>
+            <a href="/wages-and-benefits"><Button tabbable={false}>See full wages &amp; benefits →</Button></a>
             <p style="margin: 0px; font-size: 11.5px; line-height: 18px; color: var(--text-on-navy-soft); max-width: 66ch;">*Wages vary by service, participant circumstances, available service funding, employee eligibility, and other applicable factors.</p>
           </div>
         </div>
@@ -150,7 +150,7 @@ const pageSchema = {
         <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Whether you already support a participant or you're new to this work, start with a conversation.</p>
         <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
       </div>
-      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+      <a href="/contact" style="flex-shrink: 0;"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
     </div>
   </section>
   </Site>

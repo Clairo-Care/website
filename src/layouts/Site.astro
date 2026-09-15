@@ -37,6 +37,10 @@ interface Props {
   image?: string;
   /** Keep the page out of search results. Only /404 sets this. */
   noindex?: boolean;
+  /** Only /404 sets this. Vercel serves 404.html at any depth (/foo/bar), where the header and footer
+   *  logo, written as src="assets/...", would otherwise resolve to /foo/assets/... A <base href="/">
+   *  fixes that on this one page and is omitted everywhere else, so the other pages do not change. */
+  baseHref?: boolean;
   /** Extra structured data for this page, on top of the Organization block every page carries. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** /contact only: the form submit handler. */
@@ -52,6 +56,7 @@ const {
   description,
   image,
   noindex = false,
+  baseHref = false,
   jsonLd,
   interestForm = false,
   footerTagline = 'Empowering Care, Elevated Lives.',
@@ -152,7 +157,7 @@ const structuredData = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? json
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">{baseHref && <base href="/">}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

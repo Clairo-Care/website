@@ -34,8 +34,8 @@ const pageSchema = [
         <p style="margin: 20px 0px 0px; font-size: 18.5px; line-height: 29px; font-weight: 650; color: var(--clairo-blue); max-width: 48ch;">Four services, delivered by people the participant knows and trusts.</p>
         <p style="margin: 16px 0px 0px; font-size: 15.5px; line-height: 26px; color: var(--muted-foreground); max-width: 54ch;">Clairo Care provides Maryland DDA and Pennsylvania ODP services under the participant's approved plan. Which services apply depends on authorizations and individual circumstances — we'll help you understand what fits.</p>
         <div style="display: flex; gap: 12px; margin-top: 28px; align-items: center; flex-wrap: wrap;">
-          <a href="/contact"><Button size="lg">Talk to Clairo</Button></a>
-          <a href="/contact"><Button size="lg" variant="outline">Ask about a service</Button></a>
+          <a href="/contact"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
+          <a href="/contact"><Button tabbable={false} size="lg" variant="outline">Ask about a service</Button></a>
         </div>
       </div>
     </div>
@@ -164,7 +164,7 @@ const pageSchema = [
         <p style="margin: 14px 0px 0px; font-size: 15px; line-height: 25px; color: var(--text-on-navy-soft);">Tell us what's in the participant's plan and we'll help you understand which Clairo services could fit.</p>
         <p style="margin: 10px 0px 0px; font-size: 12.5px; color: var(--text-on-navy-soft);">No pressure. Just a conversation about your options.</p>
       </div>
-      <a href="/contact" style="flex-shrink: 0;"><Button size="lg">Talk to Clairo</Button></a>
+      <a href="/contact" style="flex-shrink: 0;"><Button tabbable={false} size="lg">Talk to Clairo</Button></a>
     </div>
   </section>
   </Site>
