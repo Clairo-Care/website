@@ -31,3 +31,16 @@
     .four-col { grid-template-columns:1fr !important; }
     .foot-grid { grid-template-columns:1fr !important; }
   }
+  /* S9: at 320px the header row could not fit. The lockup is 231px wide (its 34px
+     height against the file's 1441x212 aspect) and is flex-shrink:0, so with the
+     shell's 24px gutters, the 24px gap and the 44px menu button the row needed
+     349px of a 320px viewport and the page scrolled sideways. Below 400px the
+     lockup is allowed to shrink instead; object-fit:contain on the <img> keeps it
+     in proportion, the 44px menu button keeps its tap target, and nothing changes
+     at 400px and up, where the row already fits. */
+  @media (max-width:400px) {
+    header .clairo-shell { gap:12px !important; }
+    header .clairo-shell > a:first-child { flex-shrink:1 !important; min-width:0; }
+    header .clairo-shell > a:first-child img { max-width:100%; }
+    header .clairo-shell > details.mobile-nav { flex-shrink:0 !important; }
+  }
