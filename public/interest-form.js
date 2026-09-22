@@ -32,7 +32,22 @@
   };
 
   // Labels on the page → values the backend stores. Keep in sync with the /contact page (contact.dc.html).
-  var ROUTE_MAP = { 'traditional': 'traditional', 'self-directed': 'self_directed' };
+  // The radio values are whole phrases ("Traditional services", "Self-Directed", "Not sure", "New to
+  // DDA services"), so the lookup is on an exact prefix of the lower-cased label, not the whole
+  // string. Anything else stays undefined and the label is kept verbatim in the notes below.
+  var ROUTE_PREFIXES = [
+    { prefix: 'traditional', value: 'traditional' },
+    { prefix: 'self-directed', value: 'self_directed' }
+  ];
+
+  function normaliseRoute(label) {
+    var lower = (label || '').toLowerCase();
+    for (var i = 0; i < ROUTE_PREFIXES.length; i++) {
+      if (lower.indexOf(ROUTE_PREFIXES[i].prefix) === 0) return ROUTE_PREFIXES[i].value;
+    }
+    return undefined;
+  }
+
   var SERVICE_MAP = {
     'personal supports': 'Personal Supports',
     'community development services': 'Community Development',
@@ -66,7 +81,7 @@
     var last_name = parts.slice(1).join(' ');
 
     var routeLabel = val(form, 'route');
-    var service_route = ROUTE_MAP[routeLabel.toLowerCase()];
+    var service_route = normaliseRoute(routeLabel);
 
     var services_selected = [];
     var extraServices = [];
@@ -282,7 +297,10 @@
     }).catch(function (err) {
       emit('failed', { error_kind: lastStatus === null ? 'network' : 'server', status: lastStatus });
       setStatus(form,
-        (err && err.message && /[a-z]/i.test(err.message) && err.message.length < 200 && err.message !== 'request failed' && err.message !== 'Failed to fetch')
+        // A server message is shown only when it reads as a sentence. The gates answer with machine
+        // codes (forbidden_origin, rate_limited, not_configured, payload_too_large); those have no
+        // whitespace, so they fall through to the generic copy instead of reaching a family.
+        (err && err.message && /[a-z]/i.test(err.message) && /\s/.test(err.message) && err.message.length < 200 && err.message !== 'request failed' && err.message !== 'Failed to fetch')
           ? err.message
           : 'We could not send your message. Please try again, or email hello@clairo.care.',
         'error');
@@ -290,5 +308,6 @@
     }).then(function () { inFlight = false; });
   });
 
+  CLAIRO_INTEREST.normaliseRoute = normaliseRoute;
   window.CLAIRO_INTEREST = CLAIRO_INTEREST;
 })();

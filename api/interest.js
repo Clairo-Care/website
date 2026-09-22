@@ -1,28 +1,29 @@
-// POST /api/interest — server-side relay for the "Talk to Clairo" form (the /contact page).
+// POST /api/interest - server-side relay for the "Talk to Clairo" form (the /contact page).
 //
-// WHY THIS EXISTS: the site is static HTML on Vercel. Today's upstream (Base44's
-// `clientPipelineWebhook`) needs an `x-api-key`, and a key in client-side JS is a key anyone can
-// read. This function holds the key in a Vercel env var and forwards a validated, size-capped
-// payload. The browser only ever talks to this same-origin route.
+// WHY THIS EXISTS: the site is static HTML on Vercel. The browser posts to this same-origin route
+// and this function forwards a validated, size-capped payload to the Clairo platform with the
+// shared relay secret attached, so the platform can key its own rate limit on the visitor's IP
+// instead of Vercel's egress IPs. Nothing secret is ever in the browser bundle.
 //
-// UPSTREAMS (select with INTEREST_UPSTREAM):
-//   base44   (default until cutover) POST Base44's `submitInterestForm` — the same public, key-less
-//            function the staff app's own /interest page calls. Lands as a ClientPipeline row with
-//            pipeline_status "interest" (an Interest tile). No secret involved.
-//   base44-webhook  Alternative: `clientPipelineWebhook?action=create` with x-api-key
-//            CLIENT_PIPELINE_WEBHOOK_KEY. Only if that key is ever in hand (it is not retrievable
-//            from Base44 after creation and rotating it breaks the Jotform→Zapier zap).
-//   platform (from go-live, 2026-08-31) POST {INTEREST_PLATFORM_URL}/v1/functions/submitInterestForm.
-//            Public route, no key. NOTE: it is rate-limited to 5/hour per *source IP* and does not
-//            trust x-forwarded-for, so relaying through this function makes every visitor share
-//            Vercel's egress IPs — unless INTEREST_RELAY_SECRET is set, in which case the relay
-//            sends x-clairo-relay-secret + x-clairo-client-ip and the platform keys the limit on
-//            the visitor's IP. Once www.clairo.care is in the API's ALLOWED_ORIGINS, prefer
-//            posting straight from the browser (set CLAIRO_INTEREST.endpoint in interest-form.js)
-//            and leave this relay as the fallback.
+// UPSTREAM: the platform only. POST {INTEREST_PLATFORM_URL}/v1/functions/submitInterestForm.
+// The old `base44` and `base44-webhook` modes are gone (dead vendor). INTEREST_UPSTREAM is now
+// optional: unset or `platform` means platform, any other value is a misconfiguration that answers
+// 503 and forwards nothing.
 //
-// The browser sends the canonical (platform-shaped) payload built in interest-form.js; the base44
-// adapter below only renames what differs. Nothing here logs form contents — only upstream status.
+// FAIL CLOSED. The relay never forwards unless it is fully configured:
+//   production (VERCEL_ENV === 'production'): INTEREST_PLATFORM_URL defaults to
+//     https://api.clairo.care and INTEREST_RELAY_SECRET is REQUIRED.
+//   everywhere else (vercel dev, previews): BOTH INTEREST_PLATFORM_URL and INTEREST_RELAY_SECRET
+//     must be set explicitly, otherwise 503 and nothing leaves the function.
+//
+// GATES, in order: 405 method, 403 origin, 413 oversized body, 200 honeypot, 429 rate, 400
+// validation, 503 config, then forward (502/200). The honeypot has to come after the body is read
+// because it IS a body field; everything before it costs nothing but a header read.
+//
+// ORIGIN: same-origin by design. A POST whose Origin (or, when Origin is missing or "null", whose
+// Referer) does not resolve to exactly one of ALLOWED_ORIGINS gets 403 and never reaches the
+// platform. No CORS headers are sent, so a cross-origin browser call cannot read the answer either.
+// Preview aliases such as clairo-website.vercel.app are deliberately NOT allowlisted in production.
 //
 // META CONVERSIONS API: after the upstream accepts a lead, the same `Lead` event is posted to Meta
 // server-side (graph.facebook.com/<version>/<pixel>/events). It carries only ad-attribution context:
@@ -44,13 +45,21 @@ const META_DEFAULT_SOURCE_URL = 'https://www.clairo.care/contact';
 const FB_COOKIE_RE = /^fb\.\d\.\d{1,20}\.[A-Za-z0-9_.-]{1,500}$/;
 const EVENT_ID_RE = /^[A-Za-z0-9_.:-]{8,64}$/;
 
-const BASE44_APP_ID = '69f4d09c4aecc2f9c55bc483';
-const BASE44_FUNCTIONS = `https://base44.app/api/apps/${BASE44_APP_ID}/functions`;
-const DEFAULT_BASE44_URL = `${BASE44_FUNCTIONS}/submitInterestForm`;
-const DEFAULT_BASE44_WEBHOOK_URL = `${BASE44_FUNCTIONS}/clientPipelineWebhook?action=create`;
-const WEBSITE_TAG = 'Submitted via clairo.care website.';
 const DEFAULT_PLATFORM_URL = 'https://api.clairo.care';
 const UPSTREAM_TIMEOUT_MS = 10_000;
+
+// Same-origin only. Exact origin match after new URL(...).origin, never a prefix test.
+const ALLOWED_ORIGINS = ['https://www.clairo.care', 'https://clairo.care'];
+const LOCALHOST_ORIGIN_RE = /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/;
+
+// Best effort, per warm instance. Vercel keeps several instances and recycles them, so this is a
+// first gate that costs a bot something, not an authoritative limit. The platform's own 5/hour per
+// IP and 3/day per email hash (keyed on x-clairo-client-ip) remain the real ceiling.
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT_MAX_KEYS = 2000;
+
+const MAX_BODY_BYTES = 64 * 1024;
 
 const SERVICE_ENUM = new Set(['Personal Supports', 'Community Development', 'Respite', 'Job Supports']);
 const ROUTE_ENUM = new Set(['traditional', 'self_directed']);
@@ -97,92 +106,125 @@ function normalize(body) {
 const compact = (obj) =>
   Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined && v !== null && v !== ''));
 
+/* ---------- configuration, origin, rate limit: pure and unit-testable ---------- */
+
 /**
- * Build {url, headers, body} for the configured upstream, or {error} if misconfigured.
- * `options.clientIp` is the visitor's IP (clientIp(req)); it is only used by the `platform`
- * upstream, and only when INTEREST_RELAY_SECRET is set. Never logged.
+ * Resolve the upstream configuration from the environment. Returns {error} when the relay must
+ * fail closed, or {upstream, url, secret} when it is safe to forward.
+ *
+ * INTEREST_UPSTREAM is optional and is trimmed + lower-cased; unset or 'platform' means platform,
+ * anything else is a misconfiguration. An empty INTEREST_RELAY_SECRET counts as unset.
  */
-function buildUpstreamRequest(data, env, options = {}) {
-  const upstream = (env.INTEREST_UPSTREAM || 'base44').toLowerCase();
-
-  if (upstream === 'base44') {
-    // `base44/functions/submitInterestForm/entry.ts`: anonymous by design, keyed on family_email
-    // (a repeat email updates the existing tile), sets pipeline_status "interest", matchmaker true,
-    // has_jotform false, source "Maryland Interest Form". It hardcodes `source` and its lead_source
-    // enum has no "website" value, so the origin is stamped into the notes instead — the one field
-    // an admin reads on the tile.
-    return {
-      upstream,
-      url: env.INTEREST_BASE44_URL || DEFAULT_BASE44_URL,
-      headers: { 'content-type': 'application/json' },
-      body: compact({
-        first_name: data.first_name,
-        last_name: data.last_name,
-        family_email: data.family_email,
-        family_phone: data.family_phone,
-        county: data.county,
-        service_route: data.service_route,
-        services_selected: data.services_selected,
-        has_caregiver_in_mind: data.has_caregiver_in_mind,
-        services_needed_description: data.services_needed_description
-          ? `${WEBSITE_TAG} ${data.services_needed_description}`
-          : WEBSITE_TAG,
-      }),
-    };
+function resolveConfig(env = {}) {
+  const upstream = String(env.INTEREST_UPSTREAM ?? '').trim().toLowerCase();
+  if (upstream && upstream !== 'platform') {
+    return { error: `unsupported INTEREST_UPSTREAM "${upstream}"` };
   }
 
-  if (upstream === 'base44-webhook') {
-    const key = env.CLIENT_PIPELINE_WEBHOOK_KEY;
-    if (!key) return { error: 'CLIENT_PIPELINE_WEBHOOK_KEY is not set' };
-    // Field names per Logan's 2026-08-28 Base44 session + carebridge1 a413ed5 (webhook mapping).
-    // The webhook forces lead_source="jotform"/has_jotform=true itself; `source` is free text and is
-    // what tells an admin on the pipeline board where the tile came from.
-    return {
-      upstream,
-      url: env.INTEREST_BASE44_WEBHOOK_URL || DEFAULT_BASE44_WEBHOOK_URL,
-      headers: { 'content-type': 'application/json', 'x-api-key': key },
-      body: compact({
-        first_name: data.first_name,
-        last_name: data.last_name,
-        family_contact_name: `${data.first_name} ${data.last_name}`,
-        family_email: data.family_email,
-        family_phone: data.family_phone,
-        county: data.county,
-        state: 'MD',
-        service_route: data.service_route,
-        services_selected: data.services_selected,
-        has_caregiver_in_mind: data.has_caregiver_in_mind,
-        services_needed_notes: data.services_needed_description,
-        source: 'clairo.care website',
-        pipeline_status: 'interest',
-      }),
-    };
+  const rawSecret = typeof env.INTEREST_RELAY_SECRET === 'string' ? env.INTEREST_RELAY_SECRET : '';
+  const secret = rawSecret.trim() ? rawSecret : '';
+  if (!secret) return { error: 'INTEREST_RELAY_SECRET is not set' };
+
+  const rawBase = typeof env.INTEREST_PLATFORM_URL === 'string' ? env.INTEREST_PLATFORM_URL.trim() : '';
+  const isProduction = env.VERCEL_ENV === 'production';
+  // Outside production (vercel dev, previews) nothing is forwarded unless the target was named
+  // explicitly, so a preview can never post a test lead at the production API by default.
+  if (!isProduction && !rawBase) {
+    return { error: 'INTEREST_PLATFORM_URL is not set (required outside production)' };
   }
 
-  if (upstream === 'platform') {
-    const base = (env.INTEREST_PLATFORM_URL || DEFAULT_PLATFORM_URL).replace(/\/+$/, '');
-    // The platform rate-limits submitInterestForm per source IP, which for a relayed request is
-    // Vercel's egress IP — every visitor shares one bucket. When the shared secret is configured
-    // (INTEREST_RELAY_SECRET, matching the platform's clairo/interest-relay-secret) the platform
-    // trusts x-clairo-client-ip from this relay and keys the limit on the visitor instead. With no
-    // secret set, the request is byte-for-byte what it was before this header pair existed.
-    const secret = typeof env.INTEREST_RELAY_SECRET === 'string' ? env.INTEREST_RELAY_SECRET : '';
-    const headers = { 'content-type': 'application/json' };
-    if (secret) {
-      headers['x-clairo-relay-secret'] = secret;
-      // No derivable IP (no x-forwarded-for / x-real-ip): send the secret alone and let the
-      // platform fall back to the source IP rather than forwarding a bogus value.
-      if (options.clientIp) headers['x-clairo-client-ip'] = options.clientIp;
+  const base = (rawBase || DEFAULT_PLATFORM_URL).replace(/\/+$/, '');
+  return { upstream: 'platform', url: `${base}/v1/functions/submitInterestForm`, secret };
+}
+
+/** The origin of a header value, or undefined when it is absent, "null", or unparseable. */
+function headerOrigin(value) {
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (!raw || typeof raw !== 'string') return undefined;
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed === 'null') return undefined;
+  try {
+    return new URL(trimmed).origin;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Same-origin gate. Uses Origin, falling back to the Referer's origin when Origin is missing or
+ * "null". The comparison is an exact match on new URL(...).origin, never a prefix or substring.
+ * Outside production, localhost (any port) and the deployment's own https://VERCEL_URL pass too.
+ * Returns {ok, origin}.
+ */
+function checkOrigin(headers = {}, env = {}) {
+  const origin = headerOrigin(headers.origin) || headerOrigin(headers.referer);
+  if (!origin) return { ok: false, origin: undefined };
+  if (ALLOWED_ORIGINS.includes(origin)) return { ok: true, origin };
+  if (env.VERCEL_ENV === 'production') return { ok: false, origin };
+  if (LOCALHOST_ORIGIN_RE.test(origin)) return { ok: true, origin };
+  const vercelUrl = typeof env.VERCEL_URL === 'string' ? env.VERCEL_URL.trim() : '';
+  if (vercelUrl && origin === `https://${vercelUrl}`) return { ok: true, origin };
+  return { ok: false, origin };
+}
+
+/**
+ * Fixed-window counter per key, held in memory. Best effort by design: it lives only as long as the
+ * warm instance that owns it, so a determined bot spread across instances gets more than `max`.
+ * The platform-side limit is the authoritative one; this just makes the cheap case cheap.
+ */
+class RateLimiter {
+  constructor({ max = RATE_LIMIT_MAX, windowMs = RATE_LIMIT_WINDOW_MS, maxKeys = RATE_LIMIT_MAX_KEYS } = {}) {
+    this.max = max;
+    this.windowMs = windowMs;
+    this.maxKeys = maxKeys;
+    this.hits = new Map();
+  }
+
+  /** Count one request against `key`. Returns {allowed, count}. */
+  check(key, now = Date.now()) {
+    const k = key || 'unknown';
+    const entry = this.hits.get(k);
+    if (!entry || now - entry.windowStart >= this.windowMs) {
+      this.prune(now);
+      this.hits.set(k, { count: 1, windowStart: now });
+      return { allowed: true, count: 1 };
     }
-    return {
-      upstream,
-      url: `${base}/v1/functions/submitInterestForm`,
-      headers,
-      body: compact({ ...data, lead_source: 'website' }),
-    };
+    entry.count += 1;
+    return { allowed: entry.count <= this.max, count: entry.count };
   }
 
-  return { error: `Unknown INTEREST_UPSTREAM "${upstream}"` };
+  /** Drop expired entries, then the oldest ones, so the map cannot grow without bound. */
+  prune(now = Date.now()) {
+    if (this.hits.size < this.maxKeys) return;
+    for (const [k, v] of this.hits) {
+      if (now - v.windowStart >= this.windowMs) this.hits.delete(k);
+    }
+    // Map iterates in insertion order, so this drops the least recently started windows first.
+    for (const k of this.hits.keys()) {
+      if (this.hits.size < this.maxKeys) break;
+      this.hits.delete(k);
+    }
+  }
+}
+
+const limiter = new RateLimiter();
+
+/**
+ * Build {url, headers, body} for the platform from a resolved config (see resolveConfig).
+ * `options.clientIp` is the visitor's IP (clientIp(req)); the platform trusts x-clairo-client-ip
+ * only because x-clairo-relay-secret is attached. Never logged.
+ */
+function buildUpstreamRequest(data, config, options = {}) {
+  const headers = { 'content-type': 'application/json', 'x-clairo-relay-secret': config.secret };
+  // No derivable IP (no x-forwarded-for / x-real-ip): send the secret alone and let the platform
+  // fall back to the source IP rather than forwarding a bogus value.
+  if (options.clientIp) headers['x-clairo-client-ip'] = options.clientIp;
+  return {
+    upstream: config.upstream,
+    url: config.url,
+    headers,
+    body: compact({ ...data, lead_source: 'website' }),
+  };
 }
 
 /** First public client IP from the proxy headers Vercel sets, or undefined. */
@@ -273,18 +315,39 @@ async function sendMetaLead(meta, req, env, fetchImpl = fetch) {
   }
 }
 
+/**
+ * Read at most MAX_BODY_BYTES of the request and parse it as JSON. Returns {tooLarge: true} when
+ * the body is over the cap, otherwise {value}, where value is null for an empty or unparseable body.
+ */
 async function readJson(req) {
-  if (req.body !== undefined) {
+  const parse = (s) => {
+    try { return { value: JSON.parse(s) }; } catch { return { value: null }; }
+  };
+  if (req.body !== undefined && req.body !== null) {
     if (typeof req.body === 'string') {
-      try { return JSON.parse(req.body); } catch { return null; }
+      return Buffer.byteLength(req.body) > MAX_BODY_BYTES ? { tooLarge: true } : parse(req.body);
     }
-    return req.body;
+    if (Buffer.isBuffer(req.body)) {
+      return req.body.length > MAX_BODY_BYTES ? { tooLarge: true } : parse(req.body.toString('utf8'));
+    }
+    return { value: req.body };
   }
   const chunks = [];
-  for await (const c of req) chunks.push(c);
-  if (!chunks.length) return null;
-  try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { return null; }
+  let size = 0;
+  for await (const c of req) {
+    const buf = Buffer.isBuffer(c) ? c : Buffer.from(c);
+    size += buf.length;
+    if (size > MAX_BODY_BYTES) return { tooLarge: true };
+    chunks.push(buf);
+  }
+  if (!size) return { value: null };
+  return parse(Buffer.concat(chunks).toString('utf8'));
 }
+
+const headerValue = (headers, name) => {
+  const v = headers[name];
+  return Array.isArray(v) ? v[0] : v;
+};
 
 async function handler(req, res) {
   res.setHeader('cache-control', 'no-store');
@@ -293,18 +356,48 @@ async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  const body = await readJson(req);
-  // Honeypot: a filled "website" field is a bot. Answer as if it worked and drop it.
+  const headers = req.headers || {};
+
+  // Gate 1: same-origin. Header-only, so a rejected request costs nothing and is never read.
+  const origin = checkOrigin(headers, process.env);
+  if (!origin.ok) {
+    console.warn(`[interest] rejected origin ${origin.origin || '(none)'}`);
+    return res.status(403).json({ ok: false, error: 'forbidden_origin' });
+  }
+
+  // Gate 2: size. The declared length short-circuits; readJson enforces the real cap while reading.
+  const declared = Number(headerValue(headers, 'content-length'));
+  if (Number.isFinite(declared) && declared > MAX_BODY_BYTES) {
+    return res.status(413).json({ ok: false, error: 'payload_too_large' });
+  }
+  const read = await readJson(req);
+  if (read.tooLarge) return res.status(413).json({ ok: false, error: 'payload_too_large' });
+  const body = read.value;
+
+  // Gate 3: honeypot. A filled "website" field is a bot. Answer as if it worked and drop it, before
+  // the rate limiter, so bot traffic never eats a real visitor's budget. This is the first check
+  // that needs the body, which is why the body is read here and not earlier.
   if (body && typeof body === 'object' && body.website) return res.status(200).json({ ok: true });
+
+  // Gate 4: per-IP rate limit (best effort, this warm instance only; see RateLimiter).
+  const ip = clientIp(req);
+  if (!limiter.check(ip).allowed) {
+    res.setHeader('retry-after', String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)));
+    return res.status(429).json({ ok: false, error: 'rate_limited' });
+  }
 
   const { error, data } = normalize(body);
   if (error) return res.status(400).json({ ok: false, error });
 
-  const up = buildUpstreamRequest(data, process.env, { clientIp: clientIp(req) });
-  if (up.error) {
-    console.error('[interest] misconfigured:', up.error);
-    return res.status(503).json({ ok: false, error: 'The form is temporarily unavailable. Please email hello@clairo.care.' });
+  // Gate 5: configuration. Resolved after the cheap gates and before any network call, so a
+  // half-configured deployment answers 503 and forwards nothing.
+  const config = resolveConfig(process.env);
+  if (config.error) {
+    console.error('[interest] misconfigured:', config.error);
+    return res.status(503).json({ ok: false, error: 'not_configured' });
   }
+
+  const up = buildUpstreamRequest(data, config, { clientIp: ip });
 
   let upstreamRes;
   try {
@@ -337,4 +430,18 @@ async function handler(req, res) {
 // ES module exports: the repo's package.json declares "type": "module" (Astro), so Node loads this
 // file as ESM on Vercel. `module.exports` would throw "module is not defined in ES module scope".
 export default handler;
-export { normalize, buildUpstreamRequest, buildMetaEvent, sendMetaLead };
+export {
+  normalize,
+  resolveConfig,
+  checkOrigin,
+  RateLimiter,
+  buildUpstreamRequest,
+  buildMetaEvent,
+  sendMetaLead,
+  clientIp,
+  limiter,
+  ALLOWED_ORIGINS,
+  MAX_BODY_BYTES,
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
+};
