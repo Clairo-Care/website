@@ -81,24 +81,52 @@ CareBridge.
 - **`interest-form.js`** collects the form, splits the name, maps labels to the values the backend
   stores (`service_route`, `services_selected`), folds anything without a column into the notes,
   and POSTs the canonical payload to `CLAIRO_INTEREST.endpoint` (default `/api/interest`).
-- **`api/interest.js`** validates, size-caps, and relays. It holds the upstream credential so nothing
-  secret is in the browser. Honeypot field `website` drops bots silently.
+- **`api/interest.js`** gates, validates, size-caps, and relays. It holds the relay secret so nothing
+  secret is in the browser. Honeypot field `website` drops bots silently. It fails closed: if the
+  configuration is incomplete it answers 503 and forwards nothing.
 
 ### Environment variables (Vercel → Settings → Environment Variables, Production)
 
-**None are required for the default path.**
+**The relay fails closed.** It forwards nothing unless it is fully configured, so there is no
+"default path" any more: in production `INTEREST_RELAY_SECRET` is required.
 
 | Name | Required | Meaning |
 |---|---|---|
-| `INTEREST_UPSTREAM` | no | `base44` (default), `base44-webhook`, or `platform`. |
-| `INTEREST_BASE44_URL` | no | Override; default `https://base44.app/api/apps/69f4d09c4aecc2f9c55bc483/functions/submitInterestForm`. |
-| `INTEREST_PLATFORM_URL` | no | Override; default `https://api.clairo.care`. |
-| `INTEREST_RELAY_SECRET` | no (Sensitive; production and preview) | Shared with the platform's `clairo/interest-relay-secret`; when set the platform keys its rate limit on the visitor's IP instead of Vercel's egress IP. |
-| `CLIENT_PIPELINE_WEBHOOK_KEY` | only in `base44-webhook` mode | Base44 secret of the same name. Not retrievable after creation; rotating it breaks the Jotform→Zapier zap. |
-| `INTEREST_BASE44_WEBHOOK_URL` | no | Override for `base44-webhook` mode. |
+| `INTEREST_UPSTREAM` | no | Unset or `platform`. Any other value is a misconfiguration: 503, nothing forwarded. The old `base44` and `base44-webhook` modes are gone. |
+| `INTEREST_PLATFORM_URL` | production: no (default `https://api.clairo.care`). Everywhere else: **yes** | The platform base URL. Outside production the relay refuses to forward unless this is set explicitly, so a preview can never post a test lead at the production API by accident. |
+| `INTEREST_RELAY_SECRET` | **yes** (Sensitive; production and preview) | Shared with the platform's `clairo/interest-relay-secret`. It is what lets the relay send `x-clairo-client-ip`, so the platform keys its rate limit on the visitor instead of Vercel's egress IP. Unset or empty means 503 and no forward. |
 
-If a mode is misconfigured (e.g. `base44-webhook` without its key) the function answers 503 and the
-form shows a "temporarily unavailable — email hello@clairo.care" message; nothing is lost silently.
+`INTEREST_BASE44_URL`, `INTEREST_BASE44_WEBHOOK_URL` and `CLIENT_PIPELINE_WEBHOOK_KEY` are gone with
+the Base44 modes. If any of them are still set on the Vercel project, delete them; they do nothing.
+
+If the relay is misconfigured the function answers 503 `{"ok":false,"error":"not_configured"}` and
+the form shows its generic "we could not send your message, or email hello@clairo.care" copy. The
+machine-readable codes are for the logs; `interest-form.js` only ever shows a server message that
+reads as a sentence, so a family never sees `not_configured`.
+
+### The gates on `/api/interest`
+
+In order: 405 wrong method, 403 origin, 413 body over 64 KB, 200 honeypot, 429 rate limit, 400
+validation, 503 configuration, then the forward (502 or 200). Nothing reaches the platform, and the
+body is not even read, until the origin check has passed.
+
+- **Origin.** Same-origin by design. `Origin` must resolve to exactly `https://www.clairo.care` or
+  `https://clairo.care`; when `Origin` is missing or `null` the `Referer`'s origin is used against
+  the same list. The comparison is an exact match on `new URL(...).origin`, never a prefix, so
+  `https://www.clairo.care.evil.example` is refused. Anything else gets 403
+  `{"ok":false,"error":"forbidden_origin"}`. No CORS headers are sent, on purpose.
+  Outside production (`VERCEL_ENV !== 'production'`, so `vercel dev` and previews) `http://localhost:<port>`,
+  `http://127.0.0.1:<port>` and the deployment's own `https://$VERCEL_URL` are accepted too.
+- **Preview aliases are not allowlisted.** A POST to `https://clairo-website.vercel.app/api/interest`
+  in production gets 403. That is deliberate: the form is only supported on the real domain. If a
+  vanity alias ever needs to submit, add it to `ALLOWED_ORIGINS` in `api/interest.js` on purpose.
+- **Rate limit.** 5 POSTs per IP per 10 minutes gets 429 `{"ok":false,"error":"rate_limited"}` with
+  a `retry-after` header. It is an in-memory counter, so it is **best effort per warm instance**:
+  Vercel runs several and recycles them. The platform's own 5/hour per IP and 3/day per email hash
+  (keyed on the `x-clairo-client-ip` this relay sends) remain the authoritative limit. The honeypot
+  is checked first, so bot traffic never eats a real visitor's budget.
+- **Body cap.** 64 KB, enforced on the declared `content-length` and again while reading. Over that
+  is 413 `{"ok":false,"error":"payload_too_large"}`.
 
 ### Meta Pixel + Conversions API (added 2026-09-02)
 
@@ -174,32 +202,19 @@ The only rewrites in `vercel.json` are the ten exact page paths (`/about` -> `/a
 on), so `/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if
 a catch-all rewrite is ever added, exclude `_vercel`.
 
-### Current upstream (until go-live)
+### The upstream
 
-Base44 `submitInterestForm` — the app's own public interest-form function (the one the staff app's
-`/interest` page calls; `carebridge1/base44/functions/submitInterestForm/entry.ts`). Anonymous by
-design, so **no key**. Creates a `ClientPipeline` row with `pipeline_status: "interest"` (an
-Interest tile), `matchmaker: true`, `has_jotform: false`, keyed by `family_email` (a repeat email
-updates the existing tile). It hardcodes `source: "Maryland Interest Form"` and its `lead_source`
-enum has no website value, so the relay prefixes the notes with
-`Submitted via clairo.care website.` — that's how an admin tells a website tile from one made on
-the staff app's own form.
+The Clairo platform, and only the platform: POST
+`{INTEREST_PLATFORM_URL}/v1/functions/submitInterestForm` with `x-clairo-relay-secret` and
+`x-clairo-client-ip`. The Base44 modes were removed in R7 (dead vendor); there is nothing to fall
+back to, by design.
 
-`base44-webhook` mode (Logan's 2026-08-28 Base44 session; `clientPipelineWebhook?action=create`,
-mapping in `carebridge1` commit `a413ed5`) is kept only in case the key ever turns up.
-
-### Go-live (2026-08-31): point at the new platform
-
-Either of these, **A preferred**:
-
-- **A. Direct from the browser (no relay).** In `interest-form.js` set
-  `endpoint: 'https://api.clairo.care/v1/functions/submitInterestForm'`. Requires
-  `https://www.clairo.care` in the API's `ALLOWED_ORIGINS` (`clairo-platform/infra/lib/api-stack.ts:78`
-  and the server's `ALLOWED_ORIGINS` env / `api/src/server/cors.ts:23`). The API rate-limits this
-  route to 5/hour per source IP and ignores `x-forwarded-for`, so a direct post keeps that per
-  visitor. No key involved.
-- **B. Keep the relay.** Set `INTEREST_UPSTREAM=platform` on the Vercel project and redeploy. Works
-  immediately, but every visitor then shares Vercel's egress IPs against that 5/hour limit.
+The alternative is still to drop the relay and post straight from the browser to
+`https://api.clairo.care/v1/functions/submitInterestForm` (set `endpoint` in `interest-form.js`),
+which needs `https://www.clairo.care` in the API's `ALLOWED_ORIGINS`
+(`clairo-platform/infra/lib/api-stack.ts:78` and the server's `ALLOWED_ORIGINS` env /
+`api/src/server/cors.ts:23`). The relay exists so the platform can see the visitor's IP; a direct
+post gets that for free but loses the server-side Meta event, which is why the relay is what ships.
 
 The payload the browser builds is already the platform's `InterestFormRequest` shape
 (`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `participant_number`,
@@ -209,8 +224,7 @@ The payload the browser builds is already the platform's `InterestFormRequest` s
 number as issued by MD DDA or PA ODP: free text, trimmed, capped at 40 characters, omitted when
 blank. It has its own column upstream, so it is not folded into the notes. It identifies a Medicaid
 participant, so it is never logged and never sent to Meta; the relay only ever hands Meta the
-browser's `meta` block, never the form data. The `base44` upstream adapter drops it (that mode is
-retired).
+browser's `meta` block, never the form data.
 
 ## Local check
 
@@ -218,10 +232,14 @@ retired).
 function, so it needs `vercel dev`:
 
 ```
-INTEREST_BASE44_URL=http://localhost:9999/submitInterestForm vercel dev --listen 3999
+INTEREST_PLATFORM_URL=http://localhost:9999 INTEREST_RELAY_SECRET=dev-secret vercel dev --listen 3999
 ```
 
-then submit `http://localhost:3999/contact` against a mock listener on `:9999`.
+then submit `http://localhost:3999/contact` against a mock listener on `:9999` (it will receive
+`POST /v1/functions/submitInterestForm`). Both variables are required outside production: with
+either one missing the relay answers 503 and forwards nothing, so a local run can never reach
+`api.clairo.care`. `http://localhost:<port>` is on the origin allowlist outside production, so the
+browser's POST passes the origin gate; `curl` without an `Origin` header gets 403.
 
 To exercise the form without a relay at all, intercept the POST in the browser devtools (or with
 Playwright's `route`) and read the payload. Never point a test submit at production: it creates a
