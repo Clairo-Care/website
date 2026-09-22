@@ -221,6 +221,8 @@ which needs `https://www.clairo.care` in the API's `ALLOWED_ORIGINS`
 `api/src/server/cors.ts:23`). The relay exists so the platform can see the visitor's IP; a direct
 post gets that for free but loses the server-side Meta event, which is why the relay is what ships.
 
+The caregiver application link (a note at the top of the contact form, and the apply link on /caregivers) points at `https://staff.clairo.care/intake?applicant=caregiver`; people applying to work for Clairo go there, not through the interest form.
+
 The payload the browser builds is already the platform's `InterestFormRequest` shape
 (`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `service_route`,
 `services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
