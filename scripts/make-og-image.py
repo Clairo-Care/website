@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build the Open Graph share card for www.clairo.care.
 
-Writes public/assets/og-clairo-care-2026-09.png at 1200x630: the white Clairo lockup on the brand
-navy, with the one-line description under it. Run from the repo root:
+Writes public/assets/og-clairo-care-2026-09.png at 1200x630: the white Clairo lockup
+(assets-src/logo-lockup-white.png) on the brand navy, with the one-line description under it. Run
+from the repo root:
 
     python3 scripts/make-og-image.py
 
@@ -16,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "public", "assets")
+ORIGINALS = os.path.join(ROOT, "assets-src")
 OUT_NAME = "og-clairo-care-2026-09.png"
 
 WIDTH, HEIGHT = 1200, 630
@@ -53,7 +55,7 @@ def centered(draw, text, font, y, fill):
 def main():
     card = Image.new("RGB", (WIDTH, HEIGHT), NAVY)
 
-    logo_path = os.path.join(ASSETS, "logo-lockup-white.png")
+    logo_path = os.path.join(ORIGINALS, "logo-lockup-white.png")
     if not os.path.exists(logo_path):
         print("missing " + logo_path, file=sys.stderr)
         return 1
