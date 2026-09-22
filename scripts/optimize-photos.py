@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Write web-sized copies of the photographs in public/assets and repoint src/ at them.
+"""Write web-sized copies of the photographs in assets-src and repoint src/ at them.
 
 The originals came off a camera: 0.7 MB to 6.8 MB each, up to 6052 px wide, for slots that are at
-most about 800 px on screen. This writes a new file next to each one, capped at 1600 px wide and
+most about 800 px on screen. They live in assets-src/ (deliberately outside public/, so Astro never
+ships them); this writes a new file into public/assets/ for each one, capped at 1600 px wide and
 saved as progressive JPEG at quality 82 with the metadata stripped.
 
 Nothing is deleted or overwritten. /assets is served with a one-year immutable cache, so a new size
-always means a new filename: photo-hero.png keeps working and photo-hero-w1600.jpg is what the
-pages now ask for. A photograph with an alpha channel would keep PNG as -w1600.png; none of the
-current set has one.
+always means a new filename: the original photo-hero.png stays in assets-src/ and
+photo-hero-w1600.jpg is what the pages ask for. A photograph with an alpha channel would keep PNG
+as -w1600.png; none of the current set has one.
 
 Run from the repo root:
 
@@ -23,6 +24,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "public", "assets")
+ORIGINALS = os.path.join(ROOT, "assets-src")
 SRC = os.path.join(ROOT, "src")
 
 MAX_WIDTH = 1600
@@ -77,11 +79,11 @@ def repoint(mapping):
 
 def main():
     photos = sorted(
-        p for p in glob.glob(os.path.join(ASSETS, "photo-*"))
+        p for p in glob.glob(os.path.join(ORIGINALS, "photo-*"))
         if re.search(r"\.(jpe?g|png)$", p, re.I) and "-w1600." not in p
     )
     if not photos:
-        print("no photographs found in " + ASSETS, file=sys.stderr)
+        print("no photographs found in " + ORIGINALS, file=sys.stderr)
         return 1
     mapping = dict(convert(p) for p in photos)
     repoint(mapping)

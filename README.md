@@ -29,8 +29,11 @@ public/                  served at the site root, unchanged: consent.js, interes
                          serves everything under /assets/ with a one-year immutable cache, so if a
                          logo file ever changes, give it a new file name instead of replacing it
                          in place (browsers would keep the old one for up to a year).
-api/interest.js          Vercel serverless function, untouched by the Astro port
-vercel.json              framework: astro, the ten clean-URL rewrites, and the legacy 308/307 redirects
+assets-src/              camera-original photographs and the white Clairo lockup; source assets for
+                         scripts/, deliberately outside public/ so they are never served
+api/interest.js          Vercel serverless function, converted from CommonJS to ESM by the Astro port
+vercel.json              framework: astro, the ten clean-URL rewrites, the two /ingest PostHog proxy
+                         rewrites, and the legacy 308/307 redirects
 ```
 
 Two settings in `astro.config.mjs` are load-bearing:
@@ -70,8 +73,8 @@ everything except those was put back and those eight pages now render exactly as
 that commit. What stays removed: `face-1..7.png`, and with them the three "A Clairo team
 member" avatars in the contact page's "Real people. Real support." block. Do not re-add them.
 
-Follow-up, deliberately not part of the port: ten of the eleven pages still have no `<title>` or
-meta description. Only `/privacy` has one.
+Follow-up, done since: every page now sets a `<title>` and meta description through `Site.astro`
+(`8a6a13f`).
 
 ## The one dynamic piece: the "Talk to Clairo" form
 
@@ -198,9 +201,10 @@ container with no consent handling at all for the near-zero visitors who have Ja
 `src/pages/privacy.astro` discloses it under Cookies (a "Google Analytics" block) and in the overview and sharing
 paragraphs. The banner copy names Google Analytics alongside Meta.
 
-The only rewrites in `vercel.json` are the ten exact page paths (`/about` -> `/about.html` and so
-on), so `/_vercel/insights/*` is served by the platform and cannot be swallowed. Keep it that way: if
-a catch-all rewrite is ever added, exclude `_vercel`.
+Besides the two `/ingest/*` PostHog proxy rewrites, the only rewrites in `vercel.json` are the ten
+exact page paths (`/about` -> `/about.html` and so on), so `/_vercel/insights/*` is served by the
+platform and cannot be swallowed. Keep it that way: if a catch-all rewrite is ever added, exclude
+`_vercel`.
 
 ### The upstream
 
@@ -217,14 +221,14 @@ which needs `https://www.clairo.care` in the API's `ALLOWED_ORIGINS`
 post gets that for free but loses the server-side Meta event, which is why the relay is what ships.
 
 The payload the browser builds is already the platform's `InterestFormRequest` shape
-(`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `participant_number`,
-`service_route`, `services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
+(`first_name`, `last_name`, `family_email`, `family_phone`, `county`, `service_route`,
+`services_selected`, `has_caregiver_in_mind`, `services_needed_description`).
 
-`participant_number` (added 2026-09-09, P7) is the optional state waiver participant / department
-number as issued by MD DDA or PA ODP: free text, trimmed, capped at 40 characters, omitted when
-blank. It has its own column upstream, so it is not folded into the notes. It identifies a Medicaid
-participant, so it is never logged and never sent to Meta; the relay only ever hands Meta the
-browser's `meta` block, never the form data.
+`participant_number` was removed from the contact form on 2026-09-16 (`2ab942a`), so the browser no
+longer sends it. The relay and the platform still tolerate it if it ever comes back: free text,
+trimmed, capped at 40 characters, its own column upstream (never folded into the notes). It
+identifies a Medicaid participant, so it is never logged and never sent to Meta; the relay only ever
+hands Meta the browser's `meta` block, never the form data.
 
 ## Local check
 
