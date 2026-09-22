@@ -41,6 +41,8 @@
 
 'use strict';
 
+import { COUNTIES } from '../src/data/counties.mjs';
+
 const META_PIXEL_ID_DEFAULT = '1489545563193733';
 const META_GRAPH_VERSION_DEFAULT = 'v26.0';
 const META_TIMEOUT_MS = 3_000;
@@ -69,6 +71,8 @@ const MAX_BODY_BYTES = 64 * 1024;
 const SERVICE_ENUM = new Set(['Personal Supports', 'Community Development', 'Respite', 'Job Supports']);
 const ROUTE_ENUM = new Set(['traditional', 'self_directed']);
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]+\.[^\s@]{2,}$/;
+const STATE_MESSAGE = 'Please select the state the participant lives in.';
+const COUNTY_MESSAGE = "Please select the participant's county.";
 
 const text = (v, max) => {
   if (v === undefined || v === null) return undefined;
@@ -86,6 +90,17 @@ function normalize(body) {
   if (!first_name || !last_name) return { error: 'Please enter your first and last name.' };
   if (!family_email || !EMAIL_RE.test(family_email)) return { error: 'Please enter a valid email address.' };
 
+  // State is optional so a page cached before the state select shipped still submits: no state
+  // means nothing is forwarded for it (the platform defaults to MD) and county stays free text.
+  // Once a state is sent it must be one we serve, and the county must be on that state's list.
+  let state;
+  let county = text(body.county, 100);
+  if (body.state !== undefined && body.state !== null) {
+    state = text(body.state, 8);
+    if (!state || !Object.prototype.hasOwnProperty.call(COUNTIES, state)) return { error: STATE_MESSAGE };
+    if (!county || !COUNTIES[state].includes(county)) return { error: COUNTY_MESSAGE };
+  }
+
   const services_selected = Array.isArray(body.services_selected)
     ? [...new Set(body.services_selected.map((s) => text(s, 100)).filter((s) => s && SERVICE_ENUM.has(s)))]
     : [];
@@ -97,7 +112,8 @@ function normalize(body) {
       last_name,
       family_email,
       family_phone: text(body.family_phone, 50),
-      county: text(body.county, 100),
+      state,
+      county,
       // State waiver participant / department number: free text, 1..40. Never logged, never sent to Meta.
       participant_number: text(body.participant_number, 40),
       service_route: route && ROUTE_ENUM.has(route) ? route : undefined,

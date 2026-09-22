@@ -84,6 +84,7 @@ CareBridge.
 - **`interest-form.js`** collects the form, splits the name, maps labels to the values the backend
   stores (`service_route`, `services_selected`), folds anything without a column into the notes,
   and POSTs the canonical payload to `CLAIRO_INTEREST.endpoint` (default `/api/interest`).
+- **State and county** are selects fed by `src/data/counties.mjs` (MD 24, PA 67), the one list the page, `interest-form.js` (via inline `window.CLAIRO_COUNTIES`) and `api/interest.js` all read; the relay treats `state` as optional (absent keeps county as free text) and otherwise requires MD or PA plus a county from that state's list.
 - **`api/interest.js`** gates, validates, size-caps, and relays. It holds the relay secret so nothing
   secret is in the browser. Honeypot field `website` drops bots silently. It fails closed: if the
   configuration is incomplete it answers 503 and forwards nothing.

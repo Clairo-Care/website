@@ -57,6 +57,43 @@
   };
   var EMAIL_RE = /^[^\s@]{1,64}@[^\s@]+\.[^\s@]{2,}$/;
 
+  // State code -> county names. contact.astro inlines these from src/data/counties.mjs as
+  // window.CLAIRO_COUNTIES before this script runs, so there is one list shared with api/interest.js.
+  // Without the inline data (an old cached page, or a page that has no state select) the county
+  // field is left alone and state/county are not checked here; the relay still validates.
+  var COUNTIES = (window.CLAIRO_COUNTIES && typeof window.CLAIRO_COUNTIES === 'object') ? window.CLAIRO_COUNTIES : {};
+  var HAS_COUNTIES = Object.keys(COUNTIES).length > 0;
+
+  function hasOwn(obj, key) { return Object.prototype.hasOwnProperty.call(obj, key); }
+
+  function option(label, value) {
+    var o = document.createElement('option');
+    o.value = value;
+    o.textContent = label;
+    return o;
+  }
+
+  // Rebuild the county select for the chosen state. No state (the placeholder) disables it again.
+  function syncCounties(form) {
+    if (!HAS_COUNTIES || !form || !form.elements) return;
+    var stateEl = form.elements.state;
+    var countyEl = form.elements.county;
+    if (!stateEl || !countyEl || !countyEl.options) return;
+    var state = (stateEl.value || '').trim();
+    var list = hasOwn(COUNTIES, state) ? COUNTIES[state] : null;
+    while (countyEl.options.length) countyEl.remove(0);
+    if (!list) {
+      countyEl.appendChild(option('Select a state first', ''));
+      countyEl.value = '';
+      countyEl.disabled = true;
+      return;
+    }
+    countyEl.appendChild(option('Select a county', ''));
+    for (var i = 0; i < list.length; i++) countyEl.appendChild(option(list[i], list[i]));
+    countyEl.value = '';
+    countyEl.disabled = false;
+  }
+
   function val(form, name) {
     var el = form.elements[name];
     if (!el) return '';
@@ -107,6 +144,7 @@
       last_name: last_name,
       family_email: val(form, 'email').toLowerCase(),
       family_phone: val(form, 'phone') || undefined,
+      state: val(form, 'state') || undefined,
       county: val(form, 'county') || undefined,
       // State waiver participant / department number. Has its own column upstream, so it is NOT folded into the notes.
       participant_number: val(form, 'participant_number').slice(0, 40) || undefined,
@@ -155,6 +193,14 @@
     }
     if (!EMAIL_RE.test(payload.family_email)) {
       return { reason: 'email', message: 'Please enter a valid email address.' };
+    }
+    if (HAS_COUNTIES) {
+      if (!payload.state || !hasOwn(COUNTIES, payload.state)) {
+        return { reason: 'state', message: 'Please select the state the participant lives in.' };
+      }
+      if (!payload.county || COUNTIES[payload.state].indexOf(payload.county) < 0) {
+        return { reason: 'county', message: 'Please select the participant\'s county.' };
+      }
     }
     return null;
   }
@@ -222,7 +268,20 @@
     emit('field_completed', { field: el.name });
   }
   document.addEventListener('focusout', markCompleted);
-  document.addEventListener('change', markCompleted);
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el && el.name === 'state' && isInterestField(el)) syncCounties(el.form);
+    markCompleted(e);
+  });
+
+  // Back navigation can restore the chosen state while the county list is still the placeholder,
+  // so rebuild it once now. The script is deferred, so the form is already parsed.
+  if (HAS_COUNTIES && document.querySelector) {
+    var initialForm = document.querySelector(CLAIRO_INTEREST.formSelector);
+    if (initialForm && initialForm.elements && initialForm.elements.state && initialForm.elements.state.value) {
+      syncCounties(initialForm);
+    }
+  }
 
   function setStatus(form, message, kind) {
     var el = form.querySelector('[data-interest-status]');
@@ -309,5 +368,7 @@
   });
 
   CLAIRO_INTEREST.normaliseRoute = normaliseRoute;
+  CLAIRO_INTEREST.counties = COUNTIES;
+  CLAIRO_INTEREST.validate = validate;
   window.CLAIRO_INTEREST = CLAIRO_INTEREST;
 })();
