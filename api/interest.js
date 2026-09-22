@@ -24,6 +24,11 @@
 // Referer) does not resolve to exactly one of ALLOWED_ORIGINS gets 403 and never reaches the
 // platform. No CORS headers are sent, so a cross-origin browser call cannot read the answer either.
 // Preview aliases such as clairo-website.vercel.app are deliberately NOT allowlisted in production.
+// This is CSRF protection for browsers, not authentication: a browser cannot forge these headers,
+// but curl or any other non-browser client can set them to anything. So the origin gate and the
+// per-instance rate limit below only raise the cost of casual abuse; the platform's per-IP and
+// per-email-hash limits (keyed on the x-clairo-client-ip this relay sends) are the authoritative
+// spam control.
 //
 // META CONVERSIONS API: after the upstream accepts a lead, the same `Lead` event is posted to Meta
 // server-side (graph.facebook.com/<version>/<pixel>/events). It carries only ad-attribution context:
@@ -50,7 +55,7 @@ const UPSTREAM_TIMEOUT_MS = 10_000;
 
 // Same-origin only. Exact origin match after new URL(...).origin, never a prefix test.
 const ALLOWED_ORIGINS = ['https://www.clairo.care', 'https://clairo.care'];
-const LOCALHOST_ORIGIN_RE = /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/;
+const LOCALHOST_ORIGIN_RE = /^http:\/\/(?:localhost|127\.0\.0\.1|\[::1\])(?::\d{1,5})?$/;
 
 // Best effort, per warm instance. Vercel keeps several instances and recycles them, so this is a
 // first gate that costs a bot something, not an authoritative limit. The platform's own 5/hour per
@@ -121,8 +126,9 @@ function resolveConfig(env = {}) {
     return { error: `unsupported INTEREST_UPSTREAM "${upstream}"` };
   }
 
-  const rawSecret = typeof env.INTEREST_RELAY_SECRET === 'string' ? env.INTEREST_RELAY_SECRET : '';
-  const secret = rawSecret.trim() ? rawSecret : '';
+  // Trimmed, not raw: a value pasted into the Vercel dashboard often carries a trailing newline,
+  // and a header with one would not match the platform's secret (or would be rejected outright).
+  const secret = (typeof env.INTEREST_RELAY_SECRET === 'string' ? env.INTEREST_RELAY_SECRET : '').trim();
   if (!secret) return { error: 'INTEREST_RELAY_SECRET is not set' };
 
   const rawBase = typeof env.INTEREST_PLATFORM_URL === 'string' ? env.INTEREST_PLATFORM_URL.trim() : '';
@@ -330,6 +336,11 @@ async function readJson(req) {
     if (Buffer.isBuffer(req.body)) {
       return req.body.length > MAX_BODY_BYTES ? { tooLarge: true } : parse(req.body.toString('utf8'));
     }
+    // Already parsed by the runtime: the cap still applies, measured on the re-serialised body, so
+    // a pre-parsing platform cannot be used to slip a huge payload past it.
+    let serialised;
+    try { serialised = JSON.stringify(req.body); } catch { return { value: null }; }
+    if (serialised !== undefined && Buffer.byteLength(serialised) > MAX_BODY_BYTES) return { tooLarge: true };
     return { value: req.body };
   }
   const chunks = [];
@@ -413,8 +424,9 @@ async function handler(req, res) {
   }
 
   if (!upstreamRes.ok) {
-    const snippet = (await upstreamRes.text().catch(() => '')).slice(0, 300);
-    console.error(`[interest] ${up.upstream} responded ${upstreamRes.status}: ${snippet}`);
+    // Status only. A 4xx from the platform can echo the fields that were submitted, and none of
+    // that belongs in a Vercel log line.
+    console.error(`[interest] ${up.upstream} responded ${upstreamRes.status}`);
     return res.status(502).json({ ok: false, error: 'We could not send your message. Please try again or email hello@clairo.care.' });
   }
 

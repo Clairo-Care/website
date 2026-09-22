@@ -61,6 +61,13 @@ test('outside production both vars set: forwards to the named target', () => {
   assert.equal(config.url, 'http://localhost:9999/v1/functions/submitInterestForm');
 });
 
+test('the relay secret is trimmed, so a pasted newline is not sent verbatim', () => {
+  const config = resolveConfig({ VERCEL_ENV: 'production', INTEREST_RELAY_SECRET: `  ${SECRET}\n` });
+  assert.equal(config.secret, SECRET);
+  const up = buildUpstreamRequest(data, config, {});
+  assert.equal(up.headers['x-clairo-relay-secret'], SECRET);
+});
+
 test('a trailing slash on INTEREST_PLATFORM_URL is trimmed', () => {
   const config = resolveConfig({ ...PROD, INTEREST_PLATFORM_URL: 'https://api.example.invalid///' });
   assert.equal(config.url, 'https://api.example.invalid/v1/functions/submitInterestForm');
@@ -133,11 +140,20 @@ test('header values that arrive as arrays are handled', () => {
 
 test('outside production, localhost and the deployment URL are allowed too', () => {
   const env = { VERCEL_ENV: 'preview', VERCEL_URL: 'clairo-website-abc123.vercel.app' };
-  for (const origin of ['http://localhost:3999', 'http://localhost', 'http://127.0.0.1:4321', 'https://clairo-website-abc123.vercel.app']) {
+  for (const origin of [
+    'http://localhost:3999',
+    'http://localhost',
+    'http://127.0.0.1:4321',
+    'http://[::1]:3999', // vercel dev binds the IPv6 loopback on some machines
+    'http://[::1]',
+    'https://clairo-website-abc123.vercel.app',
+  ]) {
     assert.equal(checkOrigin({ origin }, env).ok, true, origin);
   }
   assert.equal(checkOrigin({ origin: 'https://evil.example' }, env).ok, false);
+  assert.equal(checkOrigin({ origin: 'http://[::2]:3999' }, env).ok, false);
   assert.equal(checkOrigin({ origin: 'http://localhost:3999' }, PROD).ok, false);
+  assert.equal(checkOrigin({ origin: 'http://[::1]:3999' }, PROD).ok, false);
   assert.equal(checkOrigin({ origin: 'https://clairo-website-abc123.vercel.app' }, { ...PROD, VERCEL_URL: 'clairo-website-abc123.vercel.app' }).ok, false);
 });
 

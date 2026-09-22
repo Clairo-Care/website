@@ -121,6 +121,16 @@ test('an oversized streamed body is 413 and never forwards', async () => {
   assert.equal(calls.length, 0);
 });
 
+test('an oversized body the runtime already parsed is 413 and never forwards', async () => {
+  const req = makeReq(VALID);
+  // Vercel hands the handler a parsed object; the cap has to hold on that path too.
+  req.body = { ...VALID, services_needed_description: 'x'.repeat(MAX_BODY_BYTES) };
+  const res = await call(req);
+  assert.equal(res.statusCode, 413);
+  assert.deepEqual(res.body, { ok: false, error: 'payload_too_large' });
+  assert.equal(calls.length, 0);
+});
+
 test('a body just under the cap is accepted and forwarded', async () => {
   const filler = 'x'.repeat(MAX_BODY_BYTES - 200);
   const res = await call(makeStreamReq(JSON.stringify({ ...VALID, services_needed_description: filler })));
