@@ -1,5 +1,6 @@
 # Dev desk (2026-09-24): hands work to the shared workflows in Clairo-Care/clairo-ops.
-#   - An issue labeled `agent:build` starts a live Claude Code session in Orca on the Mac mini,
+#   - An issue labeled `agent:build` starts a live Claude Code session in Orca on the Mac mini (Jarvis,
+#     runner label `jarvis`, set in the clairo-ops workflows),
 #     which opens a pull request for the issue.
 #   - Every ready pull request gets a DeepSeek review and an Opus second review as PR comments.
 # OPS_GH_TOKEN is an org secret: a token that can read Clairo-Care/clairo-ops and comment here.
