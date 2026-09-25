@@ -9,9 +9,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "node --test 'test/**/*.test.mjs'",
-    "astro": "astro"
+    "astro": "astro",
+    "smoke": "node scripts/smoke-render.mjs"
   },
   "devDependencies": {
-    "astro": "^5.13.5"
+    "astro": "^5.13.5",
+    "playwright": "1.63.0"
   }
 }
