@@ -23,3 +23,6 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      # Load the built pages in Chromium: fails on any script error or a page with no h1.
+      - run: npx playwright install --with-deps chromium
+      - run: npm run smoke
