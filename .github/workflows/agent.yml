@@ -1,0 +1,33 @@
+# Dev desk (2026-09-24): hands work to the shared workflows in Clairo-Care/clairo-ops.
+#   - An issue labeled `agent:build` starts a live Claude Code session in Orca on the Mac mini (Jarvis,
+#     runner label `jarvis`, set in the clairo-ops workflows),
+#     which opens a pull request for the issue.
+#   - Every ready pull request gets a DeepSeek review and an Opus second review as PR comments.
+# OPS_GH_TOKEN is an org secret: a token that can read Clairo-Care/clairo-ops and comment here.
+
+name: dev desk
+
+on:
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [opened, ready_for_review, synchronize]
+
+jobs:
+  build:
+    if: github.event_name == 'issues' && github.event.label.name == 'agent:build'
+    uses: Clairo-Care/clairo-ops/.github/workflows/agent-build.yml@main
+    with:
+      repo: ${{ github.repository }}
+      issue: ${{ github.event.issue.number }}
+    secrets:
+      OPS_GH_TOKEN: ${{ secrets.OPS_GH_TOKEN }}
+
+  review:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    uses: Clairo-Care/clairo-ops/.github/workflows/review.yml@main
+    with:
+      repo: ${{ github.repository }}
+      pr: ${{ github.event.pull_request.number }}
+    secrets:
+      OPS_GH_TOKEN: ${{ secrets.OPS_GH_TOKEN }}
